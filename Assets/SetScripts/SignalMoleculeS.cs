@@ -5,13 +5,16 @@ using UnityEngine;
 public class SignalMoleculeS : MonoBehaviour
 {
     int id;
-    public List<GameObject> sinnalMList = new List<GameObject>();
+    public List<GameObject> signalMList = new List<GameObject>();
     [SerializeField] GameObject signalM;
     [SerializeField] Transform place;
 
     void Start()
     {
-       // InvokeRepeating("AddSignalMolecule", 3, 4);
+        ChannelS ch = FindObjectOfType<ChannelS>();
+        List<GameObject> list = ch.channelList;
+
+       InvokeRepeating("AddSignalMolecule", 3, 4);
     }
 
     // Update is called once per frame
@@ -20,11 +23,11 @@ public class SignalMoleculeS : MonoBehaviour
         
     }
 
-    public void AddSignalMolecule(int id)
+    public void AddSignalMolecule()
     {
-        this.id = id;
+       // this.id = id;
         GameObject sig = Instantiate(signalM,place.position,transform.rotation);
         sig.gameObject.AddComponent<SignalFinder>();
-        sinnalMList.Add(sig);
+        signalMList.Add(sig);
     }
 }

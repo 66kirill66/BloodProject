@@ -117,7 +117,6 @@ public class MoleculeMove : MonoBehaviour
         PosYM = Random.Range(-1f, -5.5f);
     }
     
-
     private void RundomPoint()
     {
         PosX = Random.Range(-17f, 17);
@@ -128,7 +127,7 @@ public class MoleculeMove : MonoBehaviour
         PosXL = Random.Range(-16f, -5f);
         PosYL = Random.Range(-4.5f, -1f);
     }
-    public void BloodLoopON()
+    public void BloodCorutine()
     {
         blood = true;
         StartCoroutine(MoveInBloodRange());
@@ -138,15 +137,19 @@ public class MoleculeMove : MonoBehaviour
     {
         toBoy = true;      
     }
-    public void RandomPointInMus()
+    public void MusculeCorutine()
     {
         StartCoroutine(CorutinerundoPointInMus());
         toMus = true;
     }
     
-    public void RandomPointInLiver()
+    public void LiverCorutine()
     {        
         liver = true;
         StartCoroutine(CorutineToLiver());
+    }
+    public void StopCor()
+    {
+        StopAllCoroutines();
     }
 }

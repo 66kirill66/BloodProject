@@ -16,15 +16,15 @@ public class SugarS : MonoBehaviour
     public Text sugarText;
     public GameObject sugarViwText;
     public int sugarAmount;
-    //List<GameObject> newTransform  = new List<GameObject>();
+    int countMus = 4;  // Energy
 
     int addSugarPerson;
     float sugarPosX;
     float sugarPosY;
     [SerializeField] Mesh energy;
 
-    int sugarNumMus = 4;
-    public int countLiver;
+
+
     int id;   // Web ID
     RaycastHit hit;
 
@@ -53,14 +53,10 @@ public class SugarS : MonoBehaviour
 
     void Start()
     {
-        countLiver = liverleList.Count;
         addSugarPerson = 0;
         //person.SetActive(true);
         //sugarViwText.SetActive(true);
-        InstantiateSugar();
-
-        ChooseSugarIndex(bloodList, muscleList);
-        ChooseSugarIndex(bloodList, liverleList);
+        //InstantiateSugar();
     }
 
     void Update()
@@ -68,15 +64,17 @@ public class SugarS : MonoBehaviour
         
         sugarText.text = (sugarAmount * 3).ToString();    //  Add Number to multiplication
         ClickingOnPerson();
-        SugarTransToPoint(newSugarPlace);
         Energy();
-        Liver();
-        if (Input.GetMouseButtonDown(0))
-        {
+
+        //if (Input.GetMouseButtonDown(0))
+        //{           
+        //    ToMus(liverleList);
             
-            BackToBlood(liverleList);
-            ChooseSugarIndex(liverleList, bloodList);
-        }        
+        //}
+        //else if (Input.GetMouseButtonDown(1))
+        //{
+        //    ToLiver(bloodList);
+        //}
     }
     
 
@@ -112,7 +110,7 @@ public class SugarS : MonoBehaviour
 
         while (sugarInst < 33)
         {            
-            RundomPoint();
+            StartRundomPoint();
             GameObject sug = Instantiate(sugar, new Vector3(sugarPosX, sugarPosY, -0.5f), sugar.transform.rotation);
             sug.transform.parent = createPlase;
             bloodList.Add(sug);
@@ -125,7 +123,7 @@ public class SugarS : MonoBehaviour
     {       
        for(int i = 0; i < 4; i++ )
         {
-            if(oldListName != null)
+            if(oldListName.Count != 0)
             {
                 GameObject first = oldListName[0];
                 newListName.Add(first);
@@ -134,7 +132,7 @@ public class SugarS : MonoBehaviour
         }     
     }
     
-    public void SugarTransformPlace(string jsonData)
+    public void SugarTransformPlace(string jsonData)  // Send To Web
     {
         ChangeLocationData data = ChangeLocationData.CreateFromJSON(jsonData);
         oldSugarPlace = data.oldPlace;
@@ -143,74 +141,39 @@ public class SugarS : MonoBehaviour
         if (oldSugarPlace == "Blood" && newSugarPlace == "Muscle Cells ")
         {
             SetSugarAmountDown(4);
-            ChooseSugarIndex(bloodList, muscleList);            
+            ToMus(bloodList);           
         }
         if (oldSugarPlace == "Blood" && newSugarPlace == "Liver Cells")
         {
             SetSugarAmountDown(4);
-            ChooseSugarIndex(bloodList, liverleList);
+            ToLiver(bloodList);
         }
         if (oldSugarPlace == "Liver Cells" && newSugarPlace == "Blood")
         {
-            ChooseSugarIndex(liverleList ,bloodList);
+            SetSugarAmountUP(4);
+            ToBlood(liverleList);
         }
         if (oldSugarPlace == "Liver Cells" && newSugarPlace == "Muscle Cells ")
         {
-            ChooseSugarIndex(liverleList, muscleList);
+            ToMus(liverleList);
         }
         if (oldSugarPlace == "Muscle Cells " && newSugarPlace == "Liver Cells")
         {
-            ChooseSugarIndex(muscleList,liverleList);
+            ToLiver(muscleList);
         }
         if (oldSugarPlace == "Muscle Cells " && newSugarPlace == "Blood")
         {
-            ChooseSugarIndex(liverleList, muscleList);
+            SetSugarAmountUP(4);
+            ToBlood(muscleList);
         }       
     }
 
-    public void SugarTransToPoint(string newNameP)
-    {
-        switch (newNameP)
-        {
-            case "Muscle Cells ":    
-                foreach(GameObject i in muscleList)
-                {
-                  //  Invoke("RundomMusPoint", 0.5f);  // update
-                }
-                
-                break;
-            case "Liver Cells":
-                foreach (GameObject i in liverleList)
-                {
-                  
-                }
-                break;
-            case "Blood":
-                foreach (GameObject i in bloodList)
-                {
-                    
-                }
-                break;
-        }
-    }
-
-    private void Liver()
-    {
-        
-        if(countLiver < liverleList.Count )
-        {
-            Invoke("RundomLiverPoint", 0.5f);    
-        }
-        
-    }
-    
-
     public void Energy()
     {
-        if (muscleList.Count >= sugarNumMus)
+        if (muscleList.Count >= countMus)
         {
             ChangeToEnergy();
-            sugarNumMus++;
+            countMus++;
         }        
     }
 
@@ -225,29 +188,54 @@ public class SugarS : MonoBehaviour
             lest.gameObject.GetComponent<MoleculeMove>().MoveToBoyStart();
             Destroy(lest, 3);
             muscleList.Remove(lest);
-            Invoke("RundomMusPoint", 0.5f); // onse
-        }       
+            Invoke("RundomMusPoint", 0.5f);
+        }      
     }
     private void RundomMusPoint()
     {
-        GameObject lest = muscleList[muscleList.Count - 1];
-        lest.gameObject.GetComponent<MoleculeMove>().RandomPointInMus();
+        if(muscleList.Count != 0)
+        {
+            GameObject lest = muscleList[muscleList.Count - 1];
+            lest.gameObject.GetComponent<MoleculeMove>().MusculeCorutine();
+        }       
     }
 
-    private void RundomLiverPoint()
+    private void ToMus(List<GameObject> from)
     {
-        countLiver = liverleList.Count;
-        foreach (GameObject i in liverleList)
+        if(from.Count != 0)
         {
-            i.gameObject.GetComponent<MoleculeMove>().RandomPointInLiver();
-        }
+            ChooseSugarIndex(from, muscleList);
+            foreach (GameObject i in muscleList)
+            {
+                i.gameObject.GetComponent<MoleculeMove>().StopCor();
+                i.gameObject.GetComponent<MoleculeMove>().MusculeCorutine();
+                countMus = muscleList.Count;
+            }
+        }     
     }
-    private void BackToBlood(List<GameObject> from)
+    private void ToLiver(List<GameObject> from)
     {
-        foreach (GameObject i in from)
+        if(from.Count != 0)
         {
-            i.gameObject.GetComponent<MoleculeMove>().BloodLoopON();
-        }
+            ChooseSugarIndex(from, liverleList);
+            foreach (GameObject i in liverleList)
+            {
+                i.gameObject.GetComponent<MoleculeMove>().StopCor();
+                i.gameObject.GetComponent<MoleculeMove>().LiverCorutine();
+            }
+        }       
+    }
+    private void ToBlood(List<GameObject> from)
+    {
+        if (from.Count != 0)
+        {
+            ChooseSugarIndex(from, bloodList);
+            foreach (GameObject i in bloodList)
+            {
+                i.gameObject.GetComponent<MoleculeMove>().StopCor();
+                i.gameObject.GetComponent<MoleculeMove>().BloodCorutine();
+            }
+        }              
     }
     private void SetSugarAmountDown(int num)   // send to Web
     {
@@ -267,7 +255,7 @@ public class SugarS : MonoBehaviour
             bl.SetSugarLevel(sugarAmount * 3);
         }
     }
-    private void RundomPoint()
+    private void StartRundomPoint()
     {
        sugarPosX = Random.Range(-17f, 17);
        sugarPosY = Random.Range(0, 1.5f);

@@ -4,49 +4,26 @@ using UnityEngine;
 
 public class SignalFinder : MonoBehaviour
 {
-    bool isFind = false;
-    float speed;
-    float traval;
+   public bool free = true;
     void Start()
     {
-        speed = 3f;
-        traval += Time.deltaTime * speed;
-        Find();
+
+
     }
 
     void Update()
     {             
-            
-    }
-
-    private void Find()
-    {
-        var ch = FindObjectsOfType<ChannelFinder>();
-        foreach(ChannelFinder i in ch)
+        if(free == true)
         {
-            bool free = i.GetComponent<ChannelFinder>().BusyCheck();
-            if (free == true)
+            var cH = FindObjectOfType<ChannelFinder>();
+            if(cH.BusyCheck() == true)
             {
-                Vector3 channalT = i.transform.position;
-                Vector3 startP = transform.position;
-                transform.position = i.transform.position;
-                //transform.position = Vector3.Lerp(startP, channalT, traval);
+                transform.position = Vector3.Lerp(transform.position, cH.transform.position, 1);
+                
             }
-            else
-            {
-                return;
-            }
+            free = false;
         }
-        
-
-
-
     }
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if(other.gameObject.tag == "Channel")
-    //    {
-    //        isFind = true;
-    //    }
-    //}
+
+       
 }

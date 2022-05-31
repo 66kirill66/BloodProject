@@ -10,22 +10,23 @@ public class ChannelS : MonoBehaviour
 
     float ofset;
     int id;
+    int count;
 
     
 
     void Start()
     {
         ofset = 0.2f;
-        //AddChannel(4);
-        //AddChannel(4);
-        //AddChannel(4);
-        //AddChannel(4);
-        //AddChannel(4);
-        //AddChannel(4);
-        //AddChannel(4);
-        //AddChannel(4);
-        //AddChannel(4);
-        //AddChannel(4);
+        AddChannel(4);
+        AddChannel(4);
+        AddChannel(4);
+        AddChannel(4);
+        AddChannel(4);
+        AddChannel(4);
+        AddChannel(4);
+        AddChannel(4);
+        AddChannel(4);
+        AddChannel(4);
 
     }
 
