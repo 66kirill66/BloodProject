@@ -6,9 +6,8 @@ using UnityEngine.UI;
 
 public class SugarS : MonoBehaviour
 {
-    public  List<GameObject> blood = new List<GameObject>();
+    public  List<GameObject> bloodList = new List<GameObject>();
     public  List<GameObject> muscleList = new List<GameObject>();
-    public  List<GameObject> sugarInmuscleL = new List<GameObject>();
     public  List<GameObject> liverleList = new List<GameObject>();
     [SerializeField] Transform createPlase;
     public GameObject person;
@@ -24,7 +23,8 @@ public class SugarS : MonoBehaviour
     float sugarPosY;
     [SerializeField] Mesh energy;
 
-    
+    int sugarNumMus = 4;
+    public int countLiver;
     int id;   // Web ID
     RaycastHit hit;
 
@@ -53,21 +53,33 @@ public class SugarS : MonoBehaviour
 
     void Start()
     {
+        countLiver = liverleList.Count;
         addSugarPerson = 0;
         //person.SetActive(true);
         //sugarViwText.SetActive(true);
-        //InstantiateSugar();       
+        InstantiateSugar();
+
+        ChooseSugarIndex(bloodList, muscleList);
+        ChooseSugarIndex(bloodList, liverleList);
     }
 
     void Update()
-    {       
+    {
+        
         sugarText.text = (sugarAmount * 3).ToString();    //  Add Number to multiplication
         ClickingOnPerson();
         SugarTransToPoint(newSugarPlace);
-       // SugarTransToPoint("Muscle Cells ");
         Energy();
+        Liver();
+        if (Input.GetMouseButtonDown(0))
+        {
+            
+            BackToBlood(liverleList);
+            ChooseSugarIndex(liverleList, bloodList);
+        }        
     }
- 
+    
+
     private void ClickingOnPerson()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -83,13 +95,12 @@ public class SugarS : MonoBehaviour
                     {                       
                         GameObject sugarInst = Instantiate(sugar, instPos.position, transform.rotation);
                         sugarInst.transform.parent = createPlase;
-                        blood.Add(sugarInst);
+                        bloodList.Add(sugarInst);
                         sugarInst.AddComponent<MoleculeMove>();
                         addSugarPerson++;                        
                         SetSugarAmountUP(1);           
                         sug++;                       
                     }
-                    //ChooseSugarIndex(blood, muscleList);   // Check
                 }               
             }
         }
@@ -104,7 +115,7 @@ public class SugarS : MonoBehaviour
             RundomPoint();
             GameObject sug = Instantiate(sugar, new Vector3(sugarPosX, sugarPosY, -0.5f), sugar.transform.rotation);
             sug.transform.parent = createPlase;
-            blood.Add(sug);
+            bloodList.Add(sug);
             sug.AddComponent<MoleculeMove>();
             sugarInst++;   
             sugarAmount = sugarInst;
@@ -117,10 +128,9 @@ public class SugarS : MonoBehaviour
             if(oldListName != null)
             {
                 GameObject first = oldListName[0];
-                first.GetComponent<MoleculeMove>().StopLoopBlood();
                 newListName.Add(first);
                 oldListName.Remove(first);
-            }           
+            }            
         }     
     }
     
@@ -133,15 +143,16 @@ public class SugarS : MonoBehaviour
         if (oldSugarPlace == "Blood" && newSugarPlace == "Muscle Cells ")
         {
             SetSugarAmountDown(4);
-            ChooseSugarIndex(blood, muscleList);            
+            ChooseSugarIndex(bloodList, muscleList);            
         }
         if (oldSugarPlace == "Blood" && newSugarPlace == "Liver Cells")
         {
-            ChooseSugarIndex(blood, liverleList);
+            SetSugarAmountDown(4);
+            ChooseSugarIndex(bloodList, liverleList);
         }
         if (oldSugarPlace == "Liver Cells" && newSugarPlace == "Blood")
         {
-            ChooseSugarIndex(liverleList ,blood);
+            ChooseSugarIndex(liverleList ,bloodList);
         }
         if (oldSugarPlace == "Liver Cells" && newSugarPlace == "Muscle Cells ")
         {
@@ -154,8 +165,7 @@ public class SugarS : MonoBehaviour
         if (oldSugarPlace == "Muscle Cells " && newSugarPlace == "Blood")
         {
             ChooseSugarIndex(liverleList, muscleList);
-        }
-        
+        }       
     }
 
     public void SugarTransToPoint(string newNameP)
@@ -165,51 +175,79 @@ public class SugarS : MonoBehaviour
             case "Muscle Cells ":    
                 foreach(GameObject i in muscleList)
                 {
-                    i.GetComponent<MoleculeMove>().StopLoopBlood();
+                  //  Invoke("RundomMusPoint", 0.5f);  // update
                 }
                 
                 break;
             case "Liver Cells":
-                
-
-
+                foreach (GameObject i in liverleList)
+                {
+                  
+                }
                 break;
             case "Blood":
-                foreach (GameObject i in liverleList)
+                foreach (GameObject i in bloodList)
                 {
                     
                 }
                 break;
         }
     }
-  
+
+    private void Liver()
+    {
+        
+        if(countLiver < liverleList.Count )
+        {
+            Invoke("RundomLiverPoint", 0.5f);    
+        }
+        
+    }
+    
+
     public void Energy()
     {
-        if (muscleList.Count >= 4)
+        if (muscleList.Count >= sugarNumMus)
         {
-            GameObject first = muscleList[1];
-            sugarInmuscleL.Add(first);
-            muscleList.Remove(first);         
-        }
-        else if (muscleList.Count == 3)
-        {
-            Invoke("ChangeToEnergy", 2);           
+            ChangeToEnergy();
+            sugarNumMus++;
         }        
     }
 
     private void ChangeToEnergy()
     {
-        foreach (GameObject i in muscleList)
+        for (int i = 0; i < 3; i++)
         {
-            i.gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
-            i.gameObject.GetComponent<MeshFilter>().mesh = energy;
-            i.transform.localScale = new Vector3(20, 20, 20);
-            i.gameObject.GetComponent<MoleculeMove>().MoveToBoyStart();
-            Destroy(i, 3);
+            GameObject lest = muscleList[muscleList.Count - 1];
+            lest.gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
+            lest.gameObject.GetComponent<MeshFilter>().mesh = energy;
+            lest.transform.localScale = new Vector3(20, 20, 20);
+            lest.gameObject.GetComponent<MoleculeMove>().MoveToBoyStart();
+            Destroy(lest, 3);
+            muscleList.Remove(lest);
+            Invoke("RundomMusPoint", 0.5f); // onse
+        }       
+    }
+    private void RundomMusPoint()
+    {
+        GameObject lest = muscleList[muscleList.Count - 1];
+        lest.gameObject.GetComponent<MoleculeMove>().RandomPointInMus();
+    }
+
+    private void RundomLiverPoint()
+    {
+        countLiver = liverleList.Count;
+        foreach (GameObject i in liverleList)
+        {
+            i.gameObject.GetComponent<MoleculeMove>().RandomPointInLiver();
         }
-        GameObject lest = sugarInmuscleL[sugarInmuscleL.Count - 1];
-        lest.GetComponent<MoleculeMove>().RandomEndPointInMus();
-        muscleList.Clear();
+    }
+    private void BackToBlood(List<GameObject> from)
+    {
+        foreach (GameObject i in from)
+        {
+            i.gameObject.GetComponent<MoleculeMove>().BloodLoopON();
+        }
     }
     private void SetSugarAmountDown(int num)   // send to Web
     {

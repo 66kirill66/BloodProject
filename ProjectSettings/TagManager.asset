@@ -9,6 +9,8 @@ TagManager:
   - Sugar
   - Syringe
   - Blood
+  - Channal
+  - Signal
   layers:
   - Default
   - TransparentFX
