@@ -11,6 +11,7 @@ TagManager:
   - Blood
   - Channal
   - Signal
+  - Membrane
   layers:
   - Default
   - TransparentFX

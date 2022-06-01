@@ -8,17 +8,13 @@ public class MoleculeMove : MonoBehaviour
     float PosX;
     float PosY;
 
-    float PosXM;
-    float PosYM;
-
-    float PosXL;
-    float PosYL;
 
 
     public bool blood = true;
     public bool toBoy = false;
     public bool toMus = false;
     public bool liver = false;
+    public bool pancreas = false;
 
     void Start()
     {           
@@ -42,7 +38,7 @@ public class MoleculeMove : MonoBehaviour
         toBoy = false;
         while (blood == true)
         {
-            RundomPoint();
+            RundomPointBlood();
             Vector3 startPos = transform.position;
             Vector3 endPos = new Vector3(PosX, PosY, -0.5f);
             float travel = 0;
@@ -63,7 +59,7 @@ public class MoleculeMove : MonoBehaviour
         {
             RundomPointMus();
             Vector3 startPos = transform.position;
-            Vector3 endPos = new Vector3(PosXM, PosYM, -0.5f);
+            Vector3 endPos = new Vector3(PosX, PosY, -0.5f);
             float travel = 0;
             while (travel < 1f)
             {
@@ -82,7 +78,7 @@ public class MoleculeMove : MonoBehaviour
         {
             RundomPointInLiver();
             Vector3 startPos = transform.position;
-            Vector3 endPos = new Vector3(PosXL, PosYL, -0.5f);
+            Vector3 endPos = new Vector3(PosX, PosY, -0.5f);
             float travel = 0;
             while (travel < 1f)
             {
@@ -107,47 +103,73 @@ public class MoleculeMove : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
     }
-    
-    
+    private IEnumerator CorutineToPancreas()
+    {
+        toMus = false;
+        blood = false;
+        toBoy = false;        
+        while (pancreas == true)
+        {
+            RundomPointPancreas();
+            Vector3 startPos = transform.position;
+            Vector3 endPos = new Vector3(PosX, PosY, -0.5f);
+            float travel = 0;
+            while (travel < 1f)
+            {
+                travel += Time.deltaTime * 0.2f;
+                transform.position = Vector3.Lerp(startPos, endPos, travel);
+                yield return new WaitForEndOfFrame();
+            }
+        }
+    }
 
-
+    // Rundom Points
     private void RundomPointMus()
     {
-        PosXM = Random.Range(-4f, 10f);
-        PosYM = Random.Range(-1f, -5.5f);
-    }
-    
-    private void RundomPoint()
+        PosX = Random.Range(-4f, 10f);
+        PosY = Random.Range(-1f, -5.5f);
+    }  
+    private void RundomPointBlood()
     {
         PosX = Random.Range(-17f, 17);
         PosY = Random.Range(0, 1.2f);
     }
     private void RundomPointInLiver()
     {
-        PosXL = Random.Range(-16f, -5f);
-        PosYL = Random.Range(-4.5f, -1f);
+        PosX = Random.Range(-16f, -5f);
+        PosY = Random.Range(-4.5f, -1f);
+    }
+    private void RundomPointPancreas()
+    {
+        PosX = Random.Range(1f, 5f);
+        PosY = Random.Range(2f, 5.5f);
+    }
+     // Start Corutine
+    public void MoveToBoyStart()
+    {
+        toBoy = true;      
     }
     public void BloodCorutine()
     {
         blood = true;
         StartCoroutine(MoveInBloodRange());
     }
-    
-    public void MoveToBoyStart()
-    {
-        toBoy = true;      
-    }
     public void MusculeCorutine()
-    {
-        StartCoroutine(CorutinerundoPointInMus());
+    {       
         toMus = true;
-    }
-    
+        StartCoroutine(CorutinerundoPointInMus());
+    }   
     public void LiverCorutine()
     {        
         liver = true;
         StartCoroutine(CorutineToLiver());
     }
+    public void PancreasCorutine()
+    {
+        pancreas = true;
+        StartCoroutine(CorutineToPancreas());
+    }
+    // Stop Corutine
     public void StopCor()
     {
         StopAllCoroutines();

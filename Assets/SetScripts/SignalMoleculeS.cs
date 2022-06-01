@@ -8,26 +8,37 @@ public class SignalMoleculeS : MonoBehaviour
     public List<GameObject> signalMList = new List<GameObject>();
     [SerializeField] GameObject signalM;
     [SerializeField] Transform place;
+    int sigCount;
+    int carrentCount;
 
     void Start()
     {
-        ChannelS ch = FindObjectOfType<ChannelS>();
-        List<GameObject> list = ch.channelList;
-
-       InvokeRepeating("AddSignalMolecule", 3, 4);
+        carrentCount = 0;
+       // sigCount = 10;
+        StartCoroutine(SignalInstant());
     }
 
-    // Update is called once per frame
     void Update()
     {
         
     }
-
-    public void AddSignalMolecule()
+    IEnumerator SignalInstant()
     {
-       // this.id = id;
-        GameObject sig = Instantiate(signalM,place.position,transform.rotation);
-        sig.gameObject.AddComponent<SignalFinder>();
-        signalMList.Add(sig);
+        while(sigCount > carrentCount)
+        {
+            carrentCount++;
+            GameObject sig = Instantiate(signalM, place.position, transform.rotation);
+            sig.gameObject.AddComponent<SignalFinder>();
+            signalMList.Add(sig);
+            yield return new WaitForSeconds(3);
+        }
+        
+    }
+    
+
+    public void AddSignalMolecule(int id)
+    {
+        this.id = id;
+        sigCount++;      
     }
 }

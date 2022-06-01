@@ -9,6 +9,7 @@ public class SugarS : MonoBehaviour
     public  List<GameObject> bloodList = new List<GameObject>();
     public  List<GameObject> muscleList = new List<GameObject>();
     public  List<GameObject> liverleList = new List<GameObject>();
+    public  List<GameObject> pancreasList = new List<GameObject>();
     [SerializeField] Transform createPlase;
     public GameObject person;
     public GameObject sugar;
@@ -60,20 +61,19 @@ public class SugarS : MonoBehaviour
     }
 
     void Update()
-    {
-        
+    {       
         sugarText.text = (sugarAmount * 3).ToString();    //  Add Number to multiplication
         ClickingOnPerson();
         Energy();
 
         //if (Input.GetMouseButtonDown(0))
-        //{           
-        //    ToMus(liverleList);
-            
+        //{
+        //    ToPancreas(bloodList);
+
         //}
         //else if (Input.GetMouseButtonDown(1))
         //{
-        //    ToLiver(bloodList);
+        //    ToLiver(pancreasList);
         //}
     }
     
@@ -143,29 +143,55 @@ public class SugarS : MonoBehaviour
             SetSugarAmountDown(4);
             ToMus(bloodList);           
         }
+        if (oldSugarPlace == "Liver Cells" && newSugarPlace == "Muscle Cells ")
+        {
+            ToMus(liverleList);
+        }
+        if (oldSugarPlace == "Pancreas Cells" && newSugarPlace == "Muscle Cells ")
+        {
+            ToMus(pancreasList);
+        }
         if (oldSugarPlace == "Blood" && newSugarPlace == "Liver Cells")
         {
             SetSugarAmountDown(4);
             ToLiver(bloodList);
+        }
+        if (oldSugarPlace == "Muscle Cells " && newSugarPlace == "Liver Cells")
+        {
+            ToLiver(muscleList);
+        }
+        if (oldSugarPlace == "Pancreas Cells" && newSugarPlace == "Liver Cells")
+        {
+            ToLiver(pancreasList);
         }
         if (oldSugarPlace == "Liver Cells" && newSugarPlace == "Blood")
         {
             SetSugarAmountUP(4);
             ToBlood(liverleList);
         }
-        if (oldSugarPlace == "Liver Cells" && newSugarPlace == "Muscle Cells ")
-        {
-            ToMus(liverleList);
-        }
-        if (oldSugarPlace == "Muscle Cells " && newSugarPlace == "Liver Cells")
-        {
-            ToLiver(muscleList);
-        }
         if (oldSugarPlace == "Muscle Cells " && newSugarPlace == "Blood")
         {
             SetSugarAmountUP(4);
             ToBlood(muscleList);
-        }       
+        }
+        if (oldSugarPlace == "Pancreas Cells" && newSugarPlace == "Blood")
+        {
+            SetSugarAmountUP(4);
+            ToBlood(pancreasList);
+        }
+        if (oldSugarPlace == "Blood" && newSugarPlace == "Pancreas Cells" )
+        {
+            SetSugarAmountDown(5);
+            ToPancreas(bloodList);
+        }
+        if (oldSugarPlace == "Muscle Cells " && newSugarPlace == "Pancreas Cells" )
+        {
+            ToPancreas(muscleList);
+        }
+        if (oldSugarPlace == "Liver Cells" && newSugarPlace == "Pancreas Cells" )
+        {
+            ToPancreas(liverleList);
+        }          
     }
 
     public void Energy()
@@ -236,6 +262,18 @@ public class SugarS : MonoBehaviour
                 i.gameObject.GetComponent<MoleculeMove>().BloodCorutine();
             }
         }              
+    }
+    private void ToPancreas(List<GameObject> from)
+    {
+        if (from.Count != 0)
+        {
+            ChooseSugarIndex(from, pancreasList);
+            foreach (GameObject i in pancreasList)
+            {
+                i.gameObject.GetComponent<MoleculeMove>().StopCor();
+                i.gameObject.GetComponent<MoleculeMove>().PancreasCorutine();
+            }
+        }
     }
     private void SetSugarAmountDown(int num)   // send to Web
     {

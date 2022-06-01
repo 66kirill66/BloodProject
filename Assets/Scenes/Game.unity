@@ -502,7 +502,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 698920308}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.88, y: -5.71, z: 0}
+  m_LocalPosition: {x: 2.84, y: -2.77, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1697,7 +1697,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1771236591}
   m_Layer: 0
-  m_Name: ChannelsPlace
+  m_Name: MembranePlace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1735,8 +1735,8 @@ GameObject:
   - component: {fileID: 1808139697}
   - component: {fileID: 1808139698}
   - component: {fileID: 1808139699}
-  - component: {fileID: 1808139700}
   - component: {fileID: 1808139701}
+  - component: {fileID: 1808139689}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -1744,6 +1744,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1808139689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808139688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4c1f782c20d2664aab0d8410931b179, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  membranePrifab: {fileID: 413276726321408399, guid: 13f0dcb83147a844eb13160a9eb43d8c,
+    type: 3}
+  membraneList: []
+  creatPlace: {fileID: 1771236591}
 --- !u!4 &1808139690
 Transform:
   m_ObjectHideFlags: 0
@@ -1830,6 +1846,7 @@ MonoBehaviour:
   toBoy: 0
   toMus: 0
   liver: 0
+  pancreas: 0
 --- !u!114 &1808139696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1901,6 +1918,7 @@ MonoBehaviour:
   bloodList: []
   muscleList: []
   liverleList: []
+  pancreasList: []
   createPlase: {fileID: 317349666}
   person: {fileID: 510977049}
   sugar: {fileID: 7385280812455400519, guid: cb69ba3618edca04f898efbcf641ba6b, type: 3}
@@ -1911,22 +1929,6 @@ MonoBehaviour:
   energy: {fileID: 634242862415478878, guid: 00a7bfc294a227845ba8a9429b820bd3, type: 3}
   newSugarPlace: 
   oldSugarPlace: 
---- !u!114 &1808139700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1808139688}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 754378067f1b8494e81180c069e7c234, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  channelPrifab: {fileID: 413276726321408399, guid: 13f0dcb83147a844eb13160a9eb43d8c,
-    type: 3}
-  channelList: []
-  creatPlace: {fileID: 1771236591}
 --- !u!114 &1808139701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1939,7 +1941,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2b95c91f1adbc241800a1220d7d86fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sinnalMList: []
+  signalMList: []
   signalM: {fileID: 8557496975904617374, guid: 733de7063b219be40bb38ad13a5535f4, type: 3}
   place: {fileID: 698920309}
 --- !u!1 &1830494448
