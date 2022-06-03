@@ -18,7 +18,7 @@ public class MusculeS : MonoBehaviour
     }
     void Start()
     {
-       // musclesSprite.SetActive(true);
+        //musclesSprite.SetActive(true);
         //musclesText.SetActive(true);
         //runingChaild.SetActive(true);
     }

@@ -11,22 +11,32 @@ public class SignalFinder : MonoBehaviour
     bool free = true;
     public bool mus = true;
 
-    Transform targetMembrane;
-    float moveRange = 5;
+    Transform targetReceptor;
+    float moveRange = 2.5f;
 
     void Start()
     {
-        speed = 0.5f;
+        speed = 0.4f;
         StartCoroutine(CorutinerundoPointInMus());
     }
 
     void Update()
     {
-        FindMembrane();
-        if (targetMembrane)
+        //FindReceptor();
+        //if (targetReceptor)
+        //{
+        //    GoToReceptor();
+        //}
+        //else { return; }
+    }
+    private void FixedUpdate()
+    {
+        FindReceptor();
+        if (targetReceptor)
         {
-            GoToMembrane();
-        }       
+            GoToReceptor();
+        }
+        else { return; }
     }
     private IEnumerator CorutinerundoPointInMus()
     {       
@@ -45,7 +55,7 @@ public class SignalFinder : MonoBehaviour
         }
     }
 
-    private IEnumerator CorutineMembrane( Vector3 end)
+    private IEnumerator CorutineReceptor( Vector3 end)
     {
         Vector3 startPos = transform.position;
         Vector3 endPos = end;
@@ -53,32 +63,30 @@ public class SignalFinder : MonoBehaviour
         while (travel < 1f)
         {
             travel += Time.deltaTime * speed;
-            transform.position = Vector3.Lerp(startPos, endPos, travel);
+            transform.position = Vector3.Lerp(startPos,new Vector3( endPos.x-0.1f, endPos.y, endPos.z), travel);
             yield return new WaitForEndOfFrame();
         }
     }
 
 
-    private void FindMembrane()   // Find Membrane
+    private void FindReceptor()   // Find Receptor
     {
         if(free == true)
-        {
-            
-            var sceneMembrane = FindObjectsOfType<MembraneFinder>(); //  Find Membrane Helth script in scene
-            if (sceneMembrane.Length == 0) { return; }   // if  Membrane count = 0 return.
+        {           
+            var sceneReceptor = FindObjectsOfType<ReceptorFinder>(); //  Find Receptor Helth script in scene
+            if (sceneReceptor.Length == 0) { return; }   // if  Receptor count = 0 return.
 
-            Transform closestEnemy = sceneMembrane[0].transform;   // Membrane [index 0] position
-
-            foreach (MembraneFinder other in sceneMembrane)
-            {
-                closestEnemy = GetClosest(closestEnemy, other.transform);   //  'GetClosest' update 
-            }
-            targetMembrane = closestEnemy;
+            Transform closestReceptor = sceneReceptor[0].transform;   // Receptor [index 0] position            
+            foreach (ReceptorFinder other in sceneReceptor)
+            {             
+                closestReceptor = GetClosest(closestReceptor, other.transform);   //  'GetClosest' update                 
+            }          
+            targetReceptor = closestReceptor;
         }       
     }
     private Transform GetClosest(Transform transformA, Transform transformB)
     {
-        var distToA = Vector3.Distance(transform.position, transformA.position);   // closestMembrane
+        var distToA = Vector3.Distance(transform.position, transformA.position);   // closestReceptor
         var distToB = Vector3.Distance(transform.position, transformB.position);   //  other.transform
         if (distToA < distToB)
         {
@@ -86,23 +94,31 @@ public class SignalFinder : MonoBehaviour
         }
         return transformB;
     }
-    private void GoToMembrane()
+    private void GoToReceptor()
     {
-        Vector3 target = new Vector3(targetMembrane.transform.position.x, targetMembrane.transform.position.y - 0.5f, targetMembrane.transform.position.z);
-        float distanceToMemb = Vector3.Distance(targetMembrane.transform.position, transform.position);
-        if (distanceToMemb <= moveRange)
+        Vector3 target = new Vector3(targetReceptor.transform.position.x, targetReceptor.transform.position.y - 0.5f, targetReceptor.transform.position.z);
+        float distanceToRec = Vector3.Distance(targetReceptor.position, transform.position);
+        if (distanceToRec <= moveRange)
         {
-            StartCoroutine(CorutineMembrane(target));
             free = false;
+            mus = false;
+           // StopCoroutine(CorutinerundoPointInMus());
+            StartCoroutine(CorutineReceptor(target));           
         }
         else
         {
             return;
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.black;
+        Gizmos.DrawWireSphere(transform.position, moveRange);
+    }
     private void RundomPointMus()
     {
-        PosX = Random.Range(-4f, 10f);
-        PosY = Random.Range(-1f, -5.5f);
+        PosX = Random.Range(-7f, 17f);
+        PosY = Random.Range(-1f, -7.5f);
     }    
 }

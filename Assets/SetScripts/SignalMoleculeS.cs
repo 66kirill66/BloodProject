@@ -8,34 +8,34 @@ public class SignalMoleculeS : MonoBehaviour
     public List<GameObject> signalMList = new List<GameObject>();
     [SerializeField] GameObject signalM;
     [SerializeField] Transform place;
-    int sigCount;
+    public int sigCount;
     int carrentCount;
+    bool inst = false;
 
     void Start()
     {
         carrentCount = 0;
-       // sigCount = 10;
-        StartCoroutine(SignalInstant());
     }
 
     void Update()
     {
-        
+        if (sigCount > carrentCount && inst == false)
+        {
+            StartCoroutine(SignalInstant());
+        }
     }
+
     IEnumerator SignalInstant()
     {
-        while(sigCount > carrentCount)
-        {
-            carrentCount++;
-            GameObject sig = Instantiate(signalM, place.position, transform.rotation);
-            sig.gameObject.AddComponent<SignalFinder>();
-            signalMList.Add(sig);
-            yield return new WaitForSeconds(3);
-        }
-        
+        inst = true;
+        carrentCount++;
+        GameObject sig = Instantiate(signalM, place.position, transform.rotation);
+        sig.gameObject.AddComponent<SignalFinder>();
+        signalMList.Add(sig);
+        yield return new WaitForSeconds(4);
+        inst = false;
     }
     
-
     public void AddSignalMolecule(int id)
     {
         this.id = id;

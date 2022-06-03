@@ -5,12 +5,13 @@ using UnityEngine;
 public class PancreasS : MonoBehaviour
 {
     public GameObject pancreasSprite;
+    public GameObject pancreasText;
     int id;
 
     private void Awake()
     {
         pancreasSprite.SetActive(false);
-        
+        pancreasText.SetActive(false);
     }
     void Start()
     {
@@ -26,6 +27,7 @@ public class PancreasS : MonoBehaviour
     {
         this.id = id;
         pancreasSprite.SetActive(true);
-        
+        pancreasText.SetActive(true);
+
     }
 }
