@@ -2595,10 +2595,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4c1f782c20d2664aab0d8410931b179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  receptorPrifab: {fileID: 413276726321408399, guid: 13f0dcb83147a844eb13160a9eb43d8c,
+  receptorPrifab: {fileID: 1702847315617877179, guid: 13f0dcb83147a844eb13160a9eb43d8c,
     type: 3}
   receptorList: []
   creatPlace: {fileID: 1771236591}
+  receptorCount: 8
 --- !u!4 &1808139690
 Transform:
   m_ObjectHideFlags: 0
@@ -2781,7 +2782,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6b02f423ca9950419393b8198547dc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  channalCount: 0
   channalsList:
   - {fileID: 1111463746}
   - {fileID: 187317277}
@@ -2808,7 +2808,7 @@ MonoBehaviour:
   signalMList: []
   signalM: {fileID: 8557496975904617374, guid: 733de7063b219be40bb38ad13a5535f4, type: 3}
   place: {fileID: 698920309}
-  sigCount: 0
+  sigCount: 9
 --- !u!1 &1830494448
 GameObject:
   m_ObjectHideFlags: 0

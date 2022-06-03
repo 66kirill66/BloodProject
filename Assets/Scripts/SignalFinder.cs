@@ -31,12 +31,12 @@ public class SignalFinder : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        FindReceptor();
-        if (targetReceptor)
-        {
-            GoToReceptor();
-        }
-        else { return; }
+        //FindReceptor();
+        //if (targetReceptor)
+        //{
+        //    GoToReceptor();
+        //}
+        //else { return; }
     }
     private IEnumerator CorutinerundoPointInMus()
     {       

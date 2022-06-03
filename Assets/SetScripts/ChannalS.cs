@@ -6,10 +6,8 @@ public class ChannalS : MonoBehaviour
 {
     int id;
     int channalCount;
-
     int activeCount;
-    bool setChannal;
-    [SerializeField] List<GameObject> channalsList = new List<GameObject>();
+    public List<GameObject> channalsList = new List<GameObject>();
 
 
     private void Awake()
@@ -18,6 +16,7 @@ public class ChannalS : MonoBehaviour
         {
             i.gameObject.SetActive(false);
         }
+
     }
     void Start()
     {
