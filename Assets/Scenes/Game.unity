@@ -2463,7 +2463,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1771236587}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.27, y: -0.05, z: -2.14}
+  m_LocalPosition: {x: 17.87, y: -0.43, z: -2.14}
   m_LocalScale: {x: 1, y: 1, z: 0.27385}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2597,9 +2597,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   receptorPrifab: {fileID: 1702847315617877179, guid: 13f0dcb83147a844eb13160a9eb43d8c,
     type: 3}
-  receptorList: []
   creatPlace: {fileID: 1771236591}
-  receptorCount: 8
+  receptorList: []
 --- !u!4 &1808139690
 Transform:
   m_ObjectHideFlags: 0
@@ -2808,7 +2807,6 @@ MonoBehaviour:
   signalMList: []
   signalM: {fileID: 8557496975904617374, guid: 733de7063b219be40bb38ad13a5535f4, type: 3}
   place: {fileID: 698920309}
-  sigCount: 9
 --- !u!1 &1830494448
 GameObject:
   m_ObjectHideFlags: 0

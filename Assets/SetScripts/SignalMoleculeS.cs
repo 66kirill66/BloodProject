@@ -19,7 +19,7 @@ public class SignalMoleculeS : MonoBehaviour
 
     void Start()
     {
-        
+        //sigCount = 2;
         carrentCount = 0;
         receptor = GetComponent<InsulinReceptorS>();
         

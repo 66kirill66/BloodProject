@@ -4,37 +4,34 @@ using UnityEngine;
 
 public class InsulinReceptorS : MonoBehaviour
 {
-    public GameObject receptorPrifab;
-    public List<GameObject> receptorList = new List<GameObject>();
+    [SerializeField] GameObject receptorPrifab;
     [SerializeField] Transform creatPlace;
+    public List<GameObject> receptorList = new List<GameObject>();
 
-    int receptorCount;
 
+    int courentRecep;
+    int reseptor = 0;
     float ofset;
+
     int id;
-    bool create;
 
     void Start()
     {
         ofset = 0.3f;
-  
-
     }
 
     void Update()
     {
-        if (receptorCount <= 10 && create == false)
+        if (courentRecep <= 10 && courentRecep > reseptor)
         {            
-            for (int i = 0; i < receptorCount; i++)
+            for (int i = 0; i < courentRecep; i++)
             {
-
                 InstInsulinRec();
             }
-            create = true;
         }
-        else if(receptorCount > 10)
+        else if(courentRecep > 10)
         {
-            receptorCount = 10;
+            courentRecep = 10;
         }
     }
     private void InstInsulinRec()
@@ -43,11 +40,12 @@ public class InsulinReceptorS : MonoBehaviour
         //receptor.gameObject.AddComponent<ReceptorFinder>();
         receptorList.Add(receptor);
         ofset += 1.5f;
+        reseptor++;
     }
 
     public void AddInsulinReceptor(int id)
     {
         this.id = id;
-        receptorCount++;
+        courentRecep++;
     }    
 }
