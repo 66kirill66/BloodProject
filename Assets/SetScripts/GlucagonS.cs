@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class GlucagonS : MonoBehaviour
 {
+    public List<GameObject> glucagonList = new List<GameObject>();
     [SerializeField] Transform createPlase;
     public GameObject GlucagonSyringe;
     public GameObject glucagon;
@@ -37,13 +38,14 @@ public class GlucagonS : MonoBehaviour
     void Start()
     {
         //glucagonSlider.SetActive(true);
-        //glucagonViwText.SetActive(true);
+       // glucagonViwText.SetActive(true);
         //GlucagonSyringe.SetActive(true);
         //InstantiateGlucagon();
     }
 
     void Update()
     {
+        glucagonAmount = glucagonList.Count;
         SliderAnim();
         glucagonText.text = glucagonAmount.ToString();  //  Add Number to multiplication
         ClickingGlucagonSyringe();
@@ -75,8 +77,9 @@ public class GlucagonS : MonoBehaviour
                 {
                     GameObject gluc = Instantiate(glucagon, instPos.position, transform.rotation);
                     gluc.AddComponent<MoleculeMove>();
+                    glucagonList.Add(gluc);
                     gluc.transform.parent = createPlase;
-                    SetGlucagonUP(1);
+                    SetGlucagoVal();
                     glucV++;
                 }                     
                 sliderF = false;
@@ -98,14 +101,14 @@ public class GlucagonS : MonoBehaviour
             GameObject gluc = Instantiate(glucagon, new Vector3(glucagoPosX, glucagoPosy, -0.5f), glucagon.transform.rotation);
             gluc.transform.parent = createPlase;
             gluc.AddComponent<MoleculeMove>();
+            glucagonList.Add(gluc);
             glucagonAmount++;
-            this.glucagonAmount = glucagonAmount;
+            SetGlucagoVal();
         }
     }
 
-    private void SetGlucagonUP(int num)  //Send To WEb
+    private void SetGlucagoVal()  //Send To WEb
     {
-        glucagonAmount += num;
         if (!Application.isEditor)
         {
             BloodS bl = GetComponent<BloodS>();

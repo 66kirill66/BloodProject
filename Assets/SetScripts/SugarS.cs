@@ -54,6 +54,7 @@ public class SugarS : MonoBehaviour
 
     void Start()
     {
+        
         addSugarPerson = 0;
         //person.SetActive(true);
         //sugarViwText.SetActive(true);
@@ -62,21 +63,21 @@ public class SugarS : MonoBehaviour
 
     void Update()
     {       
+        sugarAmount = bloodList.Count;
         sugarText.text = (sugarAmount * 3).ToString();    //  Add Number to multiplication
         ClickingOnPerson();
-        Energy();
 
         //if (Input.GetMouseButtonDown(0))
         //{
-        //    ToPancreas(bloodList);
+        //    ToLiver(bloodList); ;
 
         //}
         //else if (Input.GetMouseButtonDown(1))
         //{
-        //    ToLiver(pancreasList);
+        //    ToMus(bloodList);
         //}
     }
-    
+
 
     private void ClickingOnPerson()
     {
@@ -96,7 +97,7 @@ public class SugarS : MonoBehaviour
                         bloodList.Add(sugarInst);
                         sugarInst.AddComponent<MoleculeMove>();
                         addSugarPerson++;                        
-                        SetSugarAmountUP(1);           
+                        SetSugarAmount();           
                         sug++;                       
                     }
                 }               
@@ -114,9 +115,9 @@ public class SugarS : MonoBehaviour
             GameObject sug = Instantiate(sugar, new Vector3(sugarPosX, sugarPosY, -0.5f), sugar.transform.rotation);
             sug.transform.parent = createPlase;
             bloodList.Add(sug);
+            SetSugarAmount();
             sug.AddComponent<MoleculeMove>();
             sugarInst++;   
-            sugarAmount = sugarInst;
         }
     }
     private void ChooseSugarIndex(List<GameObject> oldListName,List<GameObject>newListName)
@@ -140,7 +141,7 @@ public class SugarS : MonoBehaviour
 
         if (oldSugarPlace == "Blood" && newSugarPlace == "Muscle Cells ")
         {
-            SetSugarAmountDown(4);
+            SetSugarAmount();
             ToMus(bloodList);           
         }
         if (oldSugarPlace == "Liver Cells" && newSugarPlace == "Muscle Cells ")
@@ -153,7 +154,7 @@ public class SugarS : MonoBehaviour
         }
         if (oldSugarPlace == "Blood" && newSugarPlace == "Liver Cells")
         {
-            SetSugarAmountDown(4);
+            SetSugarAmount();
             ToLiver(bloodList);
         }
         if (oldSugarPlace == "Muscle Cells " && newSugarPlace == "Liver Cells")
@@ -166,22 +167,22 @@ public class SugarS : MonoBehaviour
         }
         if (oldSugarPlace == "Liver Cells" && newSugarPlace == "Blood")
         {
-            SetSugarAmountUP(4);
+            SetSugarAmount();
             ToBlood(liverleList);
         }
         if (oldSugarPlace == "Muscle Cells " && newSugarPlace == "Blood")
         {
-            SetSugarAmountUP(4);
+            SetSugarAmount();
             ToBlood(muscleList);
         }
         if (oldSugarPlace == "Pancreas Cells" && newSugarPlace == "Blood")
         {
-            SetSugarAmountUP(4);
+            SetSugarAmount();
             ToBlood(pancreasList);
         }
         if (oldSugarPlace == "Blood" && newSugarPlace == "Pancreas Cells" )
         {
-            SetSugarAmountDown(5);
+            SetSugarAmount();
             ToPancreas(bloodList);
         }
         if (oldSugarPlace == "Muscle Cells " && newSugarPlace == "Pancreas Cells" )
@@ -194,15 +195,6 @@ public class SugarS : MonoBehaviour
         }          
     }
 
-    public void Energy()
-    {
-        if (muscleList.Count >= countMus)
-        {
-            ChangeToEnergy();
-            countMus++;
-        }        
-    }
-
     private void ChangeToEnergy()
     {
         for (int i = 0; i < 3; i++)
@@ -211,21 +203,12 @@ public class SugarS : MonoBehaviour
             lest.gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
             lest.gameObject.GetComponent<MeshFilter>().mesh = energy;
             lest.transform.localScale = new Vector3(20, 20, 20);
+            lest.gameObject.GetComponent<MoleculeMove>().StopCor();
             lest.gameObject.GetComponent<MoleculeMove>().MoveToBoyStart();
             Destroy(lest, 3);
             muscleList.Remove(lest);
-            Invoke("RundomMusPoint", 0.5f);
         }      
     }
-    private void RundomMusPoint()
-    {
-        if(muscleList.Count != 0)
-        {
-            GameObject lest = muscleList[muscleList.Count - 1];
-            lest.gameObject.GetComponent<MoleculeMove>().MusculeCorutine();
-        }       
-    }
-
     private void ToMus(List<GameObject> from)
     {
         if(from.Count != 0)
@@ -235,8 +218,8 @@ public class SugarS : MonoBehaviour
             {
                 i.gameObject.GetComponent<MoleculeMove>().StopCor();
                 i.gameObject.GetComponent<MoleculeMove>().MusculeCorutine();
-                countMus = muscleList.Count;
             }
+            Invoke("ChangeToEnergy",5);
         }     
     }
     private void ToLiver(List<GameObject> from)
@@ -274,19 +257,9 @@ public class SugarS : MonoBehaviour
                 i.gameObject.GetComponent<MoleculeMove>().PancreasCorutine();
             }
         }
-    }
-    private void SetSugarAmountDown(int num)   // send to Web
+    }    
+    private void SetSugarAmount()  // send to Web
     {
-        sugarAmount -= num;
-        if (!Application.isEditor)
-        {
-            BloodS bl = GetComponent<BloodS>();
-            bl.SetSugarLevel(sugarAmount * 3);
-        }
-    }
-    private void SetSugarAmountUP(int num)  // send to Web
-    {
-        sugarAmount += num;
         if (!Application.isEditor)
         {
             BloodS bl = GetComponent<BloodS>();

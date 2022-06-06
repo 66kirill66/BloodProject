@@ -36,7 +36,7 @@ public class BloodS : MonoBehaviour
     }
     void Start()
     {
-       // bloodSprite.SetActive(true);
+        //bloodSprite.SetActive(true);
         //GlucometerSprite.SetActive(true);
     }
 

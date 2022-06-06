@@ -19,7 +19,7 @@ public class SignalMoleculeS : MonoBehaviour
 
     void Start()
     {
-        //sigCount = 2;
+        //sigCount = 8;
         carrentCount = 0;
         receptor = GetComponent<InsulinReceptorS>();
         
@@ -87,7 +87,7 @@ public class SignalMoleculeS : MonoBehaviour
     {
         for (int i = 0; i < sigCount; i++)
         {
-            GameObject sig = Instantiate(signalM, place.position, transform.rotation);
+            GameObject sig = Instantiate(signalM, place.position, signalM.transform.rotation);
             signalMList.Add(sig);
             carrentCount++;
         }        

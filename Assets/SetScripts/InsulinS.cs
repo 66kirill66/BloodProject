@@ -13,6 +13,7 @@ public class InsulinS : MonoBehaviour
     public GameObject insulin;
     public Text insulinText;
     public GameObject insulinViwText;
+    public List<GameObject> insulinList = new List<GameObject>();
 
     float insulinPosX;
     float insulinPosY;
@@ -49,6 +50,7 @@ public class InsulinS : MonoBehaviour
 
     void Update()
     {
+        insulinAmount = insulinList.Count;
         insulinText.text = (insulinAmount * 2).ToString();  //  Add Number to multiplication
         SliderAnim();       
         ClickingInsulinSyringe();      
@@ -82,7 +84,8 @@ public class InsulinS : MonoBehaviour
                     GameObject insul = Instantiate(insulin, instPos.position, transform.rotation);
                     insul.AddComponent<MoleculeMove>();
                     insul.transform.parent = createPlase;
-                    SetInsulinUP(1);
+                    insulinList.Add(insul);
+                    SetInsulinVal();
                     supp++;
                 }               
                 sliderF = false;
@@ -104,16 +107,10 @@ public class InsulinS : MonoBehaviour
             GameObject insul = Instantiate(insulin, new Vector3(insulinPosX, insulinPosY, -0.5f), insulin.transform.rotation);
             insul.transform.parent = createPlase;
             insul.AddComponent<MoleculeMove>();
+            insulinList.Add(insul);
+            SetInsulinVal();
             insulinInst++;
-            insulinAmount = insulinInst;
         }
-    }
-    public void InsulinFromPan()   // Inplementation on Sugar
-    {
-        GameObject insul = Instantiate(insulin,new Vector3(pancreasPos.position.x, pancreasPos.position.y -1, 0), transform.rotation);
-        insul.transform.parent = createPlase;
-        insul.AddComponent<MoleculeMove>();
-        SetInsulinUP(1);
     }
 
     private void RundomPoint()   
@@ -122,9 +119,9 @@ public class InsulinS : MonoBehaviour
         insulinPosY = Random.Range(0, 1.5f);
     }
 
-    private void SetInsulinUP(int num)   // Send To WEB
+    private void SetInsulinVal()   // Send To WEB
     {
-        insulinAmount += num;
+
         if (!Application.isEditor)
         {
             BloodS bl = GetComponent<BloodS>();
