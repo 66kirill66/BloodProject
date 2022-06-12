@@ -4,17 +4,27 @@ using UnityEngine;
 
 public class ReceptorFinder : MonoBehaviour
 {
-
-    //  public bool isFree = true; 
-
-
-
+    public bool isFree = true;
+    private void Start()
+    {
+       
+    }
+    private void Update()
+    {
+        
+    }
+ 
+    private void AcriveTrue()
+    {
+        gameObject.SetActive(true);
+        isFree = true;
+    }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Signal")
+        if(other.gameObject.tag == "Insulin")
         {
-            ReceptorFinder rec = GetComponent<ReceptorFinder>();
-            Destroy(rec);
+            gameObject.SetActive(false);
+            Invoke("AcriveTrue", 1);
         }
     }
 }

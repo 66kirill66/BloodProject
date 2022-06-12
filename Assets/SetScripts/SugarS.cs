@@ -17,7 +17,6 @@ public class SugarS : MonoBehaviour
     public Text sugarText;
     public GameObject sugarViwText;
     public int sugarAmount;
-    int countMus = 4;  // Energy
 
     int addSugarPerson;
     float sugarPosX;
@@ -140,9 +139,9 @@ public class SugarS : MonoBehaviour
         newSugarPlace = data.newPlace;
 
         if (oldSugarPlace == "Blood" && newSugarPlace == "Muscle Cells ")
-        {
+        {           
+            ToMus(bloodList);
             SetSugarAmount();
-            ToMus(bloodList);           
         }
         if (oldSugarPlace == "Liver Cells" && newSugarPlace == "Muscle Cells ")
         {
@@ -153,9 +152,9 @@ public class SugarS : MonoBehaviour
             ToMus(pancreasList);
         }
         if (oldSugarPlace == "Blood" && newSugarPlace == "Liver Cells")
-        {
-            SetSugarAmount();
+        {           
             ToLiver(bloodList);
+            SetSugarAmount();
         }
         if (oldSugarPlace == "Muscle Cells " && newSugarPlace == "Liver Cells")
         {
@@ -166,24 +165,24 @@ public class SugarS : MonoBehaviour
             ToLiver(pancreasList);
         }
         if (oldSugarPlace == "Liver Cells" && newSugarPlace == "Blood")
-        {
-            SetSugarAmount();
+        {            
             ToBlood(liverleList);
+            SetSugarAmount();
         }
         if (oldSugarPlace == "Muscle Cells " && newSugarPlace == "Blood")
-        {
-            SetSugarAmount();
+        {           
             ToBlood(muscleList);
+            SetSugarAmount();
         }
         if (oldSugarPlace == "Pancreas Cells" && newSugarPlace == "Blood")
-        {
-            SetSugarAmount();
+        {           
             ToBlood(pancreasList);
+            SetSugarAmount();
         }
         if (oldSugarPlace == "Blood" && newSugarPlace == "Pancreas Cells" )
-        {
-            SetSugarAmount();
+        {            
             ToPancreas(bloodList);
+            SetSugarAmount();
         }
         if (oldSugarPlace == "Muscle Cells " && newSugarPlace == "Pancreas Cells" )
         {

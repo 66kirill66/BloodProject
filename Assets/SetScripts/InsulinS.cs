@@ -29,7 +29,6 @@ public class InsulinS : MonoBehaviour
     public Slider insulinFill;
     public GameObject insulinSlider;
 
-
     private void Awake()
     {
         sliderF = false;
@@ -41,7 +40,7 @@ public class InsulinS : MonoBehaviour
     void Start()
     {
         
-        //InstantiateInsulin();
+        InstantiateInsulin();
         //insulinViwText.SetActive(true);
         //insulinSyringe.SetActive(true);
         //insulinSlider.SetActive(true);
@@ -107,11 +106,12 @@ public class InsulinS : MonoBehaviour
             GameObject insul = Instantiate(insulin, new Vector3(insulinPosX, insulinPosY, -0.5f), insulin.transform.rotation);
             insul.transform.parent = createPlase;
             insul.AddComponent<MoleculeMove>();
+            insul.AddComponent<InsulinRecFinder>();
             insulinList.Add(insul);
             SetInsulinVal();
             insulinInst++;
         }
-    }
+    } 
 
     private void RundomPoint()   
     {

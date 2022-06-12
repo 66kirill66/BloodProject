@@ -10,7 +10,6 @@ public class InsulinReceptorS : MonoBehaviour
 
 
     int currentRecep;
-    int reseptor = 0;
     float ofset;
 
     int id;
@@ -18,35 +17,38 @@ public class InsulinReceptorS : MonoBehaviour
     void Start()
     {
         ofset = 0.3f;
-       // currentRecep = 5;
+        AddInsulinReceptor(1);
+        AddInsulinReceptor(1);
+        AddInsulinReceptor(1);
+        AddInsulinReceptor(1);
+        AddInsulinReceptor(1);
+        AddInsulinReceptor(1);
+        AddInsulinReceptor(1);
+
+
+
     }
 
     void Update()
     {
-        if (currentRecep <= 10 && currentRecep > reseptor)
-        {            
-            for (int i = 0; i < currentRecep; i++)
-            {
-                InstInsulinRec();
-            }
-        }
-        else if(currentRecep > 10)
-        {
-            currentRecep = 10;
-        }
+        
     }
     private void InstInsulinRec()
     {
         GameObject receptor = Instantiate(receptorPrifab, new Vector3(creatPlace.position.x - ofset, creatPlace.position.y, -0.5f), receptorPrifab.transform.rotation);
-        //receptor.gameObject.AddComponent<ReceptorFinder>();
+        receptor.gameObject.AddComponent<ReceptorFinder>();
+        receptor.GetComponent<DataScript>().id = this.id;
         receptorList.Add(receptor);
         ofset += 1.5f;
-        reseptor++;
     }
 
     public void AddInsulinReceptor(int id)
     {
-        this.id = id;
-        currentRecep++;
+        if(currentRecep < 10)
+        {
+            this.id = id;
+            InstInsulinRec();
+            currentRecep++;
+        }        
     }    
 }

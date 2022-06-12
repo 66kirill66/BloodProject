@@ -12,6 +12,8 @@ TagManager:
   - Channal
   - Signal
   - Membrane
+  - Insulin
+  - Receptor
   layers:
   - Default
   - TransparentFX

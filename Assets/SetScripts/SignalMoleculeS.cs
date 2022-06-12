@@ -10,12 +10,8 @@ public class SignalMoleculeS : MonoBehaviour
     [SerializeField] Transform place;
     int sigCount;
     int carrentCount;
-    bool addScipt = false;
-    //int resNum;
-
-
-
-     InsulinReceptorS receptor;
+    bool addScipt = false; // Rundom Move
+    InsulinReceptorS receptor;
 
     void Start()
     {
@@ -36,7 +32,7 @@ public class SignalMoleculeS : MonoBehaviour
         {
             InstSignalM();
         }
-        Invoke("GoToChannal", 0.1f);     // GoToChannal();
+        Invoke("GoToChannal", 0.1f);     
     }
     
 
@@ -44,7 +40,7 @@ public class SignalMoleculeS : MonoBehaviour
     {
         if(receptor.receptorList.Count > signalMList.Count)
         {
-            foreach (GameObject i in receptor.receptorList)
+            foreach (GameObject i in receptor.receptorList)  //change ! foreach !
             {
                 int num = 0;
                 for (int j = 0; j < sigCount; j++)
@@ -56,7 +52,7 @@ public class SignalMoleculeS : MonoBehaviour
         }
         else if(receptor.receptorList.Count <= signalMList.Count && addScipt == false)
         {
-            foreach (GameObject i in receptor.receptorList)
+            foreach (GameObject i in receptor.receptorList)  //change  foreach !
             {
                 int num = 0;
                 for (int j = 0; j < receptor.receptorList.Count; j++)
@@ -77,7 +73,7 @@ public class SignalMoleculeS : MonoBehaviour
         for (int i = 0; i < resNum; i++)
         {
             GameObject lest = signalMList[signalMList.Count - count];
-            lest.AddComponent<SignalFinder>();
+            lest.AddComponent<InsulinRecFinder>();
             count++;
         }
         addScipt = true;

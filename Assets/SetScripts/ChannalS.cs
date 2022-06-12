@@ -4,18 +4,28 @@ using UnityEngine;
 
 public class ChannalS : MonoBehaviour
 {
-    int id;
+    public int id;
     int channalCount;
     int activeCount;
     public List<GameObject> channalsList = new List<GameObject>();
 
+    public class ChannalData
+    {
+        public int channalID;
+        public static ChannalData CreateFromJSON(string jsonString)
+        {
+            ChannalData chanID = JsonUtility.FromJson<ChannalData>(jsonString);
+            return chanID;
+        }
+    }
 
     private void Awake()
-    {
+    {        
         foreach (GameObject i in channalsList)
         {
             i.gameObject.SetActive(false);
         }
+        activeCount = 0;
 
     }
     void Start()
@@ -24,24 +34,22 @@ public class ChannalS : MonoBehaviour
     }
     void Update()
     {
-        if(channalCount <= 10)
+        
+    }
+    public void AddChannals(string dataJSON)
+    {
+        ChannalData data = ChannalData.CreateFromJSON(dataJSON);
+        channalCount++;
+        if (channalCount <= 10)
         {
-            activeCount = 0;
-            for (int i = 0; i < channalCount; i++)
-            {
-                GameObject swichOn = channalsList[activeCount];
-                swichOn.SetActive(true);
-                activeCount++;
-            }
+            GameObject swichOn = channalsList[activeCount];
+            swichOn.SetActive(true);
+            swichOn.GetComponent<DataScript>().id = data.channalID;
+            activeCount++;
         }
         else
         {
             channalCount = 10;
         }       
-    }
-    public void AddChannals(int id)
-    {
-        this.id = id;
-        channalCount++;
     }
 }
