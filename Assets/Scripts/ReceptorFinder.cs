@@ -5,6 +5,8 @@ using UnityEngine;
 public class ReceptorFinder : MonoBehaviour
 {
     public bool isFree = true;
+    public bool signalM = false;
+
     private void Start()
     {
        
@@ -14,17 +16,22 @@ public class ReceptorFinder : MonoBehaviour
         
     }
  
-    private void AcriveTrue()
+    private void ActiveTrue()
     {
         gameObject.SetActive(true);
         isFree = true;
+    }
+    private void ActiveFalse()
+    {
+        gameObject.SetActive(false);
+        Invoke("ActiveTrue", 2);
     }
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Insulin")
         {
-            gameObject.SetActive(false);
-            Invoke("AcriveTrue", 1);
+            Invoke("ActiveFalse", 1);                     
         }
     }
+
 }

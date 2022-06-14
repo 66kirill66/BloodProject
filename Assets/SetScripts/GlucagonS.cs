@@ -30,6 +30,7 @@ public class GlucagonS : MonoBehaviour
 
     private void Awake()
     {
+        glucagonAmount = 0;
         glucagonSlider.SetActive(false);
         glucagonViwText.SetActive(false);
         GlucagonSyringe.SetActive(false);
@@ -40,14 +41,20 @@ public class GlucagonS : MonoBehaviour
         //glucagonSlider.SetActive(true);
        // glucagonViwText.SetActive(true);
         //GlucagonSyringe.SetActive(true);
-        //InstantiateGlucagon();
+        InstantiateGlucagon();
     }
 
     void Update()
     {
-        glucagonAmount = glucagonList.Count;
+        if(glucagonAmount != glucagonList.Count)
+        {
+            glucagonAmount = glucagonList.Count;
+            SetGlucagoVal();
+            glucagonText.text = glucagonAmount.ToString();  
+        }
+        
         SliderAnim();
-        glucagonText.text = glucagonAmount.ToString();  //  Add Number to multiplication
+        
         ClickingGlucagonSyringe();
     }
 
@@ -79,7 +86,7 @@ public class GlucagonS : MonoBehaviour
                     gluc.AddComponent<MoleculeMove>();
                     glucagonList.Add(gluc);
                     gluc.transform.parent = createPlase;
-                    SetGlucagoVal();
+                    //SetGlucagoVal();
                     glucV++;
                 }                     
                 sliderF = false;
@@ -103,7 +110,7 @@ public class GlucagonS : MonoBehaviour
             gluc.AddComponent<MoleculeMove>();
             glucagonList.Add(gluc);
             glucagonAmount++;
-            SetGlucagoVal();
+            //SetGlucagoVal();
         }
     }
 

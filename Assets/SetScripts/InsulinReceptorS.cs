@@ -12,20 +12,17 @@ public class InsulinReceptorS : MonoBehaviour
     int currentRecep;
     float ofset;
 
-    int id;
+    public int id;
 
     void Start()
     {
         ofset = 0.3f;
         AddInsulinReceptor(1);
-        AddInsulinReceptor(1);
-        AddInsulinReceptor(1);
-        AddInsulinReceptor(1);
-        AddInsulinReceptor(1);
-        AddInsulinReceptor(1);
-        AddInsulinReceptor(1);
-
-
+        AddInsulinReceptor(2);
+        AddInsulinReceptor(3);
+        AddInsulinReceptor(4);
+        AddInsulinReceptor(4);
+        AddInsulinReceptor(4);
 
     }
 

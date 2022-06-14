@@ -390,7 +390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9254902, g: 0.1368177, b: 0.03529411, a: 1}
+  m_Color: {r: 0.12548947, g: 0.25913402, b: 0.8867924, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1815,7 +1815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.87661594, g: 0.9056604, b: 0.076895714, a: 1}
+  m_Color: {r: 0.123353526, g: 0.9339623, b: 0.14158665, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2655,6 +2655,7 @@ MonoBehaviour:
     type: 3}
   creatPlace: {fileID: 1771236591}
   receptorList: []
+  id: 0
 --- !u!4 &1808139690
 Transform:
   m_ObjectHideFlags: 0
@@ -2776,7 +2777,7 @@ MonoBehaviour:
   insulinViwText: {fileID: 301125474}
   insulinList: []
   insulinAmount: 0
-  oldInsulin: 0
+  id: 0
   insulinFill: {fileID: 1103910336}
   insulinSlider: {fileID: 1103910334}
 --- !u!114 &1808139698
@@ -2824,6 +2825,7 @@ MonoBehaviour:
   sugarText: {fileID: 1544580638}
   sugarViwText: {fileID: 1544580636}
   sugarAmount: 0
+  sugarNumber: 0
   energy: {fileID: 634242862415478878, guid: 00a7bfc294a227845ba8a9429b820bd3, type: 3}
   newSugarPlace: 
   oldSugarPlace: 

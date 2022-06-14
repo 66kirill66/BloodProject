@@ -4,8 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
+
 public class InsulinS : MonoBehaviour    
 {
+    
+
     [SerializeField] Transform createPlase;
     public GameObject insulinSyringe;
     public Transform instPos;    
@@ -17,20 +20,20 @@ public class InsulinS : MonoBehaviour
 
     float insulinPosX;
     float insulinPosY;
-
     RaycastHit hit;
-
     public int insulinAmount;
-    public int oldInsulin;
-
-    int id;  // Web ID
+    public int id;  // Web ID
 
     bool sliderF;
     public Slider insulinFill;
     public GameObject insulinSlider;
 
+
+    
+
     private void Awake()
     {
+        insulinAmount = 0;
         sliderF = false;
         insulinSlider.SetActive(false);
         insulinViwText.SetActive(false);
@@ -39,18 +42,20 @@ public class InsulinS : MonoBehaviour
 
     void Start()
     {
-        
         InstantiateInsulin();
-        //insulinViwText.SetActive(true);
+        insulinViwText.SetActive(true);
         //insulinSyringe.SetActive(true);
         //insulinSlider.SetActive(true);
-
     }
 
     void Update()
     {
-        insulinAmount = insulinList.Count;
-        insulinText.text = (insulinAmount * 2).ToString();  //  Add Number to multiplication
+        if(insulinAmount != insulinList.Count)
+        {
+            insulinAmount = insulinList.Count;
+            SetInsulinVal();
+            insulinText.text = (insulinAmount * 2).ToString();
+        }     
         SliderAnim();       
         ClickingInsulinSyringe();      
     }
@@ -82,9 +87,10 @@ public class InsulinS : MonoBehaviour
                 {
                     GameObject insul = Instantiate(insulin, instPos.position, transform.rotation);
                     insul.AddComponent<MoleculeMove>();
+                    insul.AddComponent<InsulinRecFinder>();
                     insul.transform.parent = createPlase;
                     insulinList.Add(insul);
-                    SetInsulinVal();
+                   // SetInsulinVal();
                     supp++;
                 }               
                 sliderF = false;
@@ -99,7 +105,6 @@ public class InsulinS : MonoBehaviour
     public void InstantiateInsulin()
     {
         int insulinInst = 0;
-
         while (insulinInst < 12)
         {
             RundomPoint();
@@ -108,7 +113,7 @@ public class InsulinS : MonoBehaviour
             insul.AddComponent<MoleculeMove>();
             insul.AddComponent<InsulinRecFinder>();
             insulinList.Add(insul);
-            SetInsulinVal();
+           // SetInsulinVal();
             insulinInst++;
         }
     } 
@@ -121,7 +126,6 @@ public class InsulinS : MonoBehaviour
 
     private void SetInsulinVal()   // Send To WEB
     {
-
         if (!Application.isEditor)
         {
             BloodS bl = GetComponent<BloodS>();

@@ -17,6 +17,7 @@ public class SugarS : MonoBehaviour
     public Text sugarText;
     public GameObject sugarViwText;
     public int sugarAmount;
+    public int sugarNumber;
 
     int addSugarPerson;
     float sugarPosX;
@@ -46,7 +47,9 @@ public class SugarS : MonoBehaviour
 
 
     private void Awake()
-    {      
+    {
+        sugarAmount = 0;
+
         sugarViwText.SetActive(false);
         person.SetActive(false);        
     }
@@ -62,13 +65,20 @@ public class SugarS : MonoBehaviour
 
     void Update()
     {       
-        sugarAmount = bloodList.Count;
-        sugarText.text = (sugarAmount * 3).ToString();    //  Add Number to multiplication
+        if(sugarAmount != bloodList.Count)
+        {
+            sugarAmount = bloodList.Count;
+            SetSugarAmount();
+            sugarText.text = (sugarAmount * 3).ToString();
+        }
+
+        
+
         ClickingOnPerson();
 
         //if (Input.GetMouseButtonDown(0))
         //{
-        //    ToLiver(bloodList); ;
+            
 
         //}
         //else if (Input.GetMouseButtonDown(1))
@@ -96,7 +106,7 @@ public class SugarS : MonoBehaviour
                         bloodList.Add(sugarInst);
                         sugarInst.AddComponent<MoleculeMove>();
                         addSugarPerson++;                        
-                        SetSugarAmount();           
+                       // SetSugarAmount();           
                         sug++;                       
                     }
                 }               
@@ -114,7 +124,7 @@ public class SugarS : MonoBehaviour
             GameObject sug = Instantiate(sugar, new Vector3(sugarPosX, sugarPosY, -0.5f), sugar.transform.rotation);
             sug.transform.parent = createPlase;
             bloodList.Add(sug);
-            SetSugarAmount();
+           // SetSugarAmount();
             sug.AddComponent<MoleculeMove>();
             sugarInst++;   
         }
@@ -141,7 +151,7 @@ public class SugarS : MonoBehaviour
         if (oldSugarPlace == "Blood" && newSugarPlace == "Muscle Cells ")
         {           
             ToMus(bloodList);
-            SetSugarAmount();
+           // SetSugarAmount();
         }
         if (oldSugarPlace == "Liver Cells" && newSugarPlace == "Muscle Cells ")
         {
@@ -154,7 +164,7 @@ public class SugarS : MonoBehaviour
         if (oldSugarPlace == "Blood" && newSugarPlace == "Liver Cells")
         {           
             ToLiver(bloodList);
-            SetSugarAmount();
+            //SetSugarAmount();
         }
         if (oldSugarPlace == "Muscle Cells " && newSugarPlace == "Liver Cells")
         {
@@ -167,22 +177,22 @@ public class SugarS : MonoBehaviour
         if (oldSugarPlace == "Liver Cells" && newSugarPlace == "Blood")
         {            
             ToBlood(liverleList);
-            SetSugarAmount();
+           // SetSugarAmount();
         }
         if (oldSugarPlace == "Muscle Cells " && newSugarPlace == "Blood")
         {           
             ToBlood(muscleList);
-            SetSugarAmount();
+            //SetSugarAmount();
         }
         if (oldSugarPlace == "Pancreas Cells" && newSugarPlace == "Blood")
         {           
             ToBlood(pancreasList);
-            SetSugarAmount();
+            //SetSugarAmount();
         }
         if (oldSugarPlace == "Blood" && newSugarPlace == "Pancreas Cells" )
         {            
             ToPancreas(bloodList);
-            SetSugarAmount();
+            //SetSugarAmount();
         }
         if (oldSugarPlace == "Muscle Cells " && newSugarPlace == "Pancreas Cells" )
         {
@@ -199,7 +209,7 @@ public class SugarS : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             GameObject lest = muscleList[muscleList.Count - 1];
-            lest.gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
+            lest.gameObject.GetComponent<MeshRenderer>().material.color = Color.red;  // Change Energy Color
             lest.gameObject.GetComponent<MeshFilter>().mesh = energy;
             lest.transform.localScale = new Vector3(20, 20, 20);
             lest.gameObject.GetComponent<MoleculeMove>().StopCor();

@@ -1,17 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Runtime.InteropServices;
 
 public class InsulinRecFinder : MonoBehaviour
 {
+    [DllImport("__Internal")]
+    public static extern void ApplyMeetReceptor(int insulinId, int receptorId);
 
     float speed;
     public bool free = true;
     Transform targetReceptor;
-    float moveRange = 1.6f;
+    float moveRange = 2f;
 
     void Start()
     {
+        moveRange = 2f;
         speed = 1f;
     }
 
@@ -23,28 +27,25 @@ public class InsulinRecFinder : MonoBehaviour
     {
         FindReceptor();
         if (targetReceptor)
-        {
-            GoToReceptor();            
+        {          
+            GoToReceptor();
         }
         else { return; }
     }
-    
-
-
     private void FindReceptor()   // Find Receptor
     {
-        if(free == true)
-        {           
+        if (free == true)
+        {
             var sceneReceptor = FindObjectsOfType<ReceptorFinder>(); //  Find Receptor Helth script in scene
             if (sceneReceptor.Length == 0) { return; }   // if  Receptor count = 0 return.
 
             Transform closestReceptor = sceneReceptor[0].transform;   // Receptor [index 0] position            
             foreach (ReceptorFinder other in sceneReceptor)
-            {             
+            {
                 closestReceptor = GetClosest(closestReceptor, other.transform);   //  'GetClosest' update                 
-            }          
+            }
             targetReceptor = closestReceptor;
-        }       
+        }
     }
     private Transform GetClosest(Transform transformA, Transform transformB)
     {
@@ -57,16 +58,21 @@ public class InsulinRecFinder : MonoBehaviour
         return transformB;
     }
     private void GoToReceptor()
-    {
+    {          
         Vector3 target = new Vector3(targetReceptor.transform.position.x + 0.1f, targetReceptor.transform.position.y + 1.2f, targetReceptor.transform.position.z);
         float distanceToRec = Vector3.Distance(targetReceptor.position, transform.position);
         if (distanceToRec <= moveRange && targetReceptor.GetComponent<ReceptorFinder>().isFree == true)
         {
             free = false;
-            targetReceptor.GetComponent<ReceptorFinder>().isFree = false;
-            StartCoroutine(CorutineReceptor(target));           
             MoleculeMove m = GetComponent<MoleculeMove>();
-            Destroy(m);            
+            Destroy(m);
+            targetReceptor.GetComponent<ReceptorFinder>().isFree = false;
+            StartCoroutine(CorutineReceptor(target));
+            int insul = FindObjectOfType<InsulinS>().id;
+            if (!Application.isEditor)
+            {
+                ApplyMeetReceptor(insul, targetReceptor.GetComponent<DataScript>().id);  // Send To Web   
+            }
         }
         else
         {
@@ -85,7 +91,6 @@ public class InsulinRecFinder : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
     }
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.black;
@@ -93,10 +98,12 @@ public class InsulinRecFinder : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Receptor")
+        if (other.gameObject.tag == "Receptor")
         {
-           // other.gameObject.GetComponent<ReceptorFinder>().isFree = false;
-            Destroy(gameObject);
+            InsulinS ins = FindObjectOfType<InsulinS>();
+            int insulF = ins.insulinList.IndexOf(gameObject);
+            ins.insulinList.RemoveAt(insulF);
+            Destroy(gameObject,1);
         }
     }
 }

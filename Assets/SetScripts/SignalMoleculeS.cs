@@ -13,12 +13,12 @@ public class SignalMoleculeS : MonoBehaviour
     bool addScipt = false; // Rundom Move
     InsulinReceptorS receptor;
 
+
     void Start()
     {
-        //sigCount = 8;
+        sigCount = 8;
         carrentCount = 0;
-        receptor = GetComponent<InsulinReceptorS>();
-        
+        receptor = GetComponent<InsulinReceptorS>();      
     }
 
     void Update()
@@ -32,52 +32,46 @@ public class SignalMoleculeS : MonoBehaviour
         {
             InstSignalM();
         }
-        Invoke("GoToChannal", 0.1f);     
+        Invoke("GoToChannal", 0.2f);
     }
-    
+
 
     private void GoToChannal()
     {
         if(receptor.receptorList.Count > signalMList.Count)
         {
-            foreach (GameObject i in receptor.receptorList)  //change ! foreach !
+            int num = 0;
+            for (int j = 0; j < sigCount; j++)
             {
-                int num = 0;
-                for (int j = 0; j < sigCount; j++)
-                {
-                    signalMList[num].transform.position = receptor.receptorList[num].transform.position;
-                    num++;
-                }                
+                signalMList[num].transform.position = receptor.receptorList[num].transform.position;
+                num++;
             }
         }
         else if(receptor.receptorList.Count <= signalMList.Count && addScipt == false)
         {
-            foreach (GameObject i in receptor.receptorList)  //change  foreach !
+            int num = 0;
+            for (int j = 0; j < receptor.receptorList.Count; j++)
             {
-                int num = 0;
-                for (int j = 0; j < receptor.receptorList.Count; j++)
-                {
-                    signalMList[num].transform.position = receptor.receptorList[num].transform.position;
-                    num++;
-                }
-            }            
+                signalMList[num].transform.position = receptor.receptorList[num].transform.position;
+                receptor.receptorList[num].GetComponent<ReceptorFinder>().signalM = true;
+                num++;
+            }
             AddMovingScript();
         }       
     }
     private void AddMovingScript()
-    {
-        
+    {       
         int resNum = signalMList.Count - receptor.receptorList.Count;
         int count = 1;
-       
         for (int i = 0; i < resNum; i++)
         {
             GameObject lest = signalMList[signalMList.Count - count];
-            lest.AddComponent<InsulinRecFinder>();
+            lest.AddComponent<SignalMolMove>();
             count++;
         }
         addScipt = true;
     }
+    
 
     public void InstSignalM()
     {
@@ -85,6 +79,7 @@ public class SignalMoleculeS : MonoBehaviour
         {
             GameObject sig = Instantiate(signalM, place.position, signalM.transform.rotation);
             signalMList.Add(sig);
+            sig.AddComponent<DataScript>().id = this.id;
             carrentCount++;
         }        
     }

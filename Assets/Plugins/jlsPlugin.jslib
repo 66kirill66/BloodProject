@@ -24,6 +24,11 @@ mergeInto(LibraryManager.library,
   {
     globals.setGlucagonLevel(ClickId,Value)
   },
+  
+   ApplyMeetReceptor: function (insulinId,receptorId)
+  {
+    globals.applyMeetReceptor(insulinId,receptorId)
+  },
 
   
 
