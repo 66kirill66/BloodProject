@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ChannalS : MonoBehaviour
 {
-    public int id;
     int channalCount;
     int activeCount;
     public List<GameObject> channalsList = new List<GameObject>();

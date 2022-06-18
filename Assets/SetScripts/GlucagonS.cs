@@ -41,7 +41,7 @@ public class GlucagonS : MonoBehaviour
         //glucagonSlider.SetActive(true);
        // glucagonViwText.SetActive(true);
         //GlucagonSyringe.SetActive(true);
-        InstantiateGlucagon();
+       // InstantiateGlucagon();
     }
 
     void Update()

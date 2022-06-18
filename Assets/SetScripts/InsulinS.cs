@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Runtime.InteropServices;
 
 
 
 public class InsulinS : MonoBehaviour    
 {
-    
+    [DllImport("__Internal")]
+    public static extern void ApplyMeetReceptor(int insulinId, int receptorId);
 
     [SerializeField] Transform createPlase;
     public GameObject insulinSyringe;
@@ -42,8 +44,9 @@ public class InsulinS : MonoBehaviour
 
     void Start()
     {
-        InstantiateInsulin();
-        insulinViwText.SetActive(true);
+        //InstantiateInsulin();
+
+       // insulinViwText.SetActive(true);
         //insulinSyringe.SetActive(true);
         //insulinSlider.SetActive(true);
     }
@@ -132,6 +135,14 @@ public class InsulinS : MonoBehaviour
             bl.SetInsulinLevel(insulinAmount * 2);
         }
     }
+    public void InsulinMeetReseptor(int id)
+    {
+        if (!Application.isEditor)
+        {
+            ApplyMeetReceptor(this.id,id) ;
+        }
+    }
+
     public void AddInsulin(int id)   // Init func
     {
         this.id = id;

@@ -1,12 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Runtime.InteropServices;
 
 public class InsulinRecFinder : MonoBehaviour
 {
-    [DllImport("__Internal")]
-    public static extern void ApplyMeetReceptor(int insulinId, int receptorId);
+    
 
     float speed;
     public bool free = true;
@@ -68,17 +66,14 @@ public class InsulinRecFinder : MonoBehaviour
             Destroy(m);
             targetReceptor.GetComponent<ReceptorFinder>().isFree = false;
             StartCoroutine(CorutineReceptor(target));
-            int insul = FindObjectOfType<InsulinS>().id;
-            if (!Application.isEditor)
-            {
-                ApplyMeetReceptor(insul, targetReceptor.GetComponent<DataScript>().id);  // Send To Web   
-            }
+            FindObjectOfType<InsulinS>().InsulinMeetReseptor(targetReceptor.GetComponent<DataScript>().id);
         }
         else
         {
             return;
         }
     }
+    
     private IEnumerator CorutineReceptor(Vector3 end)
     {
         Vector3 startPos = transform.position;

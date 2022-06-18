@@ -13,25 +13,34 @@ public class SignalMoleculeS : MonoBehaviour
     bool addScipt = false; // Rundom Move
     InsulinReceptorS receptor;
 
+    public class SignalMData
+    {
+        public int signalID;
+        public static SignalMData CreateFromJSON(string jsonString)
+        {
+            SignalMData sigID = JsonUtility.FromJson<SignalMData>(jsonString);
+            return sigID;
+        }
+    }
 
     void Start()
     {
-        sigCount = 8;
-        carrentCount = 0;
-        receptor = GetComponent<InsulinReceptorS>();      
+        carrentCount = 0;       
+        receptor = GetComponent<InsulinReceptorS>();
+      
     }
 
     void Update()
     {
-        if(sigCount > 10 && carrentCount < sigCount)
-        {
-            sigCount = 10;
-            InstSignalM();      
-        }
-        else if(sigCount <= 10 && carrentCount < sigCount)
-        {
-            InstSignalM();
-        }
+        //if(sigCount > 10 && carrentCount < sigCount)
+        //{
+        //    sigCount = 10;
+        //    InstSignalM();      
+        //}
+        //else if(sigCount <= 10 && carrentCount < sigCount)
+        //{
+        //    InstSignalM();
+        //}
         Invoke("GoToChannal", 0.2f);
     }
 
@@ -71,21 +80,38 @@ public class SignalMoleculeS : MonoBehaviour
         }
         addScipt = true;
     }
-    
 
+
+    //public void InstSignalM()
+    //{
+    //    for (int i = 0; i < sigCount; i++)
+    //    {
+    //        GameObject sig = Instantiate(signalM, place.position, signalM.transform.rotation);
+    //        signalMList.Add(sig);
+    //        sig.AddComponent<DataScript>().id = this.id;
+    //        carrentCount++;
+    //    }        
+    //}
     public void InstSignalM()
     {
-        for (int i = 0; i < sigCount; i++)
-        {
-            GameObject sig = Instantiate(signalM, place.position, signalM.transform.rotation);
-            signalMList.Add(sig);
-            sig.AddComponent<DataScript>().id = this.id;
-            carrentCount++;
-        }        
+        GameObject sig = Instantiate(signalM, place.position, signalM.transform.rotation);
+        signalMList.Add(sig);
+        sig.AddComponent<DataScript>().id = this.id;
     }
     public void AddSignalMolecule(int id)
     {
-        this.id = id;
-        sigCount++;      
+        if(sigCount < 10)
+        {
+            this.id = id;           
+            InstSignalM();
+            sigCount++;
+        }
+        
     }
+    //public void AddSignalMolecule(string dataJson)
+    //{
+    //    SignalMData data = SignalMData.CreateFromJSON(dataJson);
+    //    this.id = data.signalID;
+    //    sigCount++;
+    //}
 }

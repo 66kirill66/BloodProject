@@ -8,7 +8,16 @@ public class InsulinReceptorS : MonoBehaviour
     [SerializeField] Transform creatPlace;
     public List<GameObject> receptorList = new List<GameObject>();
 
+    public class InsulinData
+    {
+        public int insulinRecId;
 
+        public static InsulinData CreateFromJSON(string jsonString)
+        {
+            InsulinData recID = JsonUtility.FromJson<InsulinData>(jsonString);
+            return recID;
+        }
+    }
     int currentRecep;
     float ofset;
 
@@ -17,13 +26,6 @@ public class InsulinReceptorS : MonoBehaviour
     void Start()
     {
         ofset = 0.3f;
-        AddInsulinReceptor(1);
-        AddInsulinReceptor(2);
-        AddInsulinReceptor(3);
-        AddInsulinReceptor(4);
-        AddInsulinReceptor(4);
-        AddInsulinReceptor(4);
-
     }
 
     void Update()
@@ -39,13 +41,24 @@ public class InsulinReceptorS : MonoBehaviour
         ofset += 1.5f;
     }
 
-    public void AddInsulinReceptor(int id)
+    public void AddInsulinReceptor(int id)  // work
     {
-        if(currentRecep < 10)
+        if (currentRecep < 10)
         {
             this.id = id;
             InstInsulinRec();
             currentRecep++;
-        }        
-    }    
+        }
+    }
+    //public void AddInsulinReceptor(string dataJSON)
+    //{
+    //    if (currentRecep < 10)
+    //    {
+    //        InsulinData data = InsulinData.CreateFromJSON(dataJSON);
+    //        this.id = data.insulinRecId;
+    //        InstInsulinRec();
+    //        currentRecep++;
+    //    }
+    //}
+
 }

@@ -5,24 +5,24 @@ mergeInto(LibraryManager.library,
     globals.init();
   },
 
-   ClickFunc: function (ClickId)
+   ClickFunc: function (bloodId)
   {
-    globals.entityClick(ClickId);
+    globals.entityClick(bloodId);
   },
 
-   SetSugarLevelNew: function (ClickId,Value)
+   SetSugarLevelNew: function (sugarId,Value)
   {
-    globals.setSugarLevel(ClickId,Value)
+    globals.setSugarLevel(sugarId,Value)
   },
 
-   SetInsulinLevelNew: function (ClickId,Value)
+   SetInsulinLevelNew: function (insulinId,Value)
   {
-    globals.setInsulinLevel(ClickId,Value)
+    globals.setInsulinLevel(insulinId,Value)
   },
 
-   SetGlucagonLevelNew: function (ClickId,Value)
+   SetGlucagonLevelNew: function (glucagonId,Value)
   {
-    globals.setGlucagonLevel(ClickId,Value)
+    globals.setGlucagonLevel(glucagonId,Value)
   },
   
    ApplyMeetReceptor: function (insulinId,receptorId)
@@ -30,8 +30,8 @@ mergeInto(LibraryManager.library,
     globals.applyMeetReceptor(insulinId,receptorId)
   },
 
-  
 
 
-     
+
+
 });
