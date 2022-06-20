@@ -86,7 +86,6 @@ public class GlucagonS : MonoBehaviour
                     gluc.AddComponent<MoleculeMove>();
                     glucagonList.Add(gluc);
                     gluc.transform.parent = createPlase;
-                    //SetGlucagoVal();
                     glucV++;
                 }                     
                 sliderF = false;
@@ -110,7 +109,6 @@ public class GlucagonS : MonoBehaviour
             gluc.AddComponent<MoleculeMove>();
             glucagonList.Add(gluc);
             glucagonAmount++;
-            //SetGlucagoVal();
         }
     }
 

@@ -6,26 +6,19 @@ public class InsulinReceptorS : MonoBehaviour
 {
     [SerializeField] GameObject receptorPrifab;
     [SerializeField] Transform creatPlace;
-    public List<GameObject> receptorList = new List<GameObject>();
-
-    public class InsulinData
-    {
-        public int insulinRecId;
-
-        public static InsulinData CreateFromJSON(string jsonString)
-        {
-            InsulinData recID = JsonUtility.FromJson<InsulinData>(jsonString);
-            return recID;
-        }
-    }
+    public List<GameObject> receptorList = new List<GameObject>();    
     int currentRecep;
     float ofset;
-
-    public int id;
+    public int id; // Create Id
+    int receptorId;
 
     void Start()
     {
         ofset = 0.3f;
+        //AddInsulinReceptor(1);
+        //AddInsulinReceptor(1);
+        //AddInsulinReceptor(1);
+        //AddInsulinReceptor(1);
     }
 
     void Update()
@@ -41,7 +34,22 @@ public class InsulinReceptorS : MonoBehaviour
         ofset += 1.5f;
     }
 
-    public void AddInsulinReceptor(int id)  // work
+    public void OnReleasesSignalMoleculeWeb(int id)   // web
+    {
+        foreach(GameObject i in receptorList)
+        {
+            receptorId = i.GetComponent<DataScript>().id;
+            if (id == receptorId)
+            {
+                if (i.GetComponent<ReceptorFinder>().isFree == false && i.GetComponent<ReceptorFinder>().signalM == true)
+                {
+                    i.GetComponent<ReceptorFinder>().mol.AddComponent<SignalMolMove>();
+                    i.GetComponent<ReceptorFinder>().signalM = false;
+                }
+            }           
+        }       
+    }
+    public void AddInsulinReceptor(int id) // web
     {
         if (currentRecep < 10)
         {
@@ -49,16 +57,5 @@ public class InsulinReceptorS : MonoBehaviour
             InstInsulinRec();
             currentRecep++;
         }
-    }
-    //public void AddInsulinReceptor(string dataJSON)
-    //{
-    //    if (currentRecep < 10)
-    //    {
-    //        InsulinData data = InsulinData.CreateFromJSON(dataJSON);
-    //        this.id = data.insulinRecId;
-    //        InstInsulinRec();
-    //        currentRecep++;
-    //    }
-    //}
-
+    }   
 }

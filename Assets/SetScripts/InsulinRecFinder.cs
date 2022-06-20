@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class InsulinRecFinder : MonoBehaviour
 {
-    
-
     float speed;
     public bool free = true;
     Transform targetReceptor;
     float moveRange = 2f;
+   
 
     void Start()
     {
+        
         moveRange = 2f;
         speed = 1f;
     }
@@ -64,9 +64,10 @@ public class InsulinRecFinder : MonoBehaviour
             free = false;
             MoleculeMove m = GetComponent<MoleculeMove>();
             Destroy(m);
-            targetReceptor.GetComponent<ReceptorFinder>().isFree = false;
+            targetReceptor.GetComponent<ReceptorFinder>().isFree = false;          
             StartCoroutine(CorutineReceptor(target));
-            FindObjectOfType<InsulinS>().InsulinMeetReseptor(targetReceptor.GetComponent<DataScript>().id);
+            // web          
+            FindObjectOfType<InsulinS>().InsulinMeetReseptor(targetReceptor.GetComponent<DataScript>().id);    
         }
         else
         {
@@ -98,7 +99,7 @@ public class InsulinRecFinder : MonoBehaviour
             InsulinS ins = FindObjectOfType<InsulinS>();
             int insulF = ins.insulinList.IndexOf(gameObject);
             ins.insulinList.RemoveAt(insulF);
-            Destroy(gameObject,1);
+            Destroy(gameObject, 2);
         }
     }
 }

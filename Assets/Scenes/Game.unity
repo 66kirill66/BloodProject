@@ -2841,7 +2841,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6b02f423ca9950419393b8198547dc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   channalsList:
   - {fileID: 346916223}
   - {fileID: 633675042}

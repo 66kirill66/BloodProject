@@ -3,7 +3,10 @@ guid: c0140a4eabf497848a8fdb40d3719fd9
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - mol: {instanceID: 0}
+  - prifabSignalMolecule: {fileID: 6406774916576788162, guid: f6262ce46dcce2141a973d9d43830977,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

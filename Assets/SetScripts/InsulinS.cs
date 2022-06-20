@@ -44,7 +44,7 @@ public class InsulinS : MonoBehaviour
 
     void Start()
     {
-        //InstantiateInsulin();
+       // InstantiateInsulin();
 
        // insulinViwText.SetActive(true);
         //insulinSyringe.SetActive(true);
@@ -93,7 +93,6 @@ public class InsulinS : MonoBehaviour
                     insul.AddComponent<InsulinRecFinder>();
                     insul.transform.parent = createPlase;
                     insulinList.Add(insul);
-                   // SetInsulinVal();
                     supp++;
                 }               
                 sliderF = false;
@@ -116,7 +115,6 @@ public class InsulinS : MonoBehaviour
             insul.AddComponent<MoleculeMove>();
             insul.AddComponent<InsulinRecFinder>();
             insulinList.Add(insul);
-           // SetInsulinVal();
             insulinInst++;
         }
     } 
@@ -135,7 +133,7 @@ public class InsulinS : MonoBehaviour
             bl.SetInsulinLevel(insulinAmount * 2);
         }
     }
-    public void InsulinMeetReseptor(int id)
+    public void InsulinMeetReseptor(int id)   // Send To WEB
     {
         if (!Application.isEditor)
         {

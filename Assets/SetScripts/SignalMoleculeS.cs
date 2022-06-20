@@ -4,43 +4,28 @@ using UnityEngine;
 
 public class SignalMoleculeS : MonoBehaviour
 {
-    int id;
+    int id; // Create Id
     public List<GameObject> signalMList = new List<GameObject>();
-    [SerializeField] GameObject signalM;
+    public GameObject signalM;
     [SerializeField] Transform place;
     int sigCount;
-    int carrentCount;
     bool addScipt = false; // Rundom Move
     InsulinReceptorS receptor;
 
-    public class SignalMData
-    {
-        public int signalID;
-        public static SignalMData CreateFromJSON(string jsonString)
-        {
-            SignalMData sigID = JsonUtility.FromJson<SignalMData>(jsonString);
-            return sigID;
-        }
-    }
+
 
     void Start()
-    {
-        carrentCount = 0;       
+    {   
         receptor = GetComponent<InsulinReceptorS>();
-      
+        //AddSignalMolecule(1);
+        //AddSignalMolecule(1);
+        //AddSignalMolecule(1);
+        //AddSignalMolecule(1);
     }
 
     void Update()
     {
-        //if(sigCount > 10 && carrentCount < sigCount)
-        //{
-        //    sigCount = 10;
-        //    InstSignalM();      
-        //}
-        //else if(sigCount <= 10 && carrentCount < sigCount)
-        //{
-        //    InstSignalM();
-        //}
+        
         Invoke("GoToChannal", 0.2f);
     }
 
@@ -50,19 +35,21 @@ public class SignalMoleculeS : MonoBehaviour
         if(receptor.receptorList.Count > signalMList.Count)
         {
             int num = 0;
-            for (int j = 0; j < sigCount; j++)
-            {
+            for (int i = 0; i < sigCount; i++)
+            {                
                 signalMList[num].transform.position = receptor.receptorList[num].transform.position;
+                receptor.receptorList[num].GetComponent<ReceptorFinder>().mol = signalMList[num];
                 num++;
-            }
+            }            
         }
         else if(receptor.receptorList.Count <= signalMList.Count && addScipt == false)
         {
             int num = 0;
-            for (int j = 0; j < receptor.receptorList.Count; j++)
+            for (int i = 0; i < receptor.receptorList.Count; i++)
             {
                 signalMList[num].transform.position = receptor.receptorList[num].transform.position;
                 receptor.receptorList[num].GetComponent<ReceptorFinder>().signalM = true;
+                receptor.receptorList[num].GetComponent<ReceptorFinder>().mol = signalMList[num];
                 num++;
             }
             AddMovingScript();
@@ -81,17 +68,6 @@ public class SignalMoleculeS : MonoBehaviour
         addScipt = true;
     }
 
-
-    //public void InstSignalM()
-    //{
-    //    for (int i = 0; i < sigCount; i++)
-    //    {
-    //        GameObject sig = Instantiate(signalM, place.position, signalM.transform.rotation);
-    //        signalMList.Add(sig);
-    //        sig.AddComponent<DataScript>().id = this.id;
-    //        carrentCount++;
-    //    }        
-    //}
     public void InstSignalM()
     {
         GameObject sig = Instantiate(signalM, place.position, signalM.transform.rotation);
@@ -105,13 +81,6 @@ public class SignalMoleculeS : MonoBehaviour
             this.id = id;           
             InstSignalM();
             sigCount++;
-        }
-        
-    }
-    //public void AddSignalMolecule(string dataJson)
-    //{
-    //    SignalMData data = SignalMData.CreateFromJSON(dataJson);
-    //    this.id = data.signalID;
-    //    sigCount++;
-    //}
+        }      
+    }   
 }
