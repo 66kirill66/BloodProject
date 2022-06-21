@@ -31,7 +31,6 @@ public class InsulinS : MonoBehaviour
     public GameObject insulinSlider;
 
 
-    
 
     private void Awake()
     {
@@ -90,7 +89,7 @@ public class InsulinS : MonoBehaviour
                 {
                     GameObject insul = Instantiate(insulin, instPos.position, transform.rotation);
                     insul.AddComponent<MoleculeMove>();
-                    insul.AddComponent<InsulinRecFinder>();
+                    insul.AddComponent<InsulinRecFinder>();                    
                     insul.transform.parent = createPlase;
                     insulinList.Add(insul);
                     supp++;

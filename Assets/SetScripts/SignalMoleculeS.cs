@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Runtime.InteropServices;
 
 public class SignalMoleculeS : MonoBehaviour
 {
+    [DllImport("__Internal")]
+    public static extern void CreateRequestNewSignalM(int quantity);  
     int id; // Create Id
     public List<GameObject> signalMList = new List<GameObject>();
     public GameObject signalM;
@@ -13,7 +16,7 @@ public class SignalMoleculeS : MonoBehaviour
     InsulinReceptorS receptor;
 
 
-
+    
     void Start()
     {   
         receptor = GetComponent<InsulinReceptorS>();
@@ -66,6 +69,13 @@ public class SignalMoleculeS : MonoBehaviour
             count++;
         }
         addScipt = true;
+    }
+    public void CreateNewSignalM(int quantity)   // don't work
+    {
+        if (!Application.isEditor)
+        {
+            CreateRequestNewSignalM(quantity);
+        }      
     }
 
     public void InstSignalM()

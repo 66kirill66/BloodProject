@@ -7,8 +7,8 @@ public class InsulinRecFinder : MonoBehaviour
     float speed;
     public bool free = true;
     Transform targetReceptor;
-    float moveRange = 2f;
-   
+    float moveRange = 3f;
+
 
     void Start()
     {
@@ -66,8 +66,7 @@ public class InsulinRecFinder : MonoBehaviour
             Destroy(m);
             targetReceptor.GetComponent<ReceptorFinder>().isFree = false;          
             StartCoroutine(CorutineReceptor(target));
-            // web          
-            FindObjectOfType<InsulinS>().InsulinMeetReseptor(targetReceptor.GetComponent<DataScript>().id);    
+            StartCoroutine(InculAnimationOnMeet(gameObject));           
         }
         else
         {
@@ -83,7 +82,7 @@ public class InsulinRecFinder : MonoBehaviour
         while (travel < 1f)
         {
             travel += Time.deltaTime * speed;
-            transform.position = Vector3.Lerp(startPos, new Vector3(endPos.x - 0.1f, endPos.y - 0.3f, endPos.z), travel);
+            transform.position = Vector3.Lerp(startPos, new Vector3(endPos.x - 0.1f, endPos.y , endPos.z), travel);
             yield return new WaitForEndOfFrame();
         }
     }
@@ -96,10 +95,20 @@ public class InsulinRecFinder : MonoBehaviour
     {
         if (other.gameObject.tag == "Receptor")
         {
+            ParticleSystem ps = gameObject.GetComponentInChildren<ParticleSystem>();
+            ps.Play();
             InsulinS ins = FindObjectOfType<InsulinS>();
             int insulF = ins.insulinList.IndexOf(gameObject);
             ins.insulinList.RemoveAt(insulF);
-            Destroy(gameObject, 2);
+            Destroy(gameObject,2);
         }
+    }
+    IEnumerator InculAnimationOnMeet(GameObject obj)
+    {
+        
+        gameObject.transform.localScale = new Vector3(obj.transform.localScale.x + 7, obj.transform.localScale.y + 5, obj.transform.localScale.z + 5);
+        yield return new WaitForSeconds(2);
+        gameObject.transform.localScale = new Vector3(obj.transform.localScale.x - 7, obj.transform.localScale.y - 5, obj.transform.localScale.z - 5);
+       
     }
 }

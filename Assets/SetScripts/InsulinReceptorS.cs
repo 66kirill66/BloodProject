@@ -12,6 +12,7 @@ public class InsulinReceptorS : MonoBehaviour
     public int id; // Create Id
     int receptorId;
 
+
     void Start()
     {
         ofset = 0.3f;
@@ -28,7 +29,7 @@ public class InsulinReceptorS : MonoBehaviour
     private void InstInsulinRec()
     {
         GameObject receptor = Instantiate(receptorPrifab, new Vector3(creatPlace.position.x - ofset, creatPlace.position.y, -0.5f), receptorPrifab.transform.rotation);
-        receptor.gameObject.AddComponent<ReceptorFinder>();
+        receptor.gameObject.AddComponent<ReceptorFinder>();       
         receptor.GetComponent<DataScript>().id = this.id;
         receptorList.Add(receptor);
         ofset += 1.5f;

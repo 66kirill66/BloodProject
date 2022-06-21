@@ -132,7 +132,7 @@ public class MoleculeMove : MonoBehaviour
     private void RundomPointBlood()
     {
         PosX = Random.Range(-23f, 23);
-        PosY = Random.Range(-0.11f, 1.3f);
+        PosY = Random.Range(0.13f, 1.3f);
     }
     private void RundomPointInLiver()
     {
