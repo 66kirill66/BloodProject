@@ -40,8 +40,8 @@ public class SugarS : MonoBehaviour
 
         public static ChangeLocationData CreateFromJSON(string jsonString)
         {
-            ChangeLocationData json = JsonUtility.FromJson<ChangeLocationData>(jsonString);
-            return json;
+            ChangeLocationData locationData = JsonUtility.FromJson<ChangeLocationData>(jsonString);
+            return locationData;
         }
     }
 

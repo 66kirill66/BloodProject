@@ -4,34 +4,38 @@ using UnityEngine;
 
 public class ReceptorFinder : MonoBehaviour
 {
-
+    
     public bool isFree = true;
     public bool signalM = false;
     public GameObject mol;
-    public GameObject prifabSignalMolecule;
-    int newSignalId = 0;
-    int oldSignalId = 0;
     Collider boxColl;
+
+   
+    public string ReceptorDataId(int id)
+    {
+        return JsonUtility.ToJson(id);
+    }
+
+      
 
     private void Start()
     {
         boxColl = GetComponent<BoxCollider>();
-        prifabSignalMolecule = FindObjectOfType<SignalMoleculeS>().signalM;
     }
     private void Update()
     {       
-        if (newSignalId != oldSignalId)
-        {
-            oldSignalId = newSignalId;
-            GameObject newSignal = Instantiate(prifabSignalMolecule, transform.position, transform.rotation);
-            newSignal.AddComponent<DataScript>().id = newSignalId;
-            signalM = true;
-        }
+        
     }
    
     private void ActiveTrue()
     {
         gameObject.SetActive(true);
+        //json
+        int recId = GetComponent<DataScript>().id;
+        string data = ReceptorDataId(recId);
+        FindObjectOfType<SignalMoleculeS>().CreateNewSignalM(data);
+        Debug.Log(recId);
+      
         isFree = true;
         boxColl.enabled = true;
     }
@@ -47,8 +51,7 @@ public class ReceptorFinder : MonoBehaviour
         if(other.gameObject.tag == "Insulin" && isFree == false)
         {           
             boxColl.enabled = false;
-            StartCoroutine(InculAnimationOnMeet(gameObject));
-          //  FindObjectOfType<SignalMoleculeS>().CreateNewSignalM(newSignalId);
+            StartCoroutine(InculAnimationOnMeet(gameObject));       
             Invoke("ActiveFalse", 2);          
         }
     }

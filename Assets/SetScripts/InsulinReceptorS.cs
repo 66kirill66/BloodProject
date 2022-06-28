@@ -16,10 +16,10 @@ public class InsulinReceptorS : MonoBehaviour
     void Start()
     {
         ofset = 0.3f;
-        //AddInsulinReceptor(1);
-        //AddInsulinReceptor(1);
-        //AddInsulinReceptor(1);
-        //AddInsulinReceptor(1);
+        AddInsulinReceptor(1);
+        AddInsulinReceptor(2);
+        AddInsulinReceptor(3);
+        AddInsulinReceptor(4);
     }
 
     void Update()
@@ -32,7 +32,7 @@ public class InsulinReceptorS : MonoBehaviour
         receptor.gameObject.AddComponent<ReceptorFinder>();       
         receptor.GetComponent<DataScript>().id = this.id;
         receptorList.Add(receptor);
-        ofset += 1.5f;
+        ofset += 3f;
     }
 
     public void OnReleasesSignalMoleculeWeb(int id)   // web

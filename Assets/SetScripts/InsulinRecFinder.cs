@@ -25,8 +25,9 @@ public class InsulinRecFinder : MonoBehaviour
     {
         FindReceptor();
         if (targetReceptor)
-        {          
-            GoToReceptor();
+        {
+            Invoke("GoToReceptor", 0.5f);
+           // GoToReceptor();
         }
         else { return; }
     }

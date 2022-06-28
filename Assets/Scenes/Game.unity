@@ -2867,6 +2867,7 @@ MonoBehaviour:
   signalMList: []
   signalM: {fileID: 6406774916576788162, guid: f6262ce46dcce2141a973d9d43830977, type: 3}
   place: {fileID: 698920309}
+  sigCount: 0
 --- !u!1 &1830494448
 GameObject:
   m_ObjectHideFlags: 0
