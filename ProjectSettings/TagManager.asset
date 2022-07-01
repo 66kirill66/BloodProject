@@ -9,11 +9,11 @@ TagManager:
   - Sugar
   - Syringe
   - Blood
-  - Channal
   - Signal
   - Membrane
   - Insulin
   - Receptor
+  - Channel
   layers:
   - Default
   - TransparentFX

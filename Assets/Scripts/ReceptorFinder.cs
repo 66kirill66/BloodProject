@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class ReceptorFinder : MonoBehaviour
 {
@@ -9,17 +10,24 @@ public class ReceptorFinder : MonoBehaviour
     public bool signalM = false;
     public GameObject mol;
     Collider boxColl;
+    //json
+    ReceptorId receptorId = new ReceptorId();
+    public string json;
 
-   
-    public string ReceptorDataId(int id)
+    [Serializable]
+    public class ReceptorId
     {
-        return JsonUtility.ToJson(id);
+        public int id;
     }
-
-      
+   
 
     private void Start()
-    {
+    {       
+        // json
+        int recId = GetComponent<DataScript>().id;
+        receptorId.id = recId;
+        json = JsonUtility.ToJson(receptorId);
+
         boxColl = GetComponent<BoxCollider>();
     }
     private void Update()
@@ -31,10 +39,8 @@ public class ReceptorFinder : MonoBehaviour
     {
         gameObject.SetActive(true);
         //json
-        int recId = GetComponent<DataScript>().id;
-        string data = ReceptorDataId(recId);
-        FindObjectOfType<SignalMoleculeS>().CreateNewSignalM(data);
-        Debug.Log(recId);
+        FindObjectOfType<SignalMoleculeS>().CreateNewSignalM(json);
+        Debug.Log(json);
       
         isFree = true;
         boxColl.enabled = true;

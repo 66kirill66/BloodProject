@@ -6,7 +6,12 @@ using System.Runtime.InteropServices;
 public class SignalMoleculeS : MonoBehaviour
 {
     [DllImport("__Internal")]
-    public static extern void CreateRequestNewSignalM(string json);  
+    public static extern void CreateRequestNewSignalM(string json);
+
+    [DllImport("__Internal")]
+    public static extern void ApplyMeetChannel(int signalId, int channelId);
+
+
 
     public List<GameObject> signalMList = new List<GameObject>();
     public GameObject signalM;
@@ -14,6 +19,7 @@ public class SignalMoleculeS : MonoBehaviour
     public int sigCount;
     bool addScipt = false; // Rundom Move
     InsulinReceptorS receptor;
+    public int sigId;
 
     public class SignalMData
     {
@@ -30,12 +36,24 @@ public class SignalMoleculeS : MonoBehaviour
     void Start()
     {   
         receptor = GetComponent<InsulinReceptorS>();
-        SignallAdd(1);
-        SignallAdd(2);
-        SignallAdd(3);
-        SignallAdd(4);
-        SignallAdd(5);
-        SignallAdd(6);
+        //SignallAdd(1);
+        //SignallAdd(2);
+        //SignallAdd(3);
+        //SignallAdd(4);
+        //SignallAdd(5);
+        //SignallAdd(6);
+        //SignallAdd(1);
+        //SignallAdd(2);
+        //SignallAdd(3);
+        //SignallAdd(4);
+        //SignallAdd(5);
+        //SignallAdd(6);
+        //SignallAdd(1);
+        //SignallAdd(2);
+        //SignallAdd(3);
+        //SignallAdd(4);
+        //SignallAdd(5);
+        //SignallAdd(6);
 
 
     }
@@ -94,36 +112,46 @@ public class SignalMoleculeS : MonoBehaviour
         }      
     }
 
+    public void SignalMeetChannel(int chanId)   // Send To WEB
+    {
+        if (!Application.isEditor)
+        {
+            ApplyMeetChannel(sigId, chanId);
+        }
+    }
+
     private void SignallAdd(int id)
     {
         GameObject sig = Instantiate(signalM, place.position, signalM.transform.rotation);
         signalMList.Add(sig);
         sig.AddComponent<DataScript>().id = id;
+        sig.AddComponent<SignalGoToReceptor>();
     }
 
     public void AddSignalMolecule(string json)   
     {
         SignalMData data = SignalMData.CreateFromJSON(json);
-       
-        
-        //if (data.receptorId != -1)
-        //{
-        //    foreach(GameObject i in GetComponent<InsulinReceptorS>().receptorList)
-        //    {
-        //        if(data.receptorId == i.GetComponent<DataScript>().id)
-        //        {
-        //            GameObject sig = Instantiate(signalM, i.transform.position, signalM.transform.rotation);
-        //            signalMList.Add(sig);
-        //            sig.AddComponent<DataScript>().id = data.id;
-        //        }
-        //    }          
-        //}
+
+        if (data.receptorId != -1)
+        {
+            foreach (GameObject i in GetComponent<InsulinReceptorS>().receptorList)
+            {
+                if (data.receptorId == i.GetComponent<DataScript>().id)
+                {
+                    GameObject sig = Instantiate(signalM, i.transform.position, signalM.transform.rotation);
+                    signalMList.Add(sig);
+                    sig.AddComponent<DataScript>().id = data.id;
+                }
+            }
+
+        }
         if (data.receptorId == -1)  //sigCount < 10 && 
         {
 
             GameObject sig = Instantiate(signalM, place.position, signalM.transform.rotation);
             signalMList.Add(sig);
             sig.AddComponent<DataScript>().id = data.id;
+            sig.AddComponent<SignalGoToReceptor>();
             // Invoke("GoToChannal", 0.2f);
             sigCount++;
         }

@@ -30,7 +30,12 @@ mergeInto(LibraryManager.library,
     globals.applyMeetReceptor(insulinId,receptorId)
   },
 
-  CreateRequestNewSignalM:function(receptorId)
+   ApplyMeetChannel: function (signalId,channelId)
+  {
+    globals.applyMeetChannel(signalId,channelId)
+  },
+
+  CreateRequestNewSignalM: function(receptorId)
   {
     globals.createRequestSignalM(receptorId)
   }

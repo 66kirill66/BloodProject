@@ -11,8 +11,7 @@ public class InsulinRecFinder : MonoBehaviour
 
 
     void Start()
-    {
-        
+    {       
         moveRange = 2f;
         speed = 1f;
     }
@@ -87,8 +86,8 @@ public class InsulinRecFinder : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
     }
-    private void OnDrawGizmos()
-    {
+    private void OnDrawGizmos()  // DrawWireSphere Distance
+    {        
         Gizmos.color = Color.black;
         Gizmos.DrawWireSphere(transform.position, moveRange);
     }

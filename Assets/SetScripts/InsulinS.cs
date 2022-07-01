@@ -43,7 +43,7 @@ public class InsulinS : MonoBehaviour
 
     void Start()
     {
-        InstantiateInsulin();
+       // InstantiateInsulin();
 
        // insulinViwText.SetActive(true);
         //insulinSyringe.SetActive(true);

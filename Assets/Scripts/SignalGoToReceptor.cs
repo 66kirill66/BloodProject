@@ -27,7 +27,7 @@ public class SignalGoToReceptor : MonoBehaviour
         {           
             foreach(GameObject i in insulinReceptor.receptorList)
             {
-                if(i.GetComponent<ReceptorFinder>().signalM == false)
+                if(i.GetComponent<ReceptorFinder>().signalM == false && insulinReceptor.receptorList != null)
                 {
                     haveReceptor = true;
                     isFree = false;

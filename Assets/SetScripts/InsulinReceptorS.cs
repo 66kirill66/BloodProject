@@ -16,10 +16,16 @@ public class InsulinReceptorS : MonoBehaviour
     void Start()
     {
         ofset = 0.3f;
-        AddInsulinReceptor(1);
-        AddInsulinReceptor(2);
-        AddInsulinReceptor(3);
-        AddInsulinReceptor(4);
+        //AddInsulinReceptor(1);
+        //AddInsulinReceptor(2);
+        //AddInsulinReceptor(3);
+        //AddInsulinReceptor(4);
+        //AddInsulinReceptor(4);
+        //AddInsulinReceptor(4);
+        //AddInsulinReceptor(4);
+        //AddInsulinReceptor(4);
+        //AddInsulinReceptor(4);
+        //AddInsulinReceptor(4);
     }
 
     void Update()
@@ -47,6 +53,7 @@ public class InsulinReceptorS : MonoBehaviour
                     i.GetComponent<ReceptorFinder>().mol.AddComponent<SignalMolMove>();
                     i.GetComponent<ReceptorFinder>().signalM = false;
                 }
+                else return;
             }           
         }       
     }
