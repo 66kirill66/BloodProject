@@ -52,6 +52,7 @@ public class InsulinReceptorS : MonoBehaviour
                 {
                     i.GetComponent<ReceptorFinder>().mol.AddComponent<SignalMolMove>();
                     i.GetComponent<ReceptorFinder>().signalM = false;
+                    i.GetComponent<ReceptorFinder>().reliseSignalM = true;
                 }
                 else return;
             }           

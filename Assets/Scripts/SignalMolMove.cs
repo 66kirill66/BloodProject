@@ -8,12 +8,13 @@ public class SignalMolMove : MonoBehaviour
     float PosY;
     bool toMus;
     SignalMoleculeS signalS;
+    GameObject pos;
 
-   
-   
+
+
     void Start()
     {
-        
+   
         signalS = FindObjectOfType<SignalMoleculeS>();
         StartCoroutine(CorutinerundoPointInMus());
     }
@@ -49,22 +50,37 @@ public class SignalMolMove : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {       
         if (other.gameObject.tag == "Channel")
-        {          
+        {
             toMus = false;
             StopAllCoroutines();
             other.GetComponent<CapsuleCollider>().enabled = false;
             transform.position = other.transform.position;
             ParticleSystem ps = gameObject.GetComponentInChildren<ParticleSystem>(); ps.Play();
-            //int signalId = GetComponent<DataScript>().id;
-            int channelId = other.GetComponentInParent<DataScript>().id;
-            FindObjectOfType<ChannalS>().channelTarget = other.gameObject;
-            FindObjectOfType<SignalMoleculeS>().sigId = GetComponent<DataScript>().id;
 
+            int signalId = GetComponent<DataScript>().id;
+            int channelId = other.GetComponentInParent<DataScript>().id;
+            NewTransformToChannel();
+            other.GetComponent<ChannelOldPlace>().newChannelTransform = pos;
+            other.GetComponent<ChannelOldPlace>().isOld = false;
+            
             //send to Web
-            signalS.SignalMeetChannel(channelId);              
-        }       
+            signalS.SignalMeetChannel(signalId,channelId);           
+        }
+        Destroy(gameObject,1f);
     }
 
-
-    
+    private GameObject NewTransformToChannel()
+    {
+        var newPos = FindObjectsOfType<ChannelNewPlace>();
+        foreach(ChannelNewPlace i in newPos)
+        {
+            if (i.isFree == true)
+            {
+                i.isFree = false;
+                pos = i.gameObject;
+                break;
+            }
+        }
+        return pos;
+    }
 }

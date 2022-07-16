@@ -8,6 +8,7 @@ public class ReceptorFinder : MonoBehaviour
     
     public bool isFree = true;
     public bool signalM = false;
+    public bool reliseSignalM = false;
     public GameObject mol;
     Collider boxColl;
     //json
@@ -26,7 +27,8 @@ public class ReceptorFinder : MonoBehaviour
         // json
         int recId = GetComponent<DataScript>().id;
         receptorId.id = recId;
-        json = JsonUtility.ToJson(receptorId);
+        json = JsonUtility.ToJson(receptorId);        
+        Debug.Log(json);
 
         boxColl = GetComponent<BoxCollider>();
     }
@@ -38,12 +40,14 @@ public class ReceptorFinder : MonoBehaviour
     private void ActiveTrue()
     {
         gameObject.SetActive(true);
-        //json
-        FindObjectOfType<SignalMoleculeS>().CreateNewSignalM(json);
-        Debug.Log(json);
-      
+        if(reliseSignalM == true)
+        {
+            //json
+            FindObjectOfType<SignalMoleculeS>().CreateNewSignalM(json);
+            reliseSignalM = false;
+        }
         isFree = true;
-        boxColl.enabled = true;
+        boxColl.enabled = true;       
     }
     private void ActiveFalse()
     {      

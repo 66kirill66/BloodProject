@@ -6,8 +6,13 @@ public class ChannalS : MonoBehaviour
 {
     int channalCount;
     int activeCount;
-    public GameObject channelTarget;
+
+    public GameObject channelP;
+
     public List<GameObject> channalsList = new List<GameObject>();
+
+    string newChannelPlace;
+    string oldChannelPlace;
 
     public class ChannalData
     {
@@ -22,7 +27,7 @@ public class ChannalS : MonoBehaviour
     }
 
     private void Awake()
-    {        
+    {
         foreach (GameObject i in channalsList)
         {
             i.gameObject.SetActive(false);
@@ -32,7 +37,7 @@ public class ChannalS : MonoBehaviour
     }
     void Start()
     {
-        channelTarget = null;
+
         //AddChannalsChek(1);
         //AddChannalsChek(2);
         //AddChannalsChek(3);
@@ -43,10 +48,16 @@ public class ChannalS : MonoBehaviour
         //AddChannalsChek(4);
         //AddChannalsChek(4);
         //AddChannalsChek(4);
+
+
+
     }
     void Update()
     {
-        
+        //if (Input.GetMouseButton(0))
+        //{
+        //    ToMembrane();
+        //}
     }
 
     private void AddChannalsChek(int id)
@@ -69,33 +80,27 @@ public class ChannalS : MonoBehaviour
     public void ChannelTransformPlace(string json)
     {
         ChannalData data = ChannalData.CreateFromJSON(json);
+        newChannelPlace = data.newPlace;
+        oldChannelPlace = data.oldPlace;
 
-        if(data.oldPlace == "Muscle Cells " && data.newPlace == "Cell Membrane")
-        {
-            StartCoroutine(LocationChange(channelTarget));
+
+        if (oldChannelPlace == "Muscle Cells " && newChannelPlace == "Cell Membrane")
+        {          
+            ToMembrane();
         }
     }
-
-    private IEnumerator LocationChange(GameObject obj)
+   
+    private void ToMembrane()
     {
-        ChannelNewPlace[] newPos = FindObjectsOfType<ChannelNewPlace>();
-        yield return new WaitForSeconds(2);
-        foreach (ChannelNewPlace i in newPos)
+        var oldPos = FindObjectsOfType<ChannelOldPlace>();
+        foreach (ChannelOldPlace i in oldPos)
         {
-            if (i.isFree == true)
+            if (i.isOld == false)
             {
-                i.isFree = false;
-                Debug.Log("Move");
-                Transform pos = i.gameObject.transform;
-                obj.transform.position = Vector3.Slerp(obj.transform.position, pos.transform.position, 3);
-                obj.transform.rotation = Quaternion.Euler(pos.rotation.x, pos.rotation.y, 100);
-                Destroy(gameObject);
-                break;
+                i.changePlase = true;
             }
         }
     }
-
-
 
     public void AddChannals(string dataJSON)
     {
