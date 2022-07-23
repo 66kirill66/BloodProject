@@ -6,6 +6,7 @@ public class SignalGoToReceptor : MonoBehaviour
 {
     public bool isFree;
     public bool haveReceptor;
+    public int recId;
     InsulinReceptorS insulinReceptor;
 
     void Awake()
@@ -23,7 +24,7 @@ public class SignalGoToReceptor : MonoBehaviour
       
     void Update()
     {
-        if(isFree == true)
+        if(isFree == true && haveReceptor == false)
         {           
             foreach(GameObject i in insulinReceptor.receptorList)
             {
@@ -43,6 +44,5 @@ public class SignalGoToReceptor : MonoBehaviour
             isFree = false;
             gameObject.AddComponent<SignalMolMove>();            
         }
-
-    }
+    }    
 }

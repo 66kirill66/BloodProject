@@ -36,9 +36,14 @@ mergeInto(LibraryManager.library,
   },
 
   CreateRequestNewSignalM: function(receptorId)
-  {
+  {  
     globals.createRequestSignalM(receptorId)
-  }
+  },
+
+   SugarMeetChannel: function (sugarId,channelId)
+  {
+    globals.sugarMeetChannel(sugarId,channelId)
+  },
 
 
 

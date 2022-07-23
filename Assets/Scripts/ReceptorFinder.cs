@@ -11,24 +11,21 @@ public class ReceptorFinder : MonoBehaviour
     public bool reliseSignalM = false;
     public GameObject mol;
     Collider boxColl;
-    //json
-    ReceptorId receptorId = new ReceptorId();
+
+    int recID;
     public string json;
 
-    [Serializable]
-    public class ReceptorId
-    {
-        public int id;
-    }
-   
 
     private void Start()
-    {       
-        // json
-        int recId = GetComponent<DataScript>().id;
-        receptorId.id = recId;
-        json = JsonUtility.ToJson(receptorId);        
-        Debug.Log(json);
+    {
+
+        recID = GetComponent<DataScript>().id;
+        //SignalMoleculeS.SignalMData mData = new SignalMoleculeS.SignalMData(0, recID);
+        //json = mData.ToJsonString();
+        //Debug.Log("++++++++++++++++++++++++++");
+        //Debug.Log(json);
+
+
 
         boxColl = GetComponent<BoxCollider>();
     }
@@ -39,19 +36,26 @@ public class ReceptorFinder : MonoBehaviour
    
     private void ActiveTrue()
     {
-        gameObject.SetActive(true);
-        if(reliseSignalM == true)
+        foreach (Transform i in transform)
         {
-            //json
-            FindObjectOfType<SignalMoleculeS>().CreateNewSignalM(json);
-            reliseSignalM = false;
+            i.GetComponent<MeshRenderer>().enabled = true;
+        }
+        if (reliseSignalM == true)
+        {            
+           // Debug.Log("++++++++++++ 1 ++++++++++++++");
+            //send Id To Web
+            FindObjectOfType<SignalMoleculeS>().CreateNewSignalM(recID); 
         }
         isFree = true;
-        boxColl.enabled = true;       
+        boxColl.enabled = true;
+        reliseSignalM = false;
     }
     private void ActiveFalse()
-    {      
-        gameObject.SetActive(false);
+    {
+        foreach(Transform i in transform)
+        {
+            i.GetComponent<MeshRenderer>().enabled = false;
+        }       
         // web          
         FindObjectOfType<InsulinS>().InsulinMeetReseptor(GetComponent<DataScript>().id);
         Invoke("ActiveTrue", 2);

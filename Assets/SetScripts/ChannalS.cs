@@ -7,7 +7,7 @@ public class ChannalS : MonoBehaviour
     int channalCount;
     int activeCount;
 
-    public GameObject channelP;
+   // public GameObject channelP;
 
     public List<GameObject> channalsList = new List<GameObject>();
 
@@ -73,6 +73,20 @@ public class ChannalS : MonoBehaviour
         else
         {
             channalCount = 10;
+        }
+    }
+
+    public void SugarGoThrough(int id)   // web  id = Channel id
+    {
+        Debug.Log("-------SugarGoThrough-------");
+        foreach (GameObject i in channalsList)
+        {
+            int channelId = i.GetComponent<DataScript>().id;
+            if (id == channelId)
+            {
+                i.GetComponent<ChannelOldPlace>().SugarMove();
+                i.GetComponent<ChannelOldPlace>().haveSugar = false;
+            }
         }
     }
 

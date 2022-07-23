@@ -24,8 +24,8 @@ public class InsulinReceptorS : MonoBehaviour
         //AddInsulinReceptor(4);
         //AddInsulinReceptor(4);
         //AddInsulinReceptor(4);
-        //AddInsulinReceptor(4);
-        //AddInsulinReceptor(4);
+        //AddInsulinReceptor(6);
+        //AddInsulinReceptor(6);
     }
 
     void Update()

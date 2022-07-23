@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Runtime.InteropServices;
 
 
 public class SugarS : MonoBehaviour
 {
+    [DllImport("__Internal")]
+    public static extern void SugarMeetChannel(int sugrId, int channelId);
+
+
     public  List<GameObject> bloodList = new List<GameObject>();
     public  List<GameObject> muscleList = new List<GameObject>();
     public  List<GameObject> liverleList = new List<GameObject>();
@@ -60,7 +65,7 @@ public class SugarS : MonoBehaviour
         addSugarPerson = 0;
         //person.SetActive(true);
         //sugarViwText.SetActive(true);
-        //InstantiateSugar();
+       // InstantiateSugar();
     }
 
     void Update()
@@ -74,6 +79,15 @@ public class SugarS : MonoBehaviour
       
         ClickingOnPerson();
 
+    }
+
+    public void SugarOnMeetChannel(int channelId)  // web
+    {
+        if (!Application.isEditor)
+        {
+            int sugarId = this.id;
+            SugarMeetChannel(sugarId, channelId);
+        }        
     }
 
 
