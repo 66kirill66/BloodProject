@@ -54,10 +54,7 @@ public class ChannalS : MonoBehaviour
     }
     void Update()
     {
-        //if (Input.GetMouseButton(0))
-        //{
-        //    ToMembrane();
-        //}
+        
     }
 
     private void AddChannalsChek(int id)
@@ -84,8 +81,7 @@ public class ChannalS : MonoBehaviour
             int channelId = i.GetComponent<DataScript>().id;
             if (id == channelId)
             {
-                i.GetComponent<ChannelOldPlace>().SugarMove();
-                i.GetComponent<ChannelOldPlace>().haveSugar = false;
+                i.GetComponent<ChanneLogic>().SugarMove();
             }
         }
     }
@@ -106,10 +102,10 @@ public class ChannalS : MonoBehaviour
    
     private void ToMembrane()
     {
-        var oldPos = FindObjectsOfType<ChannelOldPlace>();
-        foreach (ChannelOldPlace i in oldPos)
+        var oldPos = FindObjectsOfType<ChanneLogic>();
+        foreach (ChanneLogic i in oldPos)
         {
-            if (i.isOld == false)
+            if (i.isOldPlace == false)
             {
                 i.changePlase = true;
             }

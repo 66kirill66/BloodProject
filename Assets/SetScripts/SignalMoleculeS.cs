@@ -109,7 +109,7 @@ public class SignalMoleculeS : MonoBehaviour
                 }
             }
         }
-        if (data.receptorId == -1 && signalMList.Count < 10 )  //
+        if (data.receptorId == -1 && signalMList.Count < 10)  // 10 signals max (Plethora logics)
         {
             GameObject sig = Instantiate(signalM, place.position, signalM.transform.rotation);
             signalMList.Add(sig);

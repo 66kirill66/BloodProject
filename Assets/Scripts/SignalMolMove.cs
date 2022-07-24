@@ -60,8 +60,8 @@ public class SignalMolMove : MonoBehaviour
             int signalId = GetComponent<DataScript>().id;
             int channelId = other.GetComponentInParent<DataScript>().id;
             NewTransformToChannel();
-            other.GetComponent<ChannelOldPlace>().newChannelTransform = pos;
-            other.GetComponent<ChannelOldPlace>().isOld = false;
+            other.GetComponent<ChanneLogic>().newChannelTransform = pos;
+            other.GetComponent<ChanneLogic>().isOldPlace = false;
             
             //send to Web
             signalS.SignalMeetChannel(signalId,channelId);           

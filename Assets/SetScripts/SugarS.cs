@@ -78,11 +78,11 @@ public class SugarS : MonoBehaviour
         }
       
         ClickingOnPerson();
-
     }
 
-    public void SugarOnMeetChannel(int channelId)  // web
+    public void SugarMeetChannelSend(int channelId)  // web
     {
+        Debug.Log("--------SugarMove---------");
         if (!Application.isEditor)
         {
             int sugarId = this.id;
@@ -131,8 +131,9 @@ public class SugarS : MonoBehaviour
         }
     }
     private void ChooseSugarIndex(List<GameObject> oldListName,List<GameObject>newListName)
-    {       
-       for(int i = 0; i < 4; i++ )
+    {
+        // translates 4 objects from old to new. ( Plethora logics)
+        for (int i = 0; i < 4; i++ )
         {
             if(oldListName.Count != 0)
             {
