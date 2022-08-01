@@ -26,7 +26,14 @@ public class MusculeS : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       
+    }
+
+    public void ResetMusculeSimulation()
+    {
+        runingChaild.SetActive(false);
+        musclesSprite.SetActive(false);
+        musclesText.SetActive(false);
     }
     public void Addmuscles(int id)
     {

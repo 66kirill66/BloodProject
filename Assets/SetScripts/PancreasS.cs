@@ -23,6 +23,11 @@ public class PancreasS : MonoBehaviour
     {
 
     }
+    public void ResetPancreasSimulation()
+    {
+        pancreasSprite.SetActive(false);
+        pancreasText.SetActive(false);
+    }
     public void AddPancreas(int id)
     {
         this.id = id;

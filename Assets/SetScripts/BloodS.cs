@@ -21,7 +21,8 @@ public class BloodS : MonoBehaviour
 
 
     public GameObject bloodSprite;
-    public GameObject GlucometerSprite;
+    public GameObject glucometerSprite;
+    public GameObject bloodVessel ;
 
     RaycastHit hit; 
     int id;  // Web ID
@@ -29,15 +30,16 @@ public class BloodS : MonoBehaviour
     private void Awake()
     {        
         //sprites
-        GlucometerSprite.SetActive(false);
-
+        glucometerSprite.SetActive(false);
         bloodSprite.SetActive(false);
+        bloodVessel.SetActive(false);
 
     }
     void Start()
     {
         //bloodSprite.SetActive(true);
         //GlucometerSprite.SetActive(true);
+       // bloodVessel.SetActive(true);
     }
 
     void Update()
@@ -61,11 +63,19 @@ public class BloodS : MonoBehaviour
             }
         }
     }
+
+    public void ResetBloodSimulation()
+    {
+        glucometerSprite.SetActive(false);
+        bloodSprite.SetActive(false);
+        bloodVessel.SetActive(false);
+    }
     public void AddBlood(int id)
     {
         this.id = id;              
         bloodSprite.SetActive(true);
-        GlucometerSprite.SetActive(true);
+        glucometerSprite.SetActive(true);
+        bloodVessel.SetActive(true);
     }
 
     public void SetSugarLevel(int newValue)

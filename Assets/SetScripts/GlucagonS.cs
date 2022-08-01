@@ -125,6 +125,20 @@ public class GlucagonS : MonoBehaviour
         glucagoPosX = Random.Range(-17f, 17);
         glucagoPosy = Random.Range(0, 1.5f);
     }
+
+    public void ResetGlucagonSimulation()
+    {
+        glucagonAmount = 0;
+        glucagonSlider.SetActive(false);
+        glucagonViwText.SetActive(false);
+        GlucagonSyringe.SetActive(false);
+        foreach (GameObject i in glucagonList)
+        {
+            Destroy(i);
+        }
+        glucagonList.Clear();
+
+    }
     public void AddGlucagon(int id)
     {
         this.id = id;

@@ -140,6 +140,21 @@ public class InsulinS : MonoBehaviour
         }
     }
 
+    public void ResetInsulinSimulation()
+    {
+        insulinAmount = 0;
+        sliderF = false;
+        insulinSlider.SetActive(false);
+        insulinViwText.SetActive(false);
+        insulinSyringe.SetActive(false);
+        foreach(GameObject i in insulinList)
+        {
+            Destroy(i);
+        }
+        insulinList.Clear();
+
+    }
+
     public void AddInsulin(int id)   // Init func
     {
         this.id = id;

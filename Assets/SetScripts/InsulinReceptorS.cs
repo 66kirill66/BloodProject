@@ -26,6 +26,7 @@ public class InsulinReceptorS : MonoBehaviour
         //AddInsulinReceptor(4);
         //AddInsulinReceptor(6);
         //AddInsulinReceptor(6);
+
     }
 
     void Update()
@@ -38,7 +39,7 @@ public class InsulinReceptorS : MonoBehaviour
         receptor.gameObject.AddComponent<ReceptorFinder>();       
         receptor.GetComponent<DataScript>().id = this.id;
         receptorList.Add(receptor);
-        ofset += 3f;
+        ofset += 2f;
     }
 
     public void OnReleasesSignalMoleculeWeb(int id)   // web
@@ -57,6 +58,16 @@ public class InsulinReceptorS : MonoBehaviour
                 else return;
             }           
         }       
+    }
+    public void ResetInsulinReceptorSimulation()
+    {
+        ofset = 0.3f;
+        currentRecep = 0;
+        foreach (GameObject i in receptorList)
+        {
+            Destroy(i);
+        }
+        receptorList.Clear();
     }
     public void AddInsulinReceptor(int id) // web
     {

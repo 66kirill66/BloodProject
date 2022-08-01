@@ -26,8 +26,8 @@ public class SignalMolMove : MonoBehaviour
     }
     private void RundomPointMus()
     {
-        PosX = Random.Range(-7f, 17f);
-        PosY = Random.Range(-1f, -7.5f);
+        PosX = Random.Range(1f, 14f);
+        PosY = Random.Range(-1f, -4.6f);
     }
     private IEnumerator CorutinerundoPointInMus()
     {

@@ -4,16 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Receptor
+  - Insulin
+  - Sugar
+  - Channel
   - InsulinSyringe
   - GlucagonSyringe
-  - Sugar
-  - Syringe
   - Blood
-  - Signal
-  - Membrane
-  - Insulin
-  - Receptor
-  - Channel
   layers:
   - Default
   - TransparentFX

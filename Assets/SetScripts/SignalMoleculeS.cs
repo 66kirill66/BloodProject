@@ -92,6 +92,15 @@ public class SignalMoleculeS : MonoBehaviour
         sig.AddComponent<SignalGoToReceptor>();
     }
 
+    public void ResetSignalMSimulation()
+    {       
+        foreach (GameObject i in signalMList)
+        {
+            Destroy(i);
+        }
+        signalMList.Clear();
+    }
+
     public void AddSignalMolecule(string json)   
     {
         SignalMData data = SignalMData.CreateFromJSON(json);

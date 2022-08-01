@@ -94,11 +94,11 @@ public class MoleculeMove : MonoBehaviour
         blood = false;
         liver = false;
         Vector3 startPos = transform.position;
-        Vector3 endPos = new Vector3(20f, -5f, -0.5f);
+        Vector3 endPos = new Vector3(20f, -6f, -0.5f);
         float travel = 0;
-        while (travel < 1f)
+        while (travel < 2f)
         {
-            travel += Time.deltaTime * speed;
+            travel += Time.deltaTime * 0.3f;
             transform.position = Vector3.Lerp(startPos, endPos, travel);
             yield return new WaitForEndOfFrame();
         }
@@ -126,28 +126,29 @@ public class MoleculeMove : MonoBehaviour
     // Rundom Points
     private void RundomPointMus()
     {
-        PosX = Random.Range(-7f, 17f);
-        PosY = Random.Range(-1f, -7.5f);
+        PosX = Random.Range(1f, 14f);
+        PosY = Random.Range(-1f, -4.6f);
     }  
     private void RundomPointBlood()
     {
-        PosX = Random.Range(-23f, 23);
-        PosY = Random.Range(0.13f, 1.3f);
+        PosX = Random.Range(-23f, 16.5f);
+        PosY = Random.Range(0.6f, 2f);
     }
     private void RundomPointInLiver()
     {
-        PosX = Random.Range(-22f, -8.3f);
-        PosY = Random.Range(-6.3f, -2f);
+        PosX = Random.Range(-19f, -7f);
+        PosY = Random.Range(-7.5f, 0);
     }
     private void RundomPointPancreas()
     {
-        PosX = Random.Range(-15.5f, -10f);
-        PosY = Random.Range(2f, 6f);
+        PosX = Random.Range(1.5f, 6f);
+        PosY = Random.Range(3.5f, 9f);
     }
      // Start Corutine
     public void MoveToBoyStart()
     {
-        toBoy = true;      
+        toBoy = true;
+        StartCoroutine(MoveToBoy());
     }
     public void BloodCorutine()
     {

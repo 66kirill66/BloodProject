@@ -23,7 +23,13 @@ public class LiverS : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    public void ResetLiverSimulation()
+    {
+        liverSprite.SetActive(false);
+        liverText.SetActive(false);
     }
     public void Addliver(int id)
     {

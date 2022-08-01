@@ -29,7 +29,7 @@ public class SugarS : MonoBehaviour
     float sugarPosY;
     [SerializeField] Mesh energy;
 
-
+    bool isEnergy = true;
 
     int id;   // Web ID
     RaycastHit hit;
@@ -54,7 +54,6 @@ public class SugarS : MonoBehaviour
     private void Awake()
     {
         sugarAmount = 0;
-
         sugarViwText.SetActive(false);
         person.SetActive(false);        
     }
@@ -65,7 +64,7 @@ public class SugarS : MonoBehaviour
         addSugarPerson = 0;
         //person.SetActive(true);
         //sugarViwText.SetActive(true);
-       // InstantiateSugar();
+        //InstantiateSugar();
     }
 
     void Update()
@@ -76,8 +75,59 @@ public class SugarS : MonoBehaviour
             SetSugarAmount();
             sugarText.text = (sugarAmount * 3).ToString();
         }
-      
+
+        if (sugarNumber >= 4)
+        {
+            sugarNumber -= 3;
+            Invoke("Energy", 3f);
+        }        
+
         ClickingOnPerson();
+    }
+    public void ResetSugarSimulation()
+    {
+        sugarAmount = 0;
+        sugarNumber = 0;
+        sugarViwText.SetActive(false);
+        person.SetActive(false);
+        foreach(GameObject i in bloodList)
+        {
+            Destroy(i);
+        }
+        foreach (GameObject i in muscleList)
+        {
+            Destroy(i);
+        }
+        foreach (GameObject i in liverleList)
+        {
+            Destroy(i);
+        }
+        foreach (GameObject i in pancreasList)
+        {
+            Destroy(i);
+        }
+        bloodList.Clear();
+        muscleList.Clear();
+        liverleList.Clear();
+        pancreasList.Clear();
+    }
+
+    private void Energy()
+    {
+        if (muscleList.Count != 0)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                GameObject first = muscleList[0];
+                muscleList.Remove(first);
+                first.GetComponent<MoleculeMove>().StopCor();
+                first.GetComponent<MoleculeMove>().MoveToBoyStart();
+                first.GetComponent<MeshRenderer>().material.color = Color.red;  // Change Energy Color
+                first.GetComponent<MeshFilter>().mesh = energy;
+                first.transform.localScale = new Vector3(20, 20, 20);
+                Destroy(first, 3);
+            }
+        }
     }
 
     public void SugarMeetChannelSend(int channelId)  // web
@@ -208,26 +258,29 @@ public class SugarS : MonoBehaviour
             ChooseSugarIndex(from, muscleList);
             foreach (GameObject i in muscleList)
             {
-                i.gameObject.GetComponent<MoleculeMove>().StopCor();
-                i.gameObject.GetComponent<MoleculeMove>().MusculeCorutine();
+                i.GetComponent<MoleculeMove>().StopCor();
+                i.GetComponent<MoleculeMove>().MusculeCorutine();
             }
-            Invoke("ChangeToEnergy",5);
+            Invoke("Energy", 5);
         }     
     }
-    private void ChangeToEnergy()
+    public void ChangeToEnergy()  // Check New Metod up...
     {
-        for (int i = 0; i < 3; i++)
+        if(muscleList.Count != 0)
         {
-            GameObject lest = muscleList[muscleList.Count - 1];
-            lest.gameObject.GetComponent<MeshRenderer>().material.color = Color.red;  // Change Energy Color
-            lest.gameObject.GetComponent<MeshFilter>().mesh = energy;
-            lest.transform.localScale = new Vector3(20, 20, 20);
-            lest.gameObject.GetComponent<MoleculeMove>().StopCor();
-            lest.gameObject.GetComponent<MoleculeMove>().MoveToBoyStart();
-            Destroy(lest, 3);
-            muscleList.Remove(lest);
+            for (int i = 0; i < 3; i++)
+            {
+                GameObject lest = muscleList[muscleList.Count - 1];
+                lest.GetComponent<MoleculeMove>().StopCor();
+                lest.GetComponent<MoleculeMove>().MoveToBoyStart();
+                lest.GetComponent<MeshRenderer>().material.color = Color.red;  // Change Energy Color
+                lest.GetComponent<MeshFilter>().mesh = energy;
+                lest.transform.localScale = new Vector3(20, 20, 20);               
+                Destroy(lest, 3);
+                muscleList.Remove(lest);
+            }
         }
-    }  // Invooke
+    }  
     private void ToBlood(List<GameObject> from)
     {
         if (from.Count != 0)
@@ -274,14 +327,13 @@ public class SugarS : MonoBehaviour
     }
     private void StartRundomPoint()
     {
-       sugarPosX = Random.Range(-17f, 17);
-       sugarPosY = Random.Range(0, 1.5f);
+       sugarPosX = Random.Range(-23f, 16.5f);
+       sugarPosY = Random.Range(0.6f, 2f);
     }
     public void AddSugar(int id)  // web
     {
         this.id = id;
         person.SetActive(true);
-        sugarViwText.SetActive(true);
         sugarViwText.SetActive(true);
         InstantiateSugar();
     }  

@@ -5,11 +5,12 @@ using UnityEngine;
 public class ChannalS : MonoBehaviour
 {
     int channalCount;
-    int activeCount;
-
-   // public GameObject channelP;
+    [SerializeField] GameObject channelPrifab;
 
     public List<GameObject> channalsList = new List<GameObject>();
+
+    [SerializeField] List<Transform> channelTransform = new List<Transform>();
+
 
     string newChannelPlace;
     string oldChannelPlace;
@@ -25,16 +26,6 @@ public class ChannalS : MonoBehaviour
             return dataChannel;
         }
     }
-
-    private void Awake()
-    {
-        foreach (GameObject i in channalsList)
-        {
-            i.gameObject.SetActive(false);
-        }
-        activeCount = 0;      
-
-    }
     void Start()
     {
 
@@ -48,28 +39,47 @@ public class ChannalS : MonoBehaviour
         //AddChannalsChek(4);
         //AddChannalsChek(4);
         //AddChannalsChek(4);
-
-
-
+        //AddChannalsChek(4);
+        //AddChannalsChek(4);
+        //AddChannalsChek(4);
+        //AddChannalsChek(4);
+        //AddChannalsChek(4);
     }
     void Update()
     {
         
+
+    }
+    public void ResetChannelSimulation()
+    {
+        foreach (GameObject i in channalsList)
+        {
+            if(i.GetComponent<ChanneLogic>().haveSugar == true)
+            {
+                Destroy(i.GetComponent<ChanneLogic>().sugarObj);
+            }
+            Destroy(i);
+        }
+        channalsList.Clear();
+        channalCount = 0;
+
+        var ChannelNewPlaceReset = FindObjectsOfType<ChannelNewPlace>();
+        foreach (ChannelNewPlace i in ChannelNewPlaceReset)
+        {
+            i.isFree = true;
+        }
     }
 
     private void AddChannalsChek(int id)
     {
-        channalCount++;
-        if (channalCount <= 10)
+        if (channalCount <= 9)
         {
-            GameObject swichOn = channalsList[activeCount];
-            swichOn.SetActive(true);
-            swichOn.GetComponent<DataScript>().id = id;
-            activeCount++;
-        }
-        else
-        {
-            channalCount = 10;
+            GameObject p = Instantiate(channelPrifab, channelTransform[channalCount].position, channelTransform[channalCount].rotation);
+            p.GetComponent<DataScript>().id = id;
+            p.AddComponent<ChanneLogic>();
+            channalsList.Add(p);
+            channalCount++;
+
         }
     }
 
@@ -115,17 +125,14 @@ public class ChannalS : MonoBehaviour
     public void AddChannals(string dataJSON)
     {
         ChannalData data = ChannalData.CreateFromJSON(dataJSON);
-        channalCount++;
-        if (channalCount <= 10)
+        
+        if (channalCount <= 9)
         {
-            GameObject swichOn = channalsList[activeCount];
-            swichOn.SetActive(true);
-            swichOn.GetComponent<DataScript>().id = data.channalID;
-            activeCount++;
-        }
-        else
-        {
-            channalCount = 10;
-        }       
+            GameObject p = Instantiate(channelPrifab, channelTransform[channalCount].position, channelTransform[channalCount].rotation);
+            p.GetComponent<DataScript>().id = data.channalID;
+            p.AddComponent<ChanneLogic>();
+            channalsList.Add(p);
+            channalCount++;
+        }         
     }
 }

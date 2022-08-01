@@ -54,29 +54,27 @@ public class ChanneLogic : MonoBehaviour
     public void SugarMove()  // Aplly in ChannelS
     {
         Debug.Log("--------SugarMove---------");      
-        StartCoroutine(MoovingAnimation(sugarObj)); // sugarObj == sugar
-        Invoke("MooveToMus", 3);
+        StartCoroutine(MoovingAnimation(sugarObj)); // sugarObj == sugar        
+        FindObjectOfType<SugarS>().muscleList.Add(sugarObj);
+        FindObjectOfType<SugarS>().sugarNumber++;
+
     }
 
-    IEnumerator MoovingAnimation(GameObject sug)
+    IEnumerator MoovingAnimation(GameObject sug)  // sugar Move
     {
         while (haveSugar == true)
         {
             Vector3 startPos = sug.transform.position;
             Vector3 newPos = new Vector3(sug.transform.position.x, sug.transform.position.y - 10, sug.transform.position.z);
             float travel = 0;
-            while(travel < 0.5f)
+            while(travel < 0.3f)
             {
-                travel += Time.deltaTime * 0.2f;
+                travel += Time.deltaTime * 0.1f;
                 sug.transform.position = Vector3.Lerp(startPos, newPos, travel);
                 yield return new WaitForEndOfFrame();               
             }
-           // haveSugar = false;
+            sugarObj.GetComponent<MoleculeMove>().MusculeCorutine();
+            haveSugar = false;
         }
     }   
-    private void MooveToMus()
-    {
-        sugarObj.GetComponent<MoleculeMove>().MusculeCorutine();
-        haveSugar = false;
-    }
 }
