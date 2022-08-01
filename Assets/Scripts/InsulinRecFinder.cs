@@ -98,8 +98,8 @@ public class InsulinRecFinder : MonoBehaviour
             ParticleSystem ps = gameObject.GetComponentInChildren<ParticleSystem>();
             ps.Play();
             InsulinS ins = FindObjectOfType<InsulinS>();
-            int insulF = ins.insulinList.IndexOf(gameObject);
-            ins.insulinList.RemoveAt(insulF);
+            int insulF = ins.bloodList.IndexOf(gameObject);
+            ins.bloodList.RemoveAt(insulF);
             Destroy(gameObject,2);
         }
     }

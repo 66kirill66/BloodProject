@@ -18,7 +18,12 @@ public class InsulinS : MonoBehaviour
     public GameObject insulin;
     public Text insulinText;
     public GameObject insulinViwText;
-    public List<GameObject> insulinList = new List<GameObject>();
+
+    public List<GameObject> bloodList = new List<GameObject>();
+    public List<GameObject> muscleList = new List<GameObject>();
+    public List<GameObject> liverleList = new List<GameObject>();
+    public List<GameObject> pancreasList = new List<GameObject>();
+
 
     float insulinPosX;
     float insulinPosY;
@@ -30,7 +35,8 @@ public class InsulinS : MonoBehaviour
     public Slider insulinFill;
     public GameObject insulinSlider;
 
-
+    public string newInsulinPlace;
+    public string oldInsulinPlace;
 
     private void Awake()
     {
@@ -43,8 +49,7 @@ public class InsulinS : MonoBehaviour
 
     void Start()
     {
-        // InstantiateInsulin();
-
+        //InstantiateInsulin();      
         //insulinViwText.SetActive(true);
         //insulinSyringe.SetActive(true);
         //insulinSlider.SetActive(true);
@@ -52,9 +57,9 @@ public class InsulinS : MonoBehaviour
 
     void Update()
     {
-        if(insulinAmount != insulinList.Count)
+        if(insulinAmount != bloodList.Count)
         {
-            insulinAmount = insulinList.Count;
+            insulinAmount = bloodList.Count;
             SetInsulinVal();
             insulinText.text = (insulinAmount * 2).ToString();
         }     
@@ -76,7 +81,6 @@ public class InsulinS : MonoBehaviour
             }
         }
     }
-
     private void SliderAnim()
     {
         if(sliderF == true)
@@ -91,7 +95,7 @@ public class InsulinS : MonoBehaviour
                     insul.AddComponent<MoleculeMove>();
                     insul.AddComponent<InsulinRecFinder>();                    
                     insul.transform.parent = createPlase;
-                    insulinList.Add(insul);
+                    bloodList.Add(insul);
                     supp++;
                 }               
                 sliderF = false;
@@ -113,7 +117,7 @@ public class InsulinS : MonoBehaviour
             insul.transform.parent = createPlase;
             insul.AddComponent<MoleculeMove>();
             insul.AddComponent<InsulinRecFinder>();
-            insulinList.Add(insul);
+            bloodList.Add(insul);
             insulinInst++;
         }
     } 
@@ -147,12 +151,26 @@ public class InsulinS : MonoBehaviour
         insulinSlider.SetActive(false);
         insulinViwText.SetActive(false);
         insulinSyringe.SetActive(false);
-        foreach(GameObject i in insulinList)
+        foreach (GameObject i in bloodList)
         {
             Destroy(i);
         }
-        insulinList.Clear();
-
+        foreach (GameObject i in muscleList)
+        {
+            Destroy(i);
+        }
+        foreach (GameObject i in liverleList)
+        {
+            Destroy(i);
+        }
+        foreach (GameObject i in pancreasList)
+        {
+            Destroy(i);
+        }
+        bloodList.Clear();
+        muscleList.Clear();
+        liverleList.Clear();
+        pancreasList.Clear();
     }
 
     public void AddInsulin(int id)   // Init func
@@ -162,5 +180,124 @@ public class InsulinS : MonoBehaviour
         insulinViwText.SetActive(true);
         insulinSlider.SetActive(true);
         InstantiateInsulin();
+    }
+
+    private void ChooseInsulinIndex(List<GameObject> oldListName, List<GameObject> newListName, int num)
+    {
+        for (int i = 0; i < num; i++)
+        {
+            if (oldListName.Count != 0)
+            {
+                GameObject first = oldListName[0];
+                newListName.Add(first);
+                oldListName.Remove(first);
+            }
+        }
+    }
+    public void InsulinTransformPlace(string jsonData)  // Send To Web
+    {
+        SugarS.ChangeLocationData data = SugarS.ChangeLocationData.CreateFromJSON(jsonData);
+        oldInsulinPlace = data.oldPlace;
+        newInsulinPlace = data.newPlace;
+        Debug.Log("----------InsulinTransformPlace----------");
+
+        if (oldInsulinPlace == "Blood" && newInsulinPlace == "Muscle Cells ")
+        {
+            ToMus(bloodList);
+        }
+        if (oldInsulinPlace == "Liver Cells" && newInsulinPlace == "Muscle Cells ")
+        {
+            ToMus(liverleList);
+        }
+        if (oldInsulinPlace == "Pancreas Cells" && newInsulinPlace == "Muscle Cells ")
+        {
+            ToMus(pancreasList);
+        }
+        if (oldInsulinPlace == "Blood" && newInsulinPlace == "Liver Cells")
+        {           
+            ToLiver(bloodList);
+        }
+        if (oldInsulinPlace == "Muscle Cells " && newInsulinPlace == "Liver Cells")
+        {
+            ToLiver(muscleList);
+        }
+        if (oldInsulinPlace == "Pancreas Cells" && newInsulinPlace == "Liver Cells")
+        {
+            ToLiver(pancreasList);
+        }
+        if (oldInsulinPlace == "Liver Cells" && newInsulinPlace == "Blood")
+        {
+            ToBlood(liverleList);
+        }
+        if (oldInsulinPlace == "Muscle Cells " && newInsulinPlace == "Blood")
+        {
+            ToBlood(muscleList);
+        }
+        if (oldInsulinPlace == "Pancreas Cells" && newInsulinPlace == "Blood")
+        {
+            ToBlood(pancreasList);
+        }
+        if (oldInsulinPlace == "Blood" && newInsulinPlace == "Pancreas Cells")
+        {
+            ToPancreas(bloodList);
+        }
+        if (oldInsulinPlace == "Muscle Cells " && newInsulinPlace == "Pancreas Cells")
+        {
+            ToPancreas(muscleList);
+        }
+        if (oldInsulinPlace == "Liver Cells" && newInsulinPlace == "Pancreas Cells")
+        {
+            ToPancreas(liverleList);
+        }
+    }
+
+    private void ToMus(List<GameObject> from)
+    {
+        if (from.Count != 0)
+        {
+            ChooseInsulinIndex(from, muscleList, 2);
+            foreach (GameObject i in muscleList)
+            {
+                i.GetComponent<MoleculeMove>().StopCor();
+                i.GetComponent<MoleculeMove>().MusculeCorutine();
+            }
+        }
+    }
+
+    private void ToBlood(List<GameObject> from)
+    {
+        if (from.Count != 0)
+        {
+            ChooseInsulinIndex(from, bloodList, 2);
+            foreach (GameObject i in bloodList)
+            {
+                i.GetComponent<MoleculeMove>().StopCor();
+                i.GetComponent<MoleculeMove>().BloodCorutine();
+            }
+        }
+    }
+    private void ToLiver(List<GameObject> from)
+    {
+        if (from.Count != 0)
+        {
+            ChooseInsulinIndex(from, liverleList, 2);
+            foreach (GameObject i in liverleList)
+            {
+                i.GetComponent<MoleculeMove>().StopCor();
+                i.GetComponent<MoleculeMove>().LiverCorutine();
+            }
+        }
+    }
+    private void ToPancreas(List<GameObject> from)
+    {
+        if (from.Count != 0)
+        {
+            ChooseInsulinIndex(from, pancreasList, 2);
+            foreach (GameObject i in pancreasList)
+            {
+                i.GetComponent<MoleculeMove>().StopCor();
+                i.GetComponent<MoleculeMove>().PancreasCorutine();
+            }
+        }
     }
 }

@@ -8,8 +8,6 @@ public class MoleculeMove : MonoBehaviour
     float PosX;
     float PosY;
 
-
-
     public bool blood = true;
     public bool toBoy = false;
     public bool toMus = false;
@@ -27,15 +25,11 @@ public class MoleculeMove : MonoBehaviour
         if(toBoy == true)
         {
             StartCoroutine(MoveToBoy());
-        }        
+        }
     }
-    
-
+   
     private IEnumerator MoveInBloodRange()
-    {
-        liver = false;
-        toMus = false;
-        toBoy = false;
+    {        
         while (blood == true)
         {
             RundomPointBlood();
@@ -47,6 +41,9 @@ public class MoleculeMove : MonoBehaviour
                 travel += Time.deltaTime * speed;
                 transform.position = Vector3.Lerp(startPos, endPos, travel);
                 yield return new WaitForEndOfFrame();
+                liver = false;
+                toMus = false;
+                toBoy = false;
             }
         }       
     }

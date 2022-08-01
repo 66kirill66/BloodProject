@@ -29,7 +29,6 @@ public class SugarS : MonoBehaviour
     float sugarPosY;
     [SerializeField] Mesh energy;
 
-    bool isEnergy = true;
 
     int id;   // Web ID
     RaycastHit hit;
@@ -80,7 +79,12 @@ public class SugarS : MonoBehaviour
         {
             sugarNumber -= 3;
             Invoke("Energy", 3f);
-        }        
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            ToMus(bloodList);
+        }
 
         ClickingOnPerson();
     }
@@ -88,6 +92,7 @@ public class SugarS : MonoBehaviour
     {
         sugarAmount = 0;
         sugarNumber = 0;
+        addSugarPerson = 0;
         sugarViwText.SetActive(false);
         person.SetActive(false);
         foreach(GameObject i in bloodList)
@@ -132,7 +137,6 @@ public class SugarS : MonoBehaviour
 
     public void SugarMeetChannelSend(int channelId)  // web
     {
-        Debug.Log("--------SugarMove---------");
         if (!Application.isEditor)
         {
             int sugarId = this.id;
@@ -199,6 +203,8 @@ public class SugarS : MonoBehaviour
         ChangeLocationData data = ChangeLocationData.CreateFromJSON(jsonData);
         oldSugarPlace = data.oldPlace;
         newSugarPlace = data.newPlace;
+
+        Debug.Log("----------SugarTransformPlace----------");
 
         if (oldSugarPlace == "Blood" && newSugarPlace == "Muscle Cells ")
         {           
