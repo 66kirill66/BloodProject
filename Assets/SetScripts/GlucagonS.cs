@@ -35,16 +35,6 @@ public class GlucagonS : MonoBehaviour
     public string newGlucagonPlace;
     public string oldGlucagonPlace;
 
-    //public class ChangeGlucLocationData
-    //{
-    //    public string oldPlace;
-    //    public string newPlace;
-    //    public static ChangeGlucLocationData CreateFromJSON(string jsonString)
-    //    {
-    //        ChangeGlucLocationData locationData = JsonUtility.FromJson<ChangeGlucLocationData>(jsonString);
-    //        return locationData;
-    //    }
-    //}
     private void Awake()
     {
         glucagonAmount = 0;
@@ -64,7 +54,9 @@ public class GlucagonS : MonoBehaviour
 
     void Update()
     {
-        if(glucagonAmount != bloodListG.Count)
+        PancreasGlucagon();
+
+        if (glucagonAmount != bloodListG.Count)
         {
             glucagonAmount = bloodListG.Count;
             SetGlucagoVal();
@@ -74,6 +66,25 @@ public class GlucagonS : MonoBehaviour
         SliderAnim();
         
         ClickingGlucagonSyringe();
+    }
+
+    private void PancreasGlucagon()
+    {
+        if (FindObjectOfType<PancreasS>().pancreasActive == true)
+        {
+            if (pancreasList.Count < 4)
+            {
+                float PosX = Random.Range(1.5f, 6f);
+                float PosY = Random.Range(3.5f, 9f);
+
+                GameObject insul = Instantiate(glucagon, new Vector3(PosX, PosY, -0.5f), glucagon.transform.rotation);
+                insul.transform.parent = createPlase;
+                insul.AddComponent<MoleculeMove>();
+                insul.GetComponent<MoleculeMove>().PancreasCorutine();
+                insul.AddComponent<InsulinRecFinder>();
+                pancreasList.Add(insul);
+            }
+        }
     }
 
     private void ChooseGlucagonIndex(List<GameObject> oldListName, List<GameObject> newListName,int num)

@@ -57,14 +57,39 @@ public class InsulinS : MonoBehaviour
 
     void Update()
     {
-        if(insulinAmount != bloodList.Count)
+        PancreasInsulin();
+        
+
+        if (insulinAmount != bloodList.Count)
         {
             insulinAmount = bloodList.Count;
             SetInsulinVal();
             insulinText.text = (insulinAmount * 2).ToString();
-        }     
-        SliderAnim();       
-        ClickingInsulinSyringe();      
+        }
+        SliderAnim();
+        ClickingInsulinSyringe();
+    }
+
+    
+        
+
+    private void PancreasInsulin()
+    {
+        if (FindObjectOfType<PancreasS>().pancreasActive == true)
+        {
+            if (pancreasList.Count < 4)
+            {
+                float PosX = Random.Range(1.5f, 6f);
+                float PosY = Random.Range(3.5f, 9f);
+
+                GameObject insul = Instantiate(insulin, new Vector3(PosX, PosY, -0.5f), insulin.transform.rotation);
+                insul.transform.parent = createPlase;
+                insul.AddComponent<MoleculeMove>();
+                insul.GetComponent<MoleculeMove>().PancreasCorutine();
+                insul.AddComponent<InsulinRecFinder>();
+                pancreasList.Add(insul);
+            }
+        }        
     }
 
     private void ClickingInsulinSyringe()

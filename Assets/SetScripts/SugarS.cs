@@ -80,12 +80,6 @@ public class SugarS : MonoBehaviour
             sugarNumber -= 3;
             Invoke("Energy", 3f);
         }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            ToMus(bloodList);
-        }
-
         ClickingOnPerson();
     }
     public void ResetSugarSimulation()

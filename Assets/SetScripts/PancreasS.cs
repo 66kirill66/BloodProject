@@ -7,6 +7,7 @@ public class PancreasS : MonoBehaviour
     public GameObject pancreasSprite;
     public GameObject pancreasText;
     int id;
+    public bool pancreasActive;
 
     private void Awake()
     {
@@ -27,11 +28,13 @@ public class PancreasS : MonoBehaviour
     {
         pancreasSprite.SetActive(false);
         pancreasText.SetActive(false);
+        pancreasActive = false;
     }
     public void AddPancreas(int id)
     {
         this.id = id;
         pancreasSprite.SetActive(true);
+        pancreasActive = true;
         pancreasText.SetActive(true);
 
     }
