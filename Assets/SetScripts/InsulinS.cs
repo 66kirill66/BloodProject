@@ -153,6 +153,46 @@ public class InsulinS : MonoBehaviour
         insulinPosY = Random.Range(0, 1.5f);
     }
 
+    public void BloodChangeGlucagonLevel(int value)
+    {
+        int difference;
+        if (insulinAmount *2 != value)
+        {
+            if (value > insulinAmount * 2)
+            {
+                difference = value - insulinAmount * 2;
+                Debug.Log(difference);
+            }
+            else if (value < insulinAmount * 2)
+            {
+                difference = insulinAmount * 2 - value;
+                if (difference >= 10)
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (bloodList.Count != 0)
+                        {
+                            GameObject ins = bloodList[0];
+                            bloodList.Remove(ins);
+                            Destroy(ins);
+                        }
+                    }
+                }
+                Debug.Log(difference);
+            }
+        }
+        else if (value == 0)
+        {
+            foreach (GameObject i in bloodList)
+            {
+                Destroy(i);
+            }
+            bloodList.Clear();
+            insulinAmount = 0;
+        }
+        insulinText.text = value.ToString();
+    }
+
     private void SetInsulinVal()   // Send To WEB
     {
         if (!Application.isEditor)

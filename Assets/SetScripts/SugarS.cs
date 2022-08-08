@@ -111,6 +111,46 @@ public class SugarS : MonoBehaviour
         pancreasList.Clear();
     }
 
+    public void BloodChangeSugarLevel(int value)
+    {
+        int difference;
+        if(sugarAmount * 3 != value )
+        {
+            if(value > sugarAmount * 3)
+            {
+                difference = value - sugarAmount * 3;
+                Debug.Log(difference);
+            }
+            else if (value < sugarAmount * 3)
+            {
+                difference = sugarAmount * 3 - value;
+                if(difference >= 15)
+                {
+                    for(int i = 0; i < 4; i++)
+                    {
+                        if(bloodList.Count != 0)
+                        {
+                            GameObject sug = bloodList[0];
+                            bloodList.Remove(sug);
+                            Destroy(sug);
+                        }
+                    }
+                }
+                Debug.Log(difference);
+            }            
+        }
+        else if(value == 0)
+        {
+            foreach (GameObject i in bloodList)
+            {
+                Destroy(i);
+            }
+            bloodList.Clear();
+            sugarAmount = 0;
+        }
+        sugarText.text = value.ToString();
+    }
+
     private void Energy()
     {
         if (muscleList.Count != 0)
@@ -264,23 +304,7 @@ public class SugarS : MonoBehaviour
             Invoke("Energy", 5);
         }     
     }
-    public void ChangeToEnergy()  // Check New Metod up...
-    {
-        if(muscleList.Count != 0)
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                GameObject lest = muscleList[muscleList.Count - 1];
-                lest.GetComponent<MoleculeMove>().StopCor();
-                lest.GetComponent<MoleculeMove>().MoveToBoyStart();
-                lest.GetComponent<MeshRenderer>().material.color = Color.red;  // Change Energy Color
-                lest.GetComponent<MeshFilter>().mesh = energy;
-                lest.transform.localScale = new Vector3(20, 20, 20);               
-                Destroy(lest, 3);
-                muscleList.Remove(lest);
-            }
-        }
-    }  
+    
     private void ToBlood(List<GameObject> from)
     {
         if (from.Count != 0)

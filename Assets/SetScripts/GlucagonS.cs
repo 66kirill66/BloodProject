@@ -259,6 +259,45 @@ public class GlucagonS : MonoBehaviour
             glucagonAmount++;
         }
     }
+    public void BloodChangeGlucagonLevel(int value)
+    {
+        int difference;
+        if (glucagonAmount != value)
+        {
+            if (value > glucagonAmount )
+            {
+                difference = value - glucagonAmount ;
+                Debug.Log(difference);
+            }
+            else if (value < glucagonAmount )
+            {
+                difference = glucagonAmount - value;
+                if (difference >= 5)
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (bloodListG.Count != 0)
+                        {
+                            GameObject gluc = bloodListG[0];
+                            bloodListG.Remove(gluc);
+                            Destroy(gluc);
+                        }
+                    }
+                }
+                Debug.Log(difference);
+            }
+        }
+        else if (value == 0)
+        {
+            foreach (GameObject i in bloodListG)
+            {
+                Destroy(i);
+            }
+            bloodListG.Clear();
+            glucagonAmount = 0;
+        }
+        glucagonText.text = value.ToString();
+    }
 
     private void SetGlucagoVal()  //Send To WEb
     {
