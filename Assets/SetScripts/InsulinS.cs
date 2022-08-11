@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 public class InsulinS : MonoBehaviour    
 {
     [DllImport("__Internal")]
-    public static extern void ApplyMeetReceptor(int insulinId, int receptorId);
+    public static extern void ApplyMeetInsReceptor(int insulinId, int receptorId);
 
     [SerializeField] Transform createPlase;
     public GameObject insulinSyringe;
@@ -155,41 +155,7 @@ public class InsulinS : MonoBehaviour
 
     public void BloodChangeGlucagonLevel(int value)
     {
-        int difference;
-        if (insulinAmount *2 != value)
-        {
-            if (value > insulinAmount * 2)
-            {
-                difference = value - insulinAmount * 2;
-                Debug.Log(difference);
-            }
-            else if (value < insulinAmount * 2)
-            {
-                difference = insulinAmount * 2 - value;
-                if (difference >= 10)
-                {
-                    for (int i = 0; i < 4; i++)
-                    {
-                        if (bloodList.Count != 0)
-                        {
-                            GameObject ins = bloodList[0];
-                            bloodList.Remove(ins);
-                            Destroy(ins);
-                        }
-                    }
-                }
-                Debug.Log(difference);
-            }
-        }
-        else if (value == 0)
-        {
-            foreach (GameObject i in bloodList)
-            {
-                Destroy(i);
-            }
-            bloodList.Clear();
-            insulinAmount = 0;
-        }
+        
         insulinText.text = value.ToString();
     }
 
@@ -201,11 +167,11 @@ public class InsulinS : MonoBehaviour
             bl.SetInsulinLevel(insulinAmount * 2);
         }
     }
-    public void InsulinMeetReseptor(int id)   // Send To WEB
+    public void InsulinMeetInsReceptor(int id)   // Send To WEB
     {
         if (!Application.isEditor)
         {
-            ApplyMeetReceptor(this.id,id) ;
+            ApplyMeetInsReceptor(this.id,id) ;
         }
     }
 

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
 
-public class SignalMoleculeS : MonoBehaviour
+public class SignalMoleculeToS : MonoBehaviour
 {
     [DllImport("__Internal")]
-    public static extern void CreateRequestNewSignalM(int receptorId);
+    public static extern void CreateRequestNewSignalMTo(int receptorId);
 
-    [DllImport("__Internal")]
-    public static extern void ApplyMeetChannel(int signalId, int channelId);
+    //[DllImport("__Internal")]
+    //public static extern void ApplyMeetChannel(int signalId, int channelId);
 
 
 
@@ -36,7 +36,7 @@ public class SignalMoleculeS : MonoBehaviour
             return JsonUtility.ToJson(this);
         }
     }
-    
+
     void Start()
     {
         //SignallAdd(1);
@@ -49,50 +49,45 @@ public class SignalMoleculeS : MonoBehaviour
         //SignallAdd(2);
         //SignallAdd(3);
         //SignallAdd(4);
-        //SignallAdd(5);
-        //SignallAdd(6);
-        //SignallAdd(1);
-        //SignallAdd(2);
-        //SignallAdd(3);
         //SignallAdd(4);
-        //SignallAdd(5);
-        //SignallAdd(6);
+        //SignallAdd(4);
+        
 
 
     }
 
     void Update()
     {
-       
+
     }
 
-    public void CreateNewSignalM(int receptorId)   // send receptor Id 
-    {       
+    public void CreateNewSignalMTo(int receptorId)   // send receptor Id 
+    {
         Debug.Log(receptorId);
         if (!Application.isEditor)
         {
-            CreateRequestNewSignalM(receptorId);
-        }      
-    }
-
-    public void SignalMeetChannel(int signal,int chanId)   // Send To WEB
-    {
-        if (!Application.isEditor)
-        {
-            ApplyMeetChannel(signal, chanId);
+            CreateRequestNewSignalMTo(receptorId);
         }
     }
 
+    //public void SignalMeetChannel(int signal, int chanId)   // Send To WEB
+    //{
+    //    if (!Application.isEditor)
+    //    {
+    //       // ApplyMeetChannel(signal, chanId);
+    //    }
+    //}
+
     private void SignallAdd(int id)
-    {       
+    {
         GameObject sig = Instantiate(signalM, place.transform.position, signalM.transform.rotation);
         signalMList.Add(sig);
         sig.AddComponent<DataScript>().id = id;
-        sig.AddComponent<SignalGoToReceptor>();
+        sig.AddComponent<SignalToGoToReceptor>();
     }
 
-    public void ResetSignalMSimulation()
-    {       
+    public void ResetSignalMToSimulation()
+    {
         foreach (GameObject i in signalMList)
         {
             Destroy(i);
@@ -100,18 +95,18 @@ public class SignalMoleculeS : MonoBehaviour
         signalMList.Clear();
     }
 
-    public void AddSignalMolecule(string json)   
+    public void AddSignalMoleculeTo(string json)
     {
         SignalMData data = SignalMData.CreateFromJSON(json);
         if (data.receptorId != -1)
         {
-            foreach (GameObject i in FindObjectOfType<InsulinReceptorS>().receptorList)
+            foreach (GameObject i in FindObjectOfType<GlucagonReceptorS>().receptorList)
             {
                 if (data.receptorId == i.GetComponent<DataScript>().id)
                 {
-                    i.GetComponent<InsulinReceptorLogic>().signalM = true;                   
+                    i.GetComponent<GlucagonReceptorLogic>().signalM = true;
                     GameObject sig = Instantiate(signalM, i.transform.position, signalM.transform.rotation);
-                    i.GetComponent<InsulinReceptorLogic>().mol = sig;
+                    i.GetComponent<GlucagonReceptorLogic>().mol = sig;
                     signalMList.Add(sig);
                     sig.AddComponent<DataScript>().id = data.id;
                 }
@@ -122,7 +117,7 @@ public class SignalMoleculeS : MonoBehaviour
             GameObject sig = Instantiate(signalM, place.position, signalM.transform.rotation);
             signalMList.Add(sig);
             sig.AddComponent<DataScript>().id = data.id;
-            sig.AddComponent<SignalGoToReceptor>();
+            sig.AddComponent<SignalToGoToReceptor>();
         }
     }
 }

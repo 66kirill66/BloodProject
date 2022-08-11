@@ -11,6 +11,9 @@ TagManager:
   - InsulinSyringe
   - GlucagonSyringe
   - Blood
+  - Glucagon
+  - InsulinReceptor
+  - GlucagonReceptor
   layers:
   - Default
   - TransparentFX

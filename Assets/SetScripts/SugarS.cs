@@ -48,8 +48,6 @@ public class SugarS : MonoBehaviour
             return locationData;
         }
     }
-
-
     private void Awake()
     {
         sugarAmount = 0;
@@ -67,20 +65,21 @@ public class SugarS : MonoBehaviour
     }
 
     void Update()
-    {       
-        if(sugarAmount != bloodList.Count)
+    {
+        ClickingOnPerson();
+
+        if (sugarAmount != bloodList.Count)
         {
             sugarAmount = bloodList.Count;
             SetSugarAmount();
             sugarText.text = (sugarAmount * 3).ToString();
         }
-
+        //After the transition of sugar into the muscle 
         if (sugarNumber >= 4)
         {
             sugarNumber -= 3;
             Invoke("Energy", 3f);
-        }
-        ClickingOnPerson();
+        }        
     }
     public void ResetSugarSimulation()
     {
@@ -112,42 +111,7 @@ public class SugarS : MonoBehaviour
     }
 
     public void BloodChangeSugarLevel(int value)
-    {
-        int difference;
-        if(sugarAmount * 3 != value )
-        {
-            if(value > sugarAmount * 3)
-            {
-                difference = value - sugarAmount * 3;
-                Debug.Log(difference);
-            }
-            else if (value < sugarAmount * 3)
-            {
-                difference = sugarAmount * 3 - value;
-                if(difference >= 15)
-                {
-                    for(int i = 0; i < 4; i++)
-                    {
-                        if(bloodList.Count != 0)
-                        {
-                            GameObject sug = bloodList[0];
-                            bloodList.Remove(sug);
-                            Destroy(sug);
-                        }
-                    }
-                }
-                Debug.Log(difference);
-            }            
-        }
-        else if(value == 0)
-        {
-            foreach (GameObject i in bloodList)
-            {
-                Destroy(i);
-            }
-            bloodList.Clear();
-            sugarAmount = 0;
-        }
+    {       
         sugarText.text = value.ToString();
     }
 

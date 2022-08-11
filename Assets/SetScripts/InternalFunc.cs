@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class InternalFunc : MonoBehaviour
 {
-    public string gameState;
+
+    [SerializeField] Text liverText;
+    [SerializeField] Text MusculeText;
+    [SerializeField] Text pancreasText;
 
     [DllImport("__Internal")]
     public static extern void callTNITfunction();  // globals.init function
@@ -16,12 +19,22 @@ public class InternalFunc : MonoBehaviour
         if (!Application.isEditor)
         {           
             callTNITfunction();           
-        }
+        }      
     }
-    // Update is called once per frame
+
     void Update()
     {
         
     }
-    
+    public void SetLanguage(string lang)
+    {
+        Debug.Log("----------" + lang + "----------");
+        if(lang == "HE")
+        {
+            liverText.text = "דבכ";
+            pancreasText.text = "בלבל";
+            MusculeText.text = "רירש";
+        }
+        else { return; }
+    }
 }

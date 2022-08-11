@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3794674315958091090}
   m_Layer: 0
   m_Name: Insulin Receptor
-  m_TagString: Receptor
+  m_TagString: InsulinReceptor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

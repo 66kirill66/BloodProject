@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Runtime.InteropServices;
 
 
 public class GlucagonS : MonoBehaviour
 {
+    [DllImport("__Internal")]
+    public static extern void ApplyMeetGlucReceptor(int GlucagonId, int receptorId);
+
     public List<GameObject> bloodListG = new List<GameObject>();
     public List<GameObject> muscleList = new List<GameObject>();
     public List<GameObject> liverleList = new List<GameObject>();
@@ -81,7 +85,7 @@ public class GlucagonS : MonoBehaviour
                 insul.transform.parent = createPlase;
                 insul.AddComponent<MoleculeMove>();
                 insul.GetComponent<MoleculeMove>().PancreasCorutine();
-                insul.AddComponent<InsulinRecFinder>();
+                insul.AddComponent<GlucagonReceptorFinder>();
                 pancreasList.Add(insul);
             }
         }
@@ -232,6 +236,7 @@ public class GlucagonS : MonoBehaviour
                 {
                     GameObject gluc = Instantiate(glucagon, instPos.position, transform.rotation);
                     gluc.AddComponent<MoleculeMove>();
+                    gluc.AddComponent<GlucagonReceptorFinder>();
                     bloodListG.Add(gluc);
                     gluc.transform.parent = createPlase;
                     glucV++;
@@ -255,47 +260,13 @@ public class GlucagonS : MonoBehaviour
             GameObject gluc = Instantiate(glucagon, new Vector3(glucagoPosX, glucagoPosy, -0.5f), glucagon.transform.rotation);
             gluc.transform.parent = createPlase;
             gluc.AddComponent<MoleculeMove>();
+            gluc.AddComponent<GlucagonReceptorFinder>();
             bloodListG.Add(gluc);
             glucagonAmount++;
         }
     }
     public void BloodChangeGlucagonLevel(int value)
-    {
-        int difference;
-        if (glucagonAmount != value)
-        {
-            if (value > glucagonAmount )
-            {
-                difference = value - glucagonAmount ;
-                Debug.Log(difference);
-            }
-            else if (value < glucagonAmount )
-            {
-                difference = glucagonAmount - value;
-                if (difference >= 5)
-                {
-                    for (int i = 0; i < 4; i++)
-                    {
-                        if (bloodListG.Count != 0)
-                        {
-                            GameObject gluc = bloodListG[0];
-                            bloodListG.Remove(gluc);
-                            Destroy(gluc);
-                        }
-                    }
-                }
-                Debug.Log(difference);
-            }
-        }
-        else if (value == 0)
-        {
-            foreach (GameObject i in bloodListG)
-            {
-                Destroy(i);
-            }
-            bloodListG.Clear();
-            glucagonAmount = 0;
-        }
+    {        
         glucagonText.text = value.ToString();
     }
 
@@ -339,6 +310,14 @@ public class GlucagonS : MonoBehaviour
         muscleList.Clear();
         liverleList.Clear();
         pancreasList.Clear();
+    }
+
+    public void GlucagonMeetGlucReceptor(int id)   // Send To WEB
+    {
+        if (!Application.isEditor)
+        {
+            ApplyMeetGlucReceptor(this.id, id);
+        }
     }
     public void AddGlucagon(int id)
     {

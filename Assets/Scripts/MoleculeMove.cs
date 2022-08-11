@@ -60,7 +60,7 @@ public class MoleculeMove : MonoBehaviour
             float travel = 0;
             while (travel < 1f)
             {
-                travel += Time.deltaTime * 0.2f;
+                travel += Time.deltaTime * speed;
                 transform.position = Vector3.Lerp(startPos, endPos, travel);
                 yield return new WaitForEndOfFrame();
             }
@@ -79,7 +79,7 @@ public class MoleculeMove : MonoBehaviour
             float travel = 0;
             while (travel < 1f)
             {
-                travel += Time.deltaTime * 0.2f;
+                travel += Time.deltaTime * speed;
                 transform.position = Vector3.Lerp(startPos, endPos, travel);
                 yield return new WaitForEndOfFrame();
             }
@@ -95,7 +95,7 @@ public class MoleculeMove : MonoBehaviour
         float travel = 0;
         while (travel < 2f)
         {
-            travel += Time.deltaTime * 0.3f;
+            travel += Time.deltaTime * speed;
             transform.position = Vector3.Lerp(startPos, endPos, travel);
             yield return new WaitForEndOfFrame();
         }
@@ -113,7 +113,7 @@ public class MoleculeMove : MonoBehaviour
             float travel = 0;
             while (travel < 1f)
             {
-                travel += Time.deltaTime * 0.2f;
+                travel += Time.deltaTime * speed;
                 transform.position = Vector3.Lerp(startPos, endPos, travel);
                 yield return new WaitForEndOfFrame();
             }
@@ -140,8 +140,8 @@ public class MoleculeMove : MonoBehaviour
     {
         PosX = Random.Range(1.5f, 6f);
         PosY = Random.Range(3.5f, 9f);
-    }
-     // Start Corutine
+    }    
+    // Start Corutine
     public void MoveToBoyStart()
     {
         toBoy = true;

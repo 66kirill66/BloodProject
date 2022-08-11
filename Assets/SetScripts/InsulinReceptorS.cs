@@ -36,7 +36,7 @@ public class InsulinReceptorS : MonoBehaviour
     private void InstInsulinRec()
     {
         GameObject receptor = Instantiate(receptorPrifab, new Vector3(creatPlace.position.x - ofset, creatPlace.position.y, -0.5f), receptorPrifab.transform.rotation);
-        receptor.gameObject.AddComponent<ReceptorFinder>();       
+        receptor.gameObject.AddComponent<InsulinReceptorLogic>();       
         receptor.GetComponent<DataScript>().id = this.id;
         receptorList.Add(receptor);
         ofset += 2f;
@@ -49,11 +49,11 @@ public class InsulinReceptorS : MonoBehaviour
             receptorId = i.GetComponent<DataScript>().id;
             if (id == receptorId)
             {
-                if (i.GetComponent<ReceptorFinder>().isFree == false && i.GetComponent<ReceptorFinder>().signalM == true)
+                if (i.GetComponent<InsulinReceptorLogic>().isFree == false && i.GetComponent<InsulinReceptorLogic>().signalM == true)
                 {
-                    i.GetComponent<ReceptorFinder>().mol.AddComponent<SignalMolMove>();
-                    i.GetComponent<ReceptorFinder>().signalM = false;
-                    i.GetComponent<ReceptorFinder>().reliseSignalM = true;
+                    i.GetComponent<InsulinReceptorLogic>().mol.AddComponent<SignalMolMove>().movingPlace ="Mus";
+                    i.GetComponent<InsulinReceptorLogic>().signalM = false;
+                    i.GetComponent<InsulinReceptorLogic>().reliseSignalM = true;
                 }
                 else return;
             }           

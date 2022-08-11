@@ -25,9 +25,14 @@ mergeInto(LibraryManager.library,
     globals.setGlucagonLevel(glucagonId,Value)
   },
   
-   ApplyMeetReceptor: function (insulinId,receptorId)
+   ApplyMeetInsReceptor: function (insulinId,receptorId)
   {
-    globals.applyMeetReceptor(insulinId,receptorId)
+    globals.applyMeetInsReceptor(insulinId,receptorId)
+  },
+
+   ApplyMeetGlucReceptor: function (glucagonId,receptorId)
+  {
+    globals.applyMeetGlucReceptor(glucagonId,receptorId)
   },
 
    ApplyMeetChannel: function (signalId,channelId)
@@ -39,7 +44,10 @@ mergeInto(LibraryManager.library,
   {  
     globals.createRequestSignalM(receptorId)
   },
-
+   CreateRequestNewSignalMTo: function(receptorId)
+  {  
+    globals.createRequestNewSignalMTo(receptorId)
+  },
    SugarMeetChannel: function (sugarId,channelId)
   {
     globals.sugarMeetChannel(sugarId,channelId)
