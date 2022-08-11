@@ -16,7 +16,7 @@ public class PancreasS : MonoBehaviour
     }
     void Start()
     {
-       // pancreasSprite.SetActive(true);
+      // pancreasSprite.SetActive(true);
     }
 
     // Update is called once per frame
@@ -33,9 +33,8 @@ public class PancreasS : MonoBehaviour
     public void AddPancreas(int id)
     {
         this.id = id;
-        pancreasSprite.SetActive(true);
-        pancreasActive = true;
+        pancreasSprite.SetActive(true);       
         pancreasText.SetActive(true);
-
+        pancreasActive = true;
     }
 }

@@ -7,19 +7,28 @@ using UnityEngine.UI;
 public class InternalFunc : MonoBehaviour
 {
 
-    [SerializeField] Text liverText;
-    [SerializeField] Text MusculeText;
-    [SerializeField] Text pancreasText;
+    [SerializeField] GameObject liverText;
+    [SerializeField] GameObject MusculeText;
+    [SerializeField] GameObject pancreasText;
+    
 
     [DllImport("__Internal")]
     public static extern void callTNITfunction();  // globals.init function
 
     void Start()
-    {       
+    {
         if (!Application.isEditor)
         {           
             callTNITfunction();           
-        }      
+        }
+
+        ////This checks if your computer's operating system is in the Hebrew language
+        //if (Application.systemLanguage == SystemLanguage.Hebrew)
+        //{
+        //    //Outputs into console that the system is Hebrew
+        //    Debug.Log("This system is in Hebrew. "+ Application.systemLanguage);
+        //}
+
     }
 
     void Update()
@@ -29,12 +38,20 @@ public class InternalFunc : MonoBehaviour
     public void SetLanguage(string lang)
     {
         Debug.Log("----------" + lang + "----------");
-        if(lang == "HE")
+        if(lang == "he")
         {
-            liverText.text = "דבכ";
-            pancreasText.text = "בלבל";
-            MusculeText.text = "רירש";
+            liverText.GetComponent<RTLTMPro.RTLTextMeshPro>().text  = "כבד";
+            pancreasText.GetComponent<RTLTMPro.RTLTextMeshPro>().text = "לבלב";
+            MusculeText.GetComponent<RTLTMPro.RTLTextMeshPro>().text = "שריר";
+
+        }
+        if (lang == "en")
+        {
+            liverText.GetComponent<RTLTMPro.RTLTextMeshPro>().text = "liver";
+            pancreasText.GetComponent<RTLTMPro.RTLTextMeshPro>().text = "Pancreas";
+            MusculeText.GetComponent<RTLTMPro.RTLTextMeshPro>().text = "Muscule";
         }
         else { return; }
     }
+    
 }
