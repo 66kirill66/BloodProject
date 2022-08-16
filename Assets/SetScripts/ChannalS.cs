@@ -48,7 +48,7 @@ public class ChannalS : MonoBehaviour
     }
     void Update()
     {
-        
+       
 
     }
     public void ResetChannelSimulation()

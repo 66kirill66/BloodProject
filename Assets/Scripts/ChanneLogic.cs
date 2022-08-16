@@ -10,18 +10,40 @@ public class ChanneLogic : MonoBehaviour
     public GameObject sugarObj;
     public bool haveSugar;
     int channelId;
+
+    float timer = 3;
     void Start()
     {
        // changePlase = true;   // Check
         channelId = GetComponent<DataScript>().id;
+       
     }
 
 
     void Update()
-    {             
+    {
+        CollisionOn();
+
         if (isOldPlace == false && changePlase == true && newChannelTransform != null)
         {
             Invoke("SetPositionRotation", 1);
+            newChannelTransform.GetComponent<ChannelNewPlace>().isFree = false;
+        }
+    }
+
+    private void CollisionOn()
+    {
+        if(GetComponent<CapsuleCollider>().enabled == false)
+        {
+            if (timer > 0)
+            {
+                timer -= Time.deltaTime;
+            }
+            else
+            {
+                GetComponent<CapsuleCollider>().enabled = true;
+                timer = 3;
+            }
         }
     }
     private void SetPositionRotation()
@@ -30,7 +52,7 @@ public class ChanneLogic : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, pos.gameObject.transform.position, 1 * Time.deltaTime);
         transform.rotation = Quaternion.Euler(pos.rotation.x, pos.rotation.y, 100 );
         gameObject.tag = "Untagged";
-        Invoke("ColliderOn",3);
+       // Invoke("ColliderOn",3);
     }
 
     private void ColliderOn()
