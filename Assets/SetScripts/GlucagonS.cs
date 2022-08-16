@@ -52,7 +52,7 @@ public class GlucagonS : MonoBehaviour
         //glucagonSlider.SetActive(true);
        // glucagonViwText.SetActive(true);
         //GlucagonSyringe.SetActive(true);
-        //InstantiateGlucagon();
+       // InstantiateGlucagon();
         
     }
 
@@ -281,7 +281,7 @@ public class GlucagonS : MonoBehaviour
     private void RundomPoint()
     {
         glucagoPosX = Random.Range(-23f, 16.5f);
-        glucagoPosy = Random.Range(0.6f, 2f);
+        glucagoPosy = Random.Range(2f, 2f);
     }
 
     public void ResetGlucagonSimulation()

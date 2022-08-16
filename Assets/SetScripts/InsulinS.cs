@@ -150,7 +150,7 @@ public class InsulinS : MonoBehaviour
     private void RundomPoint()   
     {
         insulinPosX = Random.Range(-17f, 17);
-        insulinPosY = Random.Range(0, 1.5f);
+        insulinPosY = Random.Range(1.5f, 2);
     }
 
     public void BloodChangeGlucagonLevel(int value)

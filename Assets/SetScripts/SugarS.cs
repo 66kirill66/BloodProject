@@ -9,6 +9,10 @@ public class SugarS : MonoBehaviour
 {
     [DllImport("__Internal")]
     public static extern void SugarMeetChannel(int sugrId, int channelId);
+    [DllImport("__Internal")]
+    public static extern void SugarMeetInsulinRec(int sugrId, int receptorId);
+    [DllImport("__Internal")]
+    public static extern void SugarMeetGlucagonRec(int sugrId, int receptorId);
 
 
     public  List<GameObject> bloodList = new List<GameObject>();
@@ -141,6 +145,23 @@ public class SugarS : MonoBehaviour
             SugarMeetChannel(sugarId, channelId);
         }        
     }
+    public void SugarMeetInsulinReceptor(int receptorId)  // web
+    {
+        if (!Application.isEditor)
+        {
+            int sugarId = this.id;
+            SugarMeetInsulinRec(sugarId, receptorId);
+        }
+    }
+    public void SugarMeetGlucagonReceptor(int receptorId)  // web
+    {
+        if (!Application.isEditor)
+        {
+            int sugarId = this.id;
+            SugarMeetGlucagonRec(sugarId, receptorId);
+        }
+    }
+
 
 
     private void ClickingOnPerson()

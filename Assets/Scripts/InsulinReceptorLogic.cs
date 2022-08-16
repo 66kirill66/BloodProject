@@ -79,7 +79,7 @@ public class InsulinReceptorLogic : MonoBehaviour
                     
                     break;
                 case "Sugar":
-
+                    FindObjectOfType<SugarS>().SugarMeetInsulinReceptor(recID);
                     break;
                 default:
 

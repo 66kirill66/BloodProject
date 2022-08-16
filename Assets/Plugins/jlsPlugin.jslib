@@ -52,6 +52,14 @@ mergeInto(LibraryManager.library,
   {
     globals.sugarMeetChannel(sugarId,channelId)
   },
+   SugarMeetInsulinRec: function (sugarId,receptorId)
+  {
+    globals.sugarMeetInsulinRec(sugarId,receptorId)
+  },
+   SugarMeetGlucagonRec: function (sugarId,receptorId)
+  {
+    globals.sugarMeetGlucagonRec(sugarId,receptorId)
+  },
 
 
 });

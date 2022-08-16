@@ -8,6 +8,8 @@ public class InsulinRecFinder : MonoBehaviour
     public bool free = true;
     Transform targetReceptor;
     float moveRange = 3f;
+    float timer = 4;
+    bool startFind = false;
 
 
     void Start()
@@ -18,17 +20,27 @@ public class InsulinRecFinder : MonoBehaviour
 
     void Update()
     {
+        if(timer > 0)
+        {
+            timer -= Time.deltaTime;
+        }
+        else
+        {
+            startFind = true;
+        }
         
     }
     private void FixedUpdate()
     {
-        FindReceptor();
-        if (targetReceptor)
+        if(startFind == true)
         {
-            Invoke("GoToReceptor", 0.5f);
-           // GoToReceptor();
-        }
-        else { return; }
+            FindReceptor();
+            if (targetReceptor)
+            {
+                Invoke("GoToReceptor", 0.5f);
+            }
+            else { return; }
+        }      
     }
     private void FindReceptor()   // Find Receptor
     {
@@ -98,8 +110,8 @@ public class InsulinRecFinder : MonoBehaviour
             ParticleSystem ps = gameObject.GetComponentInChildren<ParticleSystem>();
             ps.Play();
             InsulinS ins = FindObjectOfType<InsulinS>();
-            int insulF = ins.bloodList.IndexOf(gameObject);
-            ins.bloodList.RemoveAt(insulF);
+            int insulP = ins.bloodList.IndexOf(gameObject);
+            ins.bloodList.RemoveAt(insulP);
             Destroy(gameObject,2);
         }
     }

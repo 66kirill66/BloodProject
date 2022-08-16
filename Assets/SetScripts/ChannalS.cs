@@ -15,6 +15,7 @@ public class ChannalS : MonoBehaviour
     string newChannelPlace;
     string oldChannelPlace;
 
+    GameObject pos;
     public class ChannalData
     {
         public int channalID;
@@ -85,7 +86,6 @@ public class ChannalS : MonoBehaviour
 
     public void SugarGoThrough(int id)   // web  id = Channel id
     {
-        Debug.Log("-------SugarGoThrough-------");
         foreach (GameObject i in channalsList)
         {
             int channelId = i.GetComponent<DataScript>().id;
@@ -105,20 +105,38 @@ public class ChannalS : MonoBehaviour
 
 
         if (oldChannelPlace == "Muscle Cells " && newChannelPlace == "Cell Membrane")
-        {          
+        {  
             ToMembrane();
         }
     }
-   
+           
+  
     private void ToMembrane()
     {
         var oldPos = FindObjectsOfType<ChanneLogic>();
         foreach (ChanneLogic i in oldPos)
         {
-            if (i.isOldPlace == false)
+            if (i.isOldPlace == false && i.changePlase == false)
             {
-                i.changePlase = true;
+                i.GetComponent<CapsuleCollider>().enabled = false;
+                i.changePlase = true;              
             }
+            //else
+            //{
+            //   // NewTransformToChannel();
+            //    var Channals = FindObjectsOfType<ChanneLogic>();
+            //    foreach (ChanneLogic j in Channals)
+            //    {
+            //        if (j.GetComponent<ChanneLogic>().newChannelTransform != null) { return; }
+            //        else
+            //        {
+            //            j.GetComponent<ChanneLogic>().newChannelTransform = pos;
+            //            j.GetComponent<ChanneLogic>().isOldPlace = false;
+            //            j.changePlase = true;
+            //            break;
+            //        }
+            //    }
+            //}
         }
     }
 

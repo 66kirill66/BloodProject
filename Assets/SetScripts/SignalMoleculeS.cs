@@ -75,7 +75,7 @@ public class SignalMoleculeS : MonoBehaviour
         }      
     }
 
-    public void SignalMeetChannel(int signal,int chanId)   // Send To WEB
+    public void SignalMeetChannel(int signal,int chanId)   // Send To WEB (in SignalMolMove)
     {
         if (!Application.isEditor)
         {

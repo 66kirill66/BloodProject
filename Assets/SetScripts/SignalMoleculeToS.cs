@@ -51,16 +51,9 @@ public class SignalMoleculeToS : MonoBehaviour
         //SignallAdd(4);
         //SignallAdd(4);
         //SignallAdd(4);
-        
 
 
     }
-
-    void Update()
-    {
-
-    }
-
     public void CreateNewSignalMTo(int receptorId)   // send receptor Id 
     {
         Debug.Log(receptorId);

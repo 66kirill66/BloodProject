@@ -23,9 +23,6 @@ public class GlucagonReceptorLogic : MonoBehaviour
     {
         
     }
-
-    
-
     private void ActiveTrue()
     {
         foreach (Transform i in transform)
@@ -58,7 +55,6 @@ public class GlucagonReceptorLogic : MonoBehaviour
             switch (other.gameObject.tag)
             {
                 case "Insulin":
-
                     break;
                 case "Glucagon":
                     boxColl.enabled = false;
@@ -66,19 +62,13 @@ public class GlucagonReceptorLogic : MonoBehaviour
                     Invoke("ActiveFalse", 2);
                     break;
                 case "Sugar":
-
+                    FindObjectOfType<SugarS>().SugarMeetGlucagonReceptor(recID);
                     break;
                 default:
 
                     break;
             }
         }
-        //if (other.gameObject.tag == "Glucagon" && isFree == false)
-        //{
-        //    boxColl.enabled = false;
-        //    StartCoroutine(GlucagonAnimationOnMeet(gameObject));
-        //    Invoke("ActiveFalse", 2);
-        //}
     }
     IEnumerator GlucagonAnimationOnMeet(GameObject obj)
     {

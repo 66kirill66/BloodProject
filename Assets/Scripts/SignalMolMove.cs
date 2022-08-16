@@ -78,21 +78,28 @@ public class SignalMolMove : MonoBehaviour
         {
             toMus = false;
             StopAllCoroutines();
-            other.GetComponent<CapsuleCollider>().enabled = false;
+           // other.GetComponent<CapsuleCollider>().enabled = false;
             transform.position = other.transform.position;
             ParticleSystem ps = gameObject.GetComponentInChildren<ParticleSystem>(); ps.Play();
 
             int signalId = GetComponent<DataScript>().id;
             int channelId = other.GetComponentInParent<DataScript>().id;
-            NewTransformToChannel();
-            other.GetComponent<ChanneLogic>().newChannelTransform = pos;
-            other.GetComponent<ChanneLogic>().isOldPlace = false;           
+            if (other.GetComponent<ChanneLogic>().newChannelTransform != null)
+            {
+                NewTransformToChannel();
+                other.GetComponent<ChanneLogic>().newChannelTransform = pos;
+                other.GetComponent<ChanneLogic>().isOldPlace = false;
+            }
             //send to Web
             signalS.SignalMeetChannel(signalId,channelId);           
         }
         Destroy(gameObject,1f);
     }
 
+    private void ChannalCollisionOn(GameObject chann)
+    {
+        chann.GetComponent<CapsuleCollider>().enabled = true;
+    }
     private GameObject NewTransformToChannel()
     {
         var newPos = FindObjectsOfType<ChannelNewPlace>();

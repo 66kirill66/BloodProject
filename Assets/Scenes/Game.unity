@@ -4727,13 +4727,12 @@ GameObject:
   - component: {fileID: 1808139694}
   - component: {fileID: 1808139693}
   - component: {fileID: 1808139692}
-  - component: {fileID: 1808139695}
   - component: {fileID: 1808139697}
-  - component: {fileID: 1808139698}
-  - component: {fileID: 1808139699}
   - component: {fileID: 1808139689}
-  - component: {fileID: 1808139700}
+  - component: {fileID: 1808139698}
   - component: {fileID: 1808139702}
+  - component: {fileID: 1808139699}
+  - component: {fileID: 1808139700}
   - component: {fileID: 1808139701}
   - component: {fileID: 1808139703}
   m_Layer: 0
@@ -4833,23 +4832,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   liverSprite: {fileID: 1803224238}
   liverText: {fileID: 1068784079}
---- !u!114 &1808139695
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1808139688}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3912bc3de078764697751be47a3a07f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blood: 1
-  toBoy: 0
-  toMus: 0
-  liver: 0
-  pancreas: 0
 --- !u!114 &1808139696
 MonoBehaviour:
   m_ObjectHideFlags: 0
