@@ -14,6 +14,7 @@ TagManager:
   - Glucagon
   - InsulinReceptor
   - GlucagonReceptor
+  - ChannalNewP
   layers:
   - Default
   - TransparentFX

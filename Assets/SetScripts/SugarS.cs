@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 public class SugarS : MonoBehaviour
 {
     [DllImport("__Internal")]
-    public static extern void SugarMeetChannel(int sugrId, int channelId);
+    public static extern void SugarMeetChannal(int sugrId, int channelId);
     [DllImport("__Internal")]
     public static extern void SugarMeetInsulinRec(int sugrId, int receptorId);
     [DllImport("__Internal")]
@@ -65,7 +65,7 @@ public class SugarS : MonoBehaviour
         addSugarPerson = 0;
         //person.SetActive(true);
         //sugarViwText.SetActive(true);
-        //InstantiateSugar();
+       // InstantiateSugar();
     }
 
     void Update()
@@ -137,12 +137,12 @@ public class SugarS : MonoBehaviour
         }
     }
 
-    public void SugarMeetChannelSend(int channelId)  // web
+    public void SugarMeetChannalSend(int channelId)  // web
     {
         if (!Application.isEditor)
         {
             int sugarId = this.id;
-            SugarMeetChannel(sugarId, channelId);
+            SugarMeetChannal(sugarId, channelId);
         }        
     }
     public void SugarMeetInsulinReceptor(int receptorId)  // web

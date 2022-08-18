@@ -5,7 +5,6 @@ using System;
 
 public class InsulinReceptorLogic : MonoBehaviour
 {
-    public float num = 3;
     public bool isFree = true;
     public bool signalM = false;
     public bool reliseSignalM = false;
@@ -22,29 +21,25 @@ public class InsulinReceptorLogic : MonoBehaviour
     }
     private void Update()
     {
-        //CollisionOnStart();
-    }
-
-    private void CollisionOnStart()
-    {
-        if (num > 0)
+        if (reliseSignalM == true)
         {
-            boxColl.enabled = false;
-            num -= 1 * Time.deltaTime;
-            Debug.Log(num);
-        }       
-        else if (num < 0)
-        {
-            boxColl.enabled = true;
+            if (mol != null)
+            {
+                mol.GetComponent<MeshRenderer>().enabled = true;
+            }
         }
-    }
+    }   
 
     private void ActiveTrue()
     {
+        if (mol != null)
+        {
+            mol.GetComponent<MeshRenderer>().enabled = true;
+        }
         foreach (Transform i in transform)
         {
             i.GetComponent<MeshRenderer>().enabled = true;
-        }
+        }       
         if (reliseSignalM == true)
         {                       
             //send Id To Web
@@ -59,7 +54,11 @@ public class InsulinReceptorLogic : MonoBehaviour
         foreach(Transform i in transform)
         {
             i.GetComponent<MeshRenderer>().enabled = false;
-        }       
+        }
+        if (mol != null)
+        {
+            mol.GetComponent<MeshRenderer>().enabled = false;
+        }
         // web          
         FindObjectOfType<InsulinS>().InsulinMeetInsReceptor(GetComponent<DataScript>().id);
         Invoke("ActiveTrue", 2);
@@ -75,23 +74,25 @@ public class InsulinReceptorLogic : MonoBehaviour
                     StartCoroutine(InsulinAnimationOnMeet(gameObject));
                     Invoke("ActiveFalse", 2);
                     break;
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            switch (other.gameObject.tag)
+            {
                 case "Glucagon":
-                    
+                    FindObjectOfType<GlucagonS>().GlucagonMeetInsulunReceptor(recID);
                     break;
                 case "Sugar":
                     FindObjectOfType<SugarS>().SugarMeetInsulinReceptor(recID);
                     break;
                 default:
-
                     break;
             }
-        }       
-        //if (other.gameObject.tag == "Insulin" && isFree == false)
-        //{           
-        //    boxColl.enabled = false;
-        //    StartCoroutine(InsulinAnimationOnMeet(gameObject));       
-        //    Invoke("ActiveFalse", 2);          
-        //}
+            
+        }
     }
     IEnumerator InsulinAnimationOnMeet(GameObject obj)
     {      

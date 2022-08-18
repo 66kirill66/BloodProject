@@ -26,7 +26,6 @@ public class GlucagonReceptorS : MonoBehaviour
         //AddGlucagonReceptor(4);
         //AddGlucagonReceptor(6);
         //AddGlucagonReceptor(6);
-
     }
 
     void Update()

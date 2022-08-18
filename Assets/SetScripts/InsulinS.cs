@@ -10,6 +10,10 @@ public class InsulinS : MonoBehaviour
 {
     [DllImport("__Internal")]
     public static extern void ApplyMeetInsReceptor(int insulinId, int receptorId);
+    [DllImport("__Internal")]
+    public static extern void InsulunMeetGlucReceptor(int insulinId, int receptorId);
+    [DllImport("__Internal")]
+    public static extern void InsulunMeetChannal(int insulinId, int channalId);
 
     [SerializeField] Transform createPlase;
     public GameObject insulinSyringe;
@@ -172,6 +176,21 @@ public class InsulinS : MonoBehaviour
         if (!Application.isEditor)
         {
             ApplyMeetInsReceptor(this.id,id) ;
+        }
+    }
+    public void InsulinMeetGlucagonReceptor(int id)   // Send To WEB
+    {
+        if (!Application.isEditor)
+        {
+            InsulunMeetGlucReceptor(this.id, id);
+        }
+    }
+
+    public void InsMeetChannal(int id)   // Send To WEB
+    {
+        if (!Application.isEditor)
+        {
+            InsulunMeetChannal(this.id, id);
         }
     }
 

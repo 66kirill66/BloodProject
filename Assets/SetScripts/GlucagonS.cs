@@ -10,6 +10,12 @@ public class GlucagonS : MonoBehaviour
     [DllImport("__Internal")]
     public static extern void ApplyMeetGlucReceptor(int GlucagonId, int receptorId);
 
+    [DllImport("__Internal")]
+    public static extern void GlucagonMeetInsReceptor(int GlucagonId, int receptorId);
+
+    [DllImport("__Internal")]
+    public static extern void GlucagonMeetChannal(int GlucagonId, int channalId);
+
     public List<GameObject> bloodListG = new List<GameObject>();
     public List<GameObject> muscleList = new List<GameObject>();
     public List<GameObject> liverleList = new List<GameObject>();
@@ -312,13 +318,27 @@ public class GlucagonS : MonoBehaviour
         pancreasList.Clear();
     }
 
-    public void GlucagonMeetGlucReceptor(int id)   // Send To WEB
+    public void GlucagonMeetGlucagonReceptor(int id)   // Send To WEB
     {
         if (!Application.isEditor)
         {
             ApplyMeetGlucReceptor(this.id, id);
         }
     }
+    public void GlucagonMeetInsulunReceptor(int id)   // Send To WEB
+    {
+        if (!Application.isEditor)
+        {
+            GlucagonMeetInsReceptor(this.id, id);
+        }
+    }
+    public void GlucMeetChannal(int id)   // Send To WEB
+    {
+        if (!Application.isEditor)
+        {
+            GlucagonMeetChannal(this.id, id);
+        }
+    }  
     public void AddGlucagon(int id)
     {
         this.id = id;

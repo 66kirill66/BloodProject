@@ -5,7 +5,7 @@ using UnityEngine;
 public class ChanneLogic : MonoBehaviour
 {
     public bool isOldPlace = true;
-    public bool changePlase = false;
+    public bool changePlace = false;
     public GameObject newChannelTransform;
     public GameObject sugarObj;
     public bool haveSugar;
@@ -15,16 +15,14 @@ public class ChanneLogic : MonoBehaviour
     void Start()
     {
        // changePlase = true;   // Check
-        channelId = GetComponent<DataScript>().id;
-       
+        channelId = GetComponent<DataScript>().id;      
     }
-
 
     void Update()
     {
         CollisionOn();
 
-        if (isOldPlace == false && changePlase == true && newChannelTransform != null)
+        if (isOldPlace == false && changePlace == true && newChannelTransform != null)
         {
             Invoke("SetPositionRotation", 1);
             newChannelTransform.GetComponent<ChannelNewPlace>().isFree = false;
@@ -51,27 +49,31 @@ public class ChanneLogic : MonoBehaviour
         Transform pos = newChannelTransform.gameObject.transform;
         transform.position = Vector3.Lerp(transform.position, pos.gameObject.transform.position, 1 * Time.deltaTime);
         transform.rotation = Quaternion.Euler(pos.rotation.x, pos.rotation.y, 100 );
-        gameObject.tag = "Untagged";
-       // Invoke("ColliderOn",3);
-    }
-
-    private void ColliderOn()
-    {
-        GetComponent<CapsuleCollider>().enabled = true;
+        gameObject.tag = "Untagged";  
     }
 
     private void OnTriggerEnter(Collider other)  // other = sugar
     {
-        if (other.gameObject.tag == "Sugar" && haveSugar == false && isOldPlace == false)
+        if (other.gameObject.tag == "Sugar" && haveSugar == false && changePlace == true)  //isOldPlace == false &&
         {
-            other.gameObject.tag = "Untagged";   // Change Tag To stop Collision With Channel
+            haveSugar = true;
+            other.gameObject.tag = "Untagged";   // Change Tag and stop Collision With Channel
             sugarObj = other.gameObject;
-            haveSugar = true;            
             sugarObj.GetComponent<MoleculeMove>().StopCor();
             sugarObj.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-            FindObjectOfType<SugarS>().SugarMeetChannelSend(channelId);
+            FindObjectOfType<SugarS>().SugarMeetChannalSend(channelId);
             FindObjectOfType<SugarS>().bloodList.Remove(other.gameObject);
         }
+        if (other.gameObject.tag == "Insulin")
+        {
+            FindObjectOfType<InsulinS>().InsMeetChannal(channelId);
+        }
+        if (other.gameObject.tag == "Glucagon")
+        {
+            FindObjectOfType<GlucagonS>().GlucMeetChannal(channelId);
+        }
+        else { return; }
+
     }
     public void SugarMove()  // Aplly in ChannelS
     {
@@ -79,7 +81,6 @@ public class ChanneLogic : MonoBehaviour
         StartCoroutine(MoovingAnimation(sugarObj)); // sugarObj == sugar        
         FindObjectOfType<SugarS>().muscleList.Add(sugarObj);
         FindObjectOfType<SugarS>().sugarNumber++;
-
     }
 
     IEnumerator MoovingAnimation(GameObject sug)  // sugar Move

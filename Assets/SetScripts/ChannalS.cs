@@ -88,8 +88,8 @@ public class ChannalS : MonoBehaviour
     {
         foreach (GameObject i in channalsList)
         {
-            int channelId = i.GetComponent<DataScript>().id;
-            if (id == channelId)
+            int channalId = i.GetComponent<DataScript>().id;
+            if (id == channalId)
             {
                 i.GetComponent<ChanneLogic>().SugarMove();
             }
@@ -116,10 +116,10 @@ public class ChannalS : MonoBehaviour
         var oldPos = FindObjectsOfType<ChanneLogic>();
         foreach (ChanneLogic i in oldPos)
         {
-            if (i.isOldPlace == false && i.changePlase == false)
+            if (i.isOldPlace == false && i.changePlace == false)
             {
                 i.GetComponent<CapsuleCollider>().enabled = false;
-                i.changePlase = true;              
+                i.changePlace = true;              
             }
             //else
             //{

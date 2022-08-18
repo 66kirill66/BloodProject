@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GlucagonReceptorLogic : MonoBehaviour
 {
-    public float num = 3;
     public bool isFree = true;
     public bool signalM = false;
     public bool reliseSignalM = false;
@@ -21,14 +20,24 @@ public class GlucagonReceptorLogic : MonoBehaviour
     }
     private void Update()
     {
-        
+        if (reliseSignalM == true)
+        {
+            if (mol != null)
+            {
+                mol.GetComponent<MeshRenderer>().enabled = true;
+            }
+        }
     }
     private void ActiveTrue()
     {
+        if (mol != null)
+        {
+            mol.GetComponent<MeshRenderer>().enabled = true;
+        }
         foreach (Transform i in transform)
         {
             i.GetComponent<MeshRenderer>().enabled = true;
-        }
+        }      
         if (reliseSignalM == true)
         {
             //send Id To Web
@@ -44,8 +53,12 @@ public class GlucagonReceptorLogic : MonoBehaviour
         {
             i.GetComponent<MeshRenderer>().enabled = false;
         }
+        if (mol != null)
+        {
+            mol.GetComponent<MeshRenderer>().enabled = false;
+        }
         // web          
-        FindObjectOfType<GlucagonS>().GlucagonMeetGlucReceptor(GetComponent<DataScript>().id);
+        FindObjectOfType<GlucagonS>().GlucagonMeetGlucagonReceptor(GetComponent<DataScript>().id);
         Invoke("ActiveTrue", 2);
     }
     private void OnTriggerEnter(Collider other)
@@ -53,21 +66,29 @@ public class GlucagonReceptorLogic : MonoBehaviour
         if (isFree == false)
         {
             switch (other.gameObject.tag)
-            {
-                case "Insulin":
-                    break;
+            {                         
                 case "Glucagon":
                     boxColl.enabled = false;
                     StartCoroutine(GlucagonAnimationOnMeet(gameObject));
                     Invoke("ActiveFalse", 2);
+                    break;               
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            switch (other.gameObject.tag)
+            {
+                case "Insulin":
+                    FindObjectOfType<InsulinS>().InsulinMeetGlucagonReceptor(recID);
                     break;
                 case "Sugar":
                     FindObjectOfType<SugarS>().SugarMeetGlucagonReceptor(recID);
                     break;
                 default:
-
                     break;
-            }
+            }            
         }
     }
     IEnumerator GlucagonAnimationOnMeet(GameObject obj)
