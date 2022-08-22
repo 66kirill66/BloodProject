@@ -10,7 +10,6 @@ public class SignalMolMove : MonoBehaviour
     bool toLiver;
     public string movingPlace;
     SignalMoleculeS signalS;
-    GameObject pos;
     void Start()
     {   
         if(movingPlace == "Mus")
@@ -84,26 +83,14 @@ public class SignalMolMove : MonoBehaviour
 
             int signalId = GetComponent<DataScript>().id;
             int channelId = other.GetComponentInParent<DataScript>().id;
-            NewTransformToChannel();
-            other.GetComponent<ChanneLogic>().newChannelTransform = pos;
-            other.GetComponent<ChanneLogic>().isOldPlace = false;
+            //NewTransformToChannel();
+            //other.GetComponent<ChanneLogic>().newChannelTransform = pos;
+            //other.GetComponent<ChanneLogic>().isOldPlace = false;
+
             //send to Web
             signalS.SignalMeetChannel(signalId,channelId);           
         }
         Destroy(gameObject,1f);
     }   
-    private GameObject NewTransformToChannel()
-    {
-        var newPos = FindObjectsOfType<ChannelNewPlace>();
-        foreach(ChannelNewPlace i in newPos)
-        {
-            if (i.isFree == true)
-            {
-               // i.isFree = false;
-                pos = i.gameObject;
-                break;
-            }
-        }
-        return pos;
-    }
+   
 }

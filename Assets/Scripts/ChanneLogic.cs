@@ -25,7 +25,6 @@ public class ChanneLogic : MonoBehaviour
         if (isOldPlace == false && changePlace == true && newChannelTransform != null)
         {
             Invoke("SetPositionRotation", 1);
-            newChannelTransform.GetComponent<ChannelNewPlace>().isFree = false;
         }
     }
 
@@ -56,13 +55,12 @@ public class ChanneLogic : MonoBehaviour
     {
         if (other.gameObject.tag == "Sugar" && haveSugar == false && changePlace == true)  //isOldPlace == false &&
         {
-            haveSugar = true;
-            other.gameObject.tag = "Untagged";   // Change Tag and stop Collision With Channel
             sugarObj = other.gameObject;
-            sugarObj.GetComponent<MoleculeMove>().StopCor();
-            sugarObj.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-            FindObjectOfType<SugarS>().SugarMeetChannalSend(channelId);
-            FindObjectOfType<SugarS>().bloodList.Remove(other.gameObject);
+            //haveSugar = true;
+            // other.gameObject.tag = "Untagged";   // Change Tag and stop Collision With Channel
+            // sugarObj.GetComponent<MoleculeMove>().StopCor();
+            // sugarObj.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);           
+            FindObjectOfType<SugarS>().SugarMeetChannalSend(channelId);          
         }
         if (other.gameObject.tag == "Insulin")
         {
@@ -73,11 +71,14 @@ public class ChanneLogic : MonoBehaviour
             FindObjectOfType<GlucagonS>().GlucMeetChannal(channelId);
         }
         else { return; }
-
     }
     public void SugarMove()  // Aplly in ChannelS
     {
-        Debug.Log("--------SugarMove---------");      
+        sugarObj.gameObject.tag = "Untagged";
+        haveSugar = true;
+        sugarObj.GetComponent<MoleculeMove>().StopCor();
+        sugarObj.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+        FindObjectOfType<SugarS>().bloodList.Remove(sugarObj);       
         StartCoroutine(MoovingAnimation(sugarObj)); // sugarObj == sugar        
         FindObjectOfType<SugarS>().muscleList.Add(sugarObj);
         FindObjectOfType<SugarS>().sugarNumber++;
@@ -98,6 +99,7 @@ public class ChanneLogic : MonoBehaviour
             }
             sugarObj.GetComponent<MoleculeMove>().MusculeCorutine();
             haveSugar = false;
+            sugarObj = null;
         }
     }   
 }

@@ -49,7 +49,7 @@ public class InsulinReceptorLogic : MonoBehaviour
         boxColl.enabled = true;
         reliseSignalM = false;
     }
-    private void ActiveFalse()
+    public void ActiveFalse()
     {
         foreach(Transform i in transform)
         {
@@ -59,8 +59,6 @@ public class InsulinReceptorLogic : MonoBehaviour
         {
             mol.GetComponent<MeshRenderer>().enabled = false;
         }
-        // web          
-        FindObjectOfType<InsulinS>().InsulinMeetInsReceptor(GetComponent<DataScript>().id);
         Invoke("ActiveTrue", 2);
     }
     private void OnTriggerEnter(Collider other)
@@ -72,7 +70,7 @@ public class InsulinReceptorLogic : MonoBehaviour
                 case "Insulin":
                     boxColl.enabled = false;
                     StartCoroutine(InsulinAnimationOnMeet(gameObject));
-                    Invoke("ActiveFalse", 2);
+                    FindObjectOfType<InsulinS>().InsulinMeetInsReceptor(GetComponent<DataScript>().id);
                     break;
                 default:
                     break;

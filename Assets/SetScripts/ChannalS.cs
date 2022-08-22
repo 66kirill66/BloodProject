@@ -7,7 +7,8 @@ public class ChannalS : MonoBehaviour
     int channalCount;
     [SerializeField] GameObject channelPrifab;
 
-    public List<GameObject> channalsList = new List<GameObject>();
+    public List<GameObject> channalsListMus = new List<GameObject>();
+    public List<GameObject> channalsListMusCells = new List<GameObject>();
 
     [SerializeField] List<Transform> channelTransform = new List<Transform>();
 
@@ -45,23 +46,38 @@ public class ChannalS : MonoBehaviour
         //AddChannalsChek(4);
         //AddChannalsChek(4);
         //AddChannalsChek(4);
+
     }
     void Update()
     {
-       
 
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    ToMembrane();
+        //}
     }
     public void ResetChannelSimulation()
     {
-        foreach (GameObject i in channalsList)
+        foreach (GameObject i in channalsListMus)
         {
-            if(i.GetComponent<ChanneLogic>().haveSugar == true)
+            if(channalsListMus.Count != 0)
             {
-                Destroy(i.GetComponent<ChanneLogic>().sugarObj);
-            }
-            Destroy(i);
+                Destroy(i);
+            }           
         }
-        channalsList.Clear();
+        channalsListMus.Clear();
+        foreach (GameObject i in channalsListMusCells)
+        {
+            if(channalsListMusCells.Count != 0)
+            {
+                if (i.GetComponent<ChanneLogic>().haveSugar == true)
+                {
+                    Destroy(i.GetComponent<ChanneLogic>().sugarObj);
+                }
+                Destroy(i);
+            }           
+        }       
+        channalsListMusCells.Clear();
         channalCount = 0;
 
         var ChannelNewPlaceReset = FindObjectsOfType<ChannelNewPlace>();
@@ -78,15 +94,15 @@ public class ChannalS : MonoBehaviour
             GameObject p = Instantiate(channelPrifab, channelTransform[channalCount].position, channelTransform[channalCount].rotation);
             p.GetComponent<DataScript>().id = id;
             p.AddComponent<ChanneLogic>();
-            channalsList.Add(p);
+            channalsListMus.Add(p);
             channalCount++;
-
         }
     }
 
     public void SugarGoThrough(int id)   // web  id = Channel id
     {
-        foreach (GameObject i in channalsList)
+        Debug.Log("--------SugarMove------------");
+        foreach (GameObject i in channalsListMusCells)
         {
             int channalId = i.GetComponent<DataScript>().id;
             if (id == channalId)
@@ -108,36 +124,38 @@ public class ChannalS : MonoBehaviour
         {  
             ToMembrane();
         }
+        if (oldChannelPlace == "Cell Membrane " && newChannelPlace == "Muscle Cells")
+        {
+            return;
+        }
     }
-           
-  
+
     private void ToMembrane()
     {
-        var oldPos = FindObjectsOfType<ChanneLogic>();
-        foreach (ChanneLogic i in oldPos)
+        if(channalsListMus.Count != 0)
         {
-            if (i.isOldPlace == false && i.changePlace == false)
+            NewTransformToChannel();
+            GameObject first = channalsListMus[0];
+            first.GetComponent<ChanneLogic>().isOldPlace = false;
+            first.GetComponent<ChanneLogic>().changePlace = true;
+            first.GetComponent<ChanneLogic>().newChannelTransform = pos;
+            channalsListMus.Remove(first);
+            channalsListMusCells.Add(first);
+        }        
+    }
+    public GameObject NewTransformToChannel()
+    {
+        var newPos = FindObjectsOfType<ChannelNewPlace>();
+        foreach (ChannelNewPlace i in newPos)
+        {
+            if (i.isFree == true)
             {
-                i.GetComponent<CapsuleCollider>().enabled = false;
-                i.changePlace = true;              
+                i.isFree = false;
+                pos = i.gameObject;
+                break;
             }
-            //else
-            //{
-            //   // NewTransformToChannel();
-            //    var Channals = FindObjectsOfType<ChanneLogic>();
-            //    foreach (ChanneLogic j in Channals)
-            //    {
-            //        if (j.GetComponent<ChanneLogic>().newChannelTransform != null) { return; }
-            //        else
-            //        {
-            //            j.GetComponent<ChanneLogic>().newChannelTransform = pos;
-            //            j.GetComponent<ChanneLogic>().isOldPlace = false;
-            //            j.changePlase = true;
-            //            break;
-            //        }
-            //    }
-            //}
         }
+        return pos;
     }
 
     public void AddChannals(string dataJSON)
@@ -146,10 +164,10 @@ public class ChannalS : MonoBehaviour
         
         if (channalCount <= 9)
         {
-            GameObject p = Instantiate(channelPrifab, channelTransform[channalCount].position, channelTransform[channalCount].rotation);
-            p.GetComponent<DataScript>().id = data.channalID;
-            p.AddComponent<ChanneLogic>();
-            channalsList.Add(p);
+            GameObject channel = Instantiate(channelPrifab, channelTransform[channalCount].position, channelTransform[channalCount].rotation);
+            channel.GetComponent<DataScript>().id = data.channalID;
+            channel.AddComponent<ChanneLogic>();
+            channalsListMus.Add(channel);
             channalCount++;
         }         
     }

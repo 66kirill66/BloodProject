@@ -57,8 +57,6 @@ public class GlucagonReceptorLogic : MonoBehaviour
         {
             mol.GetComponent<MeshRenderer>().enabled = false;
         }
-        // web          
-        FindObjectOfType<GlucagonS>().GlucagonMeetGlucagonReceptor(GetComponent<DataScript>().id);
         Invoke("ActiveTrue", 2);
     }
     private void OnTriggerEnter(Collider other)
@@ -70,7 +68,7 @@ public class GlucagonReceptorLogic : MonoBehaviour
                 case "Glucagon":
                     boxColl.enabled = false;
                     StartCoroutine(GlucagonAnimationOnMeet(gameObject));
-                    Invoke("ActiveFalse", 2);
+                    FindObjectOfType<GlucagonS>().GlucagonMeetGlucagonReceptor(GetComponent<DataScript>().id);
                     break;               
                 default:
                     break;

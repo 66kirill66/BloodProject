@@ -38,14 +38,14 @@ public class InternalFunc : MonoBehaviour
     public void SetLanguage(string lang)
     {
         Debug.Log("----------" + lang + "----------");
-        if(lang == "he")
+        if(lang == "he" || lang == "HE")
         {
             liverText.GetComponent<RTLTMPro.RTLTextMeshPro>().text  = "כבד";
             pancreasText.GetComponent<RTLTMPro.RTLTextMeshPro>().text = "לבלב";
             MusculeText.GetComponent<RTLTMPro.RTLTextMeshPro>().text = "שריר";
 
         }
-        if (lang == "en")
+        if (lang == "en" || lang == "EN")
         {
             liverText.GetComponent<RTLTMPro.RTLTextMeshPro>().text = "liver";
             pancreasText.GetComponent<RTLTMPro.RTLTextMeshPro>().text = "Pancreas";
