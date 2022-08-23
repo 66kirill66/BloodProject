@@ -11,8 +11,9 @@ public class SignalMoleculeS : MonoBehaviour
     [DllImport("__Internal")]
     public static extern void ApplyMeetChannel(int signalId, int channelId);
 
-
-
+    [DllImport("__Internal")]
+    public static extern void SetSignalLevel(int signalId);
+    
     public List<GameObject> signalMList = new List<GameObject>();
     public GameObject signalM;
     [SerializeField] Transform place;
@@ -82,6 +83,24 @@ public class SignalMoleculeS : MonoBehaviour
             ApplyMeetChannel(signal, chanId);
         }
     }
+    public void SetSignalLevelWeb(int signalId)   // Send To WEB (in SignalMolMove)
+    {
+        if (!Application.isEditor)
+        {
+            SetSignalLevel(signalId);
+        }
+    }
+    //public void OnDeletesignal(int id)
+    //{
+    //    var signals = FindObjectsOfType<SignalMolMove>();
+    //    foreach (SignalMolMove i in signals)
+    //    {
+    //        if (id == i.GetComponent<DataScript>().id)
+    //        {
+    //            Destroy(gameObject, 1f);
+    //        }
+    //    }
+    //}
 
     private void SignallAdd(int id)
     {       

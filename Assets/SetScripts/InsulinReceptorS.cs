@@ -51,7 +51,6 @@ public class InsulinReceptorS : MonoBehaviour
             {
                 if (i.GetComponent<InsulinReceptorLogic>().isFree == false && i.GetComponent<InsulinReceptorLogic>().signalM == true)
                 {
-                    i.GetComponent<InsulinReceptorLogic>().Invoke("ActiveFalse", 2f);
                     i.GetComponent<InsulinReceptorLogic>().mol.AddComponent<SignalMolMove>().movingPlace ="Mus";
                     i.GetComponent<InsulinReceptorLogic>().signalM = false;
                     i.GetComponent<InsulinReceptorLogic>().reliseSignalM = true;

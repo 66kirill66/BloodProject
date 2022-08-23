@@ -45,7 +45,6 @@ public class SugarS : MonoBehaviour
         public string oldPlace;
         public string newPlace;
 
-
         public static ChangeLocationData CreateFromJSON(string jsonString)
         {
             ChangeLocationData locationData = JsonUtility.FromJson<ChangeLocationData>(jsonString);
@@ -60,8 +59,7 @@ public class SugarS : MonoBehaviour
     }
 
     void Start()
-    {
-        
+    {        
         addSugarPerson = 0;
         //person.SetActive(true);
         //sugarViwText.SetActive(true);
@@ -161,8 +159,6 @@ public class SugarS : MonoBehaviour
             SugarMeetGlucagonRec(sugarId, receptorId);
         }
     }
-
-
 
     private void ClickingOnPerson()
     {
@@ -274,8 +270,7 @@ public class SugarS : MonoBehaviour
             ToPancreas(liverleList);
         }          
     }
-
-    
+   
     private void ToMus(List<GameObject> from)
     {
         if(from.Count != 0)

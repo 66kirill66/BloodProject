@@ -101,5 +101,15 @@ mergeInto(LibraryManager.library,
     globals.sugarMeetGlucagonRec(sugarId,receptorId)
   },
 
+  //
+   SetSignalLevel: function (signalId)
+  {
+    globals.setSignalLevel(signalId)
+  },
+
+
+
+  
+
 
 });

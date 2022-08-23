@@ -83,14 +83,11 @@ public class SignalMolMove : MonoBehaviour
 
             int signalId = GetComponent<DataScript>().id;
             int channelId = other.GetComponentInParent<DataScript>().id;
-            //NewTransformToChannel();
-            //other.GetComponent<ChanneLogic>().newChannelTransform = pos;
-            //other.GetComponent<ChanneLogic>().isOldPlace = false;
-
             //send to Web
-            signalS.SignalMeetChannel(signalId,channelId);           
-        }
-        Destroy(gameObject,1f);
-    }   
-   
+            signalS.SignalMeetChannel(signalId,channelId);
+            Destroy(gameObject, 1f);
+            FindObjectOfType<SignalMoleculeS>().SetSignalLevelWeb(signalId);  // delete
+        }        
+    }     
+    
 }

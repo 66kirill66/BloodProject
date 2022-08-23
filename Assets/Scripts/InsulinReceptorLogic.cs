@@ -8,15 +8,15 @@ public class InsulinReceptorLogic : MonoBehaviour
     public bool isFree = true;
     public bool signalM = false;
     public bool reliseSignalM = false;
-    public GameObject mol;
-    Collider boxColl;
+    public GameObject mol; //SignalMolecule
+    Collider boxCollider;
 
     int recID;
 
     private void Start()
     {       
         recID = GetComponent<DataScript>().id;
-        boxColl = GetComponent<BoxCollider>();
+        boxCollider = GetComponent<BoxCollider>();
 
     }
     private void Update()
@@ -46,7 +46,7 @@ public class InsulinReceptorLogic : MonoBehaviour
             FindObjectOfType<SignalMoleculeS>().CreateNewSignalM(recID); 
         }
         isFree = true;
-        boxColl.enabled = true;
+        boxCollider.enabled = true;
         reliseSignalM = false;
     }
     public void ActiveFalse()
@@ -59,16 +59,27 @@ public class InsulinReceptorLogic : MonoBehaviour
         {
             mol.GetComponent<MeshRenderer>().enabled = false;
         }
-        Invoke("ActiveTrue", 2);
+        Invoke("ActiveTrue", 2);   // Time Invisible
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(isFree == false)
+        switch (other.gameObject.tag)
+        {
+            case "Glucagon":
+                FindObjectOfType<GlucagonS>().GlucagonMeetInsulunReceptor(recID);
+                break;
+            case "Sugar":
+                FindObjectOfType<SugarS>().SugarMeetInsulinReceptor(recID);
+                break;
+            default:
+                break;
+        }
+        if (isFree == false)
         {
             switch (other.gameObject.tag)
             {
                 case "Insulin":
-                    boxColl.enabled = false;
+                    boxCollider.enabled = false;
                     StartCoroutine(InsulinAnimationOnMeet(gameObject));
                     FindObjectOfType<InsulinS>().InsulinMeetInsReceptor(GetComponent<DataScript>().id);
                     break;
@@ -76,27 +87,12 @@ public class InsulinReceptorLogic : MonoBehaviour
                     break;
             }
         }
-        else
-        {
-            switch (other.gameObject.tag)
-            {
-                case "Glucagon":
-                    FindObjectOfType<GlucagonS>().GlucagonMeetInsulunReceptor(recID);
-                    break;
-                case "Sugar":
-                    FindObjectOfType<SugarS>().SugarMeetInsulinReceptor(recID);
-                    break;
-                default:
-                    break;
-            }
-            
-        }
     }
     IEnumerator InsulinAnimationOnMeet(GameObject obj)
-    {      
+    {
+        Invoke("ActiveFalse", 2);   // Time Invisible  
         gameObject.transform.localScale = new Vector3(obj.transform.localScale.x + 1f, obj.transform.localScale.y , obj.transform.localScale.z);
         yield return new WaitForSeconds(1);
-        gameObject.transform.localScale = new Vector3(obj.transform.localScale.x - 1f, obj.transform.localScale.y, obj.transform.localScale.z);
-        
+        gameObject.transform.localScale = new Vector3(obj.transform.localScale.x - 1f, obj.transform.localScale.y, obj.transform.localScale.z);         
     }    
 }

@@ -30,7 +30,6 @@ public class ChannalS : MonoBehaviour
     }
     void Start()
     {
-
         //AddChannalsChek(1);
         //AddChannalsChek(2);
         //AddChannalsChek(3);
@@ -54,6 +53,10 @@ public class ChannalS : MonoBehaviour
         //if (Input.GetMouseButtonDown(0))
         //{
         //    ToMembrane();
+        //}
+        //if (Input.GetMouseButtonDown(1))
+        //{
+        //    ToMus();
         //}
     }
     public void ResetChannelSimulation()
@@ -101,7 +104,7 @@ public class ChannalS : MonoBehaviour
 
     public void SugarGoThrough(int id)   // web  id = Channel id
     {
-        Debug.Log("--------SugarMove------------");
+       // Debug.Log("--------SugarMove------------");
         foreach (GameObject i in channalsListMusCells)
         {
             int channalId = i.GetComponent<DataScript>().id;
@@ -124,9 +127,9 @@ public class ChannalS : MonoBehaviour
         {  
             ToMembrane();
         }
-        if (oldChannelPlace == "Cell Membrane " && newChannelPlace == "Muscle Cells")
+        if (oldChannelPlace == "Cell Membrane" && newChannelPlace == "Muscle Cells ")
         {
-            return;
+            ToMus();
         }
     }
 
@@ -143,6 +146,19 @@ public class ChannalS : MonoBehaviour
             channalsListMusCells.Add(first);
         }        
     }
+    private void ToMus()
+    {
+        if (channalsListMusCells.Count != 0)
+        {
+            GameObject first = channalsListMusCells[0];
+            first.GetComponent<ChanneLogic>().isOldPlace = true;
+            first.GetComponent<ChanneLogic>().changePlace = false;
+            first.GetComponent<ChanneLogic>().newChannelTransform.GetComponent<ChannelNewPlace>().isFree = true; ;
+            channalsListMusCells.Remove(first);
+            channalsListMus.Add(first);           
+        }        
+    }
+
     public GameObject NewTransformToChannel()
     {
         var newPos = FindObjectsOfType<ChannelNewPlace>();
@@ -154,10 +170,9 @@ public class ChannalS : MonoBehaviour
                 pos = i.gameObject;
                 break;
             }
-        }
+        }        
         return pos;
     }
-
     public void AddChannals(string dataJSON)
     {
         ChannalData data = ChannalData.CreateFromJSON(dataJSON);

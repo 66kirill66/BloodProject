@@ -10,12 +10,15 @@ public class ChanneLogic : MonoBehaviour
     public GameObject sugarObj;
     public bool haveSugar;
     int channelId;
+    public Vector3 StartTransform;
+    public Quaternion channelStartTransform;
 
-    float timer = 3;
+    float timer = 4;
     void Start()
     {
-       // changePlase = true;   // Check
-        channelId = GetComponent<DataScript>().id;      
+        channelId = GetComponent<DataScript>().id;
+        channelStartTransform = gameObject.transform.rotation;
+        StartTransform = gameObject.transform.position;
     }
 
     void Update()
@@ -25,6 +28,10 @@ public class ChanneLogic : MonoBehaviour
         if (isOldPlace == false && changePlace == true && newChannelTransform != null)
         {
             Invoke("SetPositionRotation", 1);
+        }
+        else if (isOldPlace == true && changePlace == false && newChannelTransform != null)
+        {
+            Invoke("SetPositionRotationBack", 1);
         }
     }
 
@@ -39,7 +46,7 @@ public class ChanneLogic : MonoBehaviour
             else
             {
                 GetComponent<CapsuleCollider>().enabled = true;
-                timer = 3;
+                timer = 4;
             }
         }
     }
@@ -48,18 +55,19 @@ public class ChanneLogic : MonoBehaviour
         Transform pos = newChannelTransform.gameObject.transform;
         transform.position = Vector3.Lerp(transform.position, pos.gameObject.transform.position, 1 * Time.deltaTime);
         transform.rotation = Quaternion.Euler(pos.rotation.x, pos.rotation.y, 100 );
-        gameObject.tag = "Untagged";  
+        //gameObject.tag = "Untagged";  
+    }
+    private void SetPositionRotationBack()
+    {
+        transform.position = Vector3.Lerp(transform.position, StartTransform, 1 * Time.deltaTime);
+        transform.rotation = channelStartTransform;
     }
 
     private void OnTriggerEnter(Collider other)  // other = sugar
     {
         if (other.gameObject.tag == "Sugar" && haveSugar == false && changePlace == true)  //isOldPlace == false &&
         {
-            sugarObj = other.gameObject;
-            //haveSugar = true;
-            // other.gameObject.tag = "Untagged";   // Change Tag and stop Collision With Channel
-            // sugarObj.GetComponent<MoleculeMove>().StopCor();
-            // sugarObj.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);           
+            sugarObj = other.gameObject;    
             FindObjectOfType<SugarS>().SugarMeetChannalSend(channelId);          
         }
         if (other.gameObject.tag == "Insulin")
@@ -79,7 +87,7 @@ public class ChanneLogic : MonoBehaviour
         sugarObj.GetComponent<MoleculeMove>().StopCor();
         sugarObj.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
         FindObjectOfType<SugarS>().bloodList.Remove(sugarObj);       
-        StartCoroutine(MoovingAnimation(sugarObj)); // sugarObj == sugar        
+        StartCoroutine(MoovingAnimation(sugarObj)); // sugarObj = sugar        
         FindObjectOfType<SugarS>().muscleList.Add(sugarObj);
         FindObjectOfType<SugarS>().sugarNumber++;
     }
