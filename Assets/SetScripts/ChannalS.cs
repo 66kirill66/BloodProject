@@ -6,20 +6,16 @@ public class ChannalS : MonoBehaviour
 {
     int channalCount;
     [SerializeField] GameObject channelPrifab;
-
     public List<GameObject> channalsListMus = new List<GameObject>();
     public List<GameObject> channalsListMusCells = new List<GameObject>();
-
     [SerializeField] List<Transform> channelTransform = new List<Transform>();
-
-
     string newChannelPlace;
     string oldChannelPlace;
-
+    GameObject channelToMove;
     GameObject pos;
     public class ChannalData
     {
-        public int channalID;
+        public int id;
         public string oldPlace;
         public string newPlace;
         public static ChannalData CreateFromJSON(string jsonString)
@@ -104,15 +100,17 @@ public class ChannalS : MonoBehaviour
 
     public void SugarGoThrough(int id)   // web  id = Channel id
     {
-       // Debug.Log("--------SugarMove------------");
-        foreach (GameObject i in channalsListMusCells)
+       if(channalsListMusCells.Count !=0)
         {
-            int channalId = i.GetComponent<DataScript>().id;
-            if (id == channalId)
+            foreach (GameObject i in channalsListMusCells)
             {
-                i.GetComponent<ChanneLogic>().SugarMove();
+                int channalId = i.GetComponent<DataScript>().id;
+                if (id == channalId)
+                {
+                    i.GetComponent<ChanneLogic>().SugarMove();
+                }
             }
-        }
+        }      
     }
 
     // web
@@ -121,43 +119,82 @@ public class ChannalS : MonoBehaviour
         ChannalData data = ChannalData.CreateFromJSON(json);
         newChannelPlace = data.newPlace;
         oldChannelPlace = data.oldPlace;
-
-
+        int id = data.id;
         if (oldChannelPlace == "Muscle Cells " && newChannelPlace == "Cell Membrane")
-        {  
-            ToMembrane();
+        {
+            if (channalsListMus.Count != 0)
+            {
+                ReturnChannal(id, channalsListMus);
+                ToMembrane(channelToMove);
+            }           
         }
         if (oldChannelPlace == "Cell Membrane" && newChannelPlace == "Muscle Cells ")
         {
-            ToMus();
+            if(channalsListMusCells.Count != 0)
+            {
+                ReturnChannal(id, channalsListMusCells);
+                ToMus(channelToMove);
+            }           
         }
     }
+    private GameObject ReturnChannal(int channelId , List<GameObject> channelList)
+    {
+        if(channelList.Count != 0)
+        {
+            foreach (GameObject i in channelList)
+            {
+                if (i.GetComponent<DataScript>().id == channelId)
+                {
+                    channelToMove = i.gameObject;
+                    break;
+                }              
+            }
+        }       
+        return channelToMove;
+    }
+    private void ToMus(GameObject channel)
+    {
+        channel.GetComponent<ChanneLogic>().isOldPlace = true;
+        channel.GetComponent<ChanneLogic>().changePlace = false;
+        channel.GetComponent<ChanneLogic>().newChannelTransform.GetComponent<ChannelNewPlace>().isFree = true; ;
+        channalsListMusCells.Remove(channel);
+        channalsListMus.Add(channel);
+    }
+    private void ToMembrane(GameObject channel)
+    {
+        NewTransformToChannel();
+        channel.GetComponent<ChanneLogic>().isOldPlace = false;
+        channel.GetComponent<ChanneLogic>().changePlace = true;
+        channel.GetComponent<ChanneLogic>().newChannelTransform = pos;
+        channalsListMus.Remove(channel);
+        channalsListMusCells.Add(channel);
+    }
 
-    private void ToMembrane()
-    {
-        if(channalsListMus.Count != 0)
-        {
-            NewTransformToChannel();
-            GameObject first = channalsListMus[0];
-            first.GetComponent<ChanneLogic>().isOldPlace = false;
-            first.GetComponent<ChanneLogic>().changePlace = true;
-            first.GetComponent<ChanneLogic>().newChannelTransform = pos;
-            channalsListMus.Remove(first);
-            channalsListMusCells.Add(first);
-        }        
-    }
-    private void ToMus()
-    {
-        if (channalsListMusCells.Count != 0)
-        {
-            GameObject first = channalsListMusCells[0];
-            first.GetComponent<ChanneLogic>().isOldPlace = true;
-            first.GetComponent<ChanneLogic>().changePlace = false;
-            first.GetComponent<ChanneLogic>().newChannelTransform.GetComponent<ChannelNewPlace>().isFree = true; ;
-            channalsListMusCells.Remove(first);
-            channalsListMus.Add(first);           
-        }        
-    }
+    //private void ToMembrane()
+    //{
+    //    if(channalsListMus.Count != 0)
+    //    {
+    //        NewTransformToChannel();
+    //        GameObject first = channalsListMus[0];
+    //        first.GetComponent<ChanneLogic>().isOldPlace = false;
+    //        first.GetComponent<ChanneLogic>().changePlace = true;
+    //        first.GetComponent<ChanneLogic>().newChannelTransform = pos;
+    //        channalsListMus.Remove(first);
+    //        channalsListMusCells.Add(first);
+    //    }        
+    //}
+    //private void ToMus()
+    //{
+    //    if (channalsListMusCells.Count != 0)
+    //    {
+    //        GameObject first = channalsListMusCells[0];
+    //        first.GetComponent<ChanneLogic>().isOldPlace = true;
+    //        first.GetComponent<ChanneLogic>().changePlace = false;
+    //        first.GetComponent<ChanneLogic>().newChannelTransform.GetComponent<ChannelNewPlace>().isFree = true; ;
+    //        channalsListMusCells.Remove(first);
+    //        channalsListMus.Add(first);           
+    //    }        
+    //}
 
     public GameObject NewTransformToChannel()
     {
@@ -180,7 +217,7 @@ public class ChannalS : MonoBehaviour
         if (channalCount <= 9)
         {
             GameObject channel = Instantiate(channelPrifab, channelTransform[channalCount].position, channelTransform[channalCount].rotation);
-            channel.GetComponent<DataScript>().id = data.channalID;
+            channel.GetComponent<DataScript>().id = data.id;
             channel.AddComponent<ChanneLogic>();
             channalsListMus.Add(channel);
             channalCount++;

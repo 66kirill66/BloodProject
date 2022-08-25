@@ -50,7 +50,6 @@ public class GlucagonReceptorS : MonoBehaviour
             {
                 if (i.GetComponent<GlucagonReceptorLogic>().isFree == false && i.GetComponent<GlucagonReceptorLogic>().signalM == true)
                 {
-                    i.GetComponent<GlucagonReceptorLogic>().Invoke("ActiveFalse", 2);
                     i.GetComponent<GlucagonReceptorLogic>().mol.AddComponent<SignalMolMove>().movingPlace ="Liver";
                     i.GetComponent<GlucagonReceptorLogic>().signalM = false;
                     i.GetComponent<GlucagonReceptorLogic>().reliseSignalM = true;

@@ -73,7 +73,7 @@ public class SignalMolMove : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {       
-        if (other.gameObject.tag == "Channel")
+        if (other.gameObject.tag == "Channel" && other.gameObject.GetComponent<ChanneLogic>().changePlace == false)
         {
             toMus = false;
             StopAllCoroutines();

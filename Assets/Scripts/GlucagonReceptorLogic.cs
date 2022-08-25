@@ -91,6 +91,7 @@ public class GlucagonReceptorLogic : MonoBehaviour
     }
     IEnumerator GlucagonAnimationOnMeet(GameObject obj)
     {
+        Invoke("ActiveFalse", 2);
         gameObject.transform.localScale = new Vector3(obj.transform.localScale.x + 1f, obj.transform.localScale.y, obj.transform.localScale.z);
         yield return new WaitForSeconds(1);
         gameObject.transform.localScale = new Vector3(obj.transform.localScale.x - 1f, obj.transform.localScale.y, obj.transform.localScale.z);

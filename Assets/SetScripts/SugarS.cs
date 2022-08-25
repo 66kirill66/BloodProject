@@ -119,7 +119,7 @@ public class SugarS : MonoBehaviour
 
     private void Energy()
     {
-        if (muscleList.Count != 0)
+        if (muscleList.Count >= 3)
         {
             for (int i = 0; i < 3; i++)
             {
@@ -213,7 +213,7 @@ public class SugarS : MonoBehaviour
         }     
     }
     
-    public void SugarTransformPlace(string jsonData)  // Send To Web
+    public void SugarTransformPlace(string jsonData)  // Get From Web
     {
         ChangeLocationData data = ChangeLocationData.CreateFromJSON(jsonData);
         oldSugarPlace = data.oldPlace;
