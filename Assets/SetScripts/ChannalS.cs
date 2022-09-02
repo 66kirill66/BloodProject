@@ -100,7 +100,7 @@ public class ChannalS : MonoBehaviour
 
     public void SugarGoThrough(int id)   // web  id = Channel id
     {
-       if(channalsListMusCells.Count !=0)
+       if(channalsListMusCells.Count != 0)
         {
             foreach (GameObject i in channalsListMusCells)
             {

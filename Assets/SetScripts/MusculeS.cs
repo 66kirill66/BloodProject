@@ -8,6 +8,7 @@ public class MusculeS : MonoBehaviour
     public GameObject musclesText;
     [SerializeField] GameObject runingChaild;
     int id;
+    public bool IsActive;
 
 
     private void Awake()
@@ -21,6 +22,7 @@ public class MusculeS : MonoBehaviour
         //musclesSprite.SetActive(true);
         //musclesText.SetActive(true);
         //runingChaild.SetActive(true);
+       // IsActive = true;
     }
 
     // Update is called once per frame
@@ -29,11 +31,13 @@ public class MusculeS : MonoBehaviour
        
     }
 
+   
     public void ResetMusculeSimulation()
     {
         runingChaild.SetActive(false);
         musclesSprite.SetActive(false);
         musclesText.SetActive(false);
+        IsActive = false;
     }
     public void Addmuscles(int id)
     {
@@ -41,5 +45,6 @@ public class MusculeS : MonoBehaviour
         musclesSprite.SetActive(true);
         musclesText.SetActive(true);
         runingChaild.SetActive(true);
+        IsActive = true;
     }
 }

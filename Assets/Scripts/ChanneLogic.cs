@@ -67,7 +67,8 @@ public class ChanneLogic : MonoBehaviour
     {
         if (other.gameObject.tag == "Sugar" && haveSugar == false && changePlace == true)  //isOldPlace == false &&
         {
-            sugarObj = other.gameObject;    
+            sugarObj = other.gameObject;
+            GetComponent<CapsuleCollider>().enabled = false;
             FindObjectOfType<SugarS>().SugarMeetChannalSend(channelId);          
         }
         if (other.gameObject.tag == "Insulin")
@@ -78,18 +79,22 @@ public class ChanneLogic : MonoBehaviour
         {
             FindObjectOfType<GlucagonS>().GlucMeetChannal(channelId);
         }
-        else { return; }
+        //if (other.gameObject.tag == "Sugar" && changePlace == false) 
+        //{           
+        //    FindObjectOfType<SugarS>().SugarMeetChannalSend(channelId);
+        //}
     }
     public void SugarMove()  // Aplly in ChannelS
     {
-        sugarObj.gameObject.tag = "Untagged";
-        haveSugar = true;
+       // sugarObj.gameObject.tag = "Untagged";
+        haveSugar = true;       
         sugarObj.GetComponent<MoleculeMove>().StopCor();
-        sugarObj.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-        FindObjectOfType<SugarS>().bloodList.Remove(sugarObj);       
-        StartCoroutine(MoovingAnimation(sugarObj)); // sugarObj = sugar        
-        FindObjectOfType<SugarS>().muscleList.Add(sugarObj);
+        sugarObj.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);               
+        StartCoroutine(MoovingAnimation(sugarObj)); // sugarObj = sugar
+        //FindObjectOfType<SugarS>().muscleList.Add(sugarObj);
+        //FindObjectOfType<SugarS>().bloodList.Remove(sugarObj);
         FindObjectOfType<SugarS>().sugarNumber++;
+        FindObjectOfType<SugarS>().ChecNumberToEnerge();
     }
 
     IEnumerator MoovingAnimation(GameObject sug)  // sugar Move
@@ -107,6 +112,8 @@ public class ChanneLogic : MonoBehaviour
             }
             sugarObj.GetComponent<MoleculeMove>().MusculeCorutine();
             haveSugar = false;
+            FindObjectOfType<SugarS>().muscleList.Add(sugarObj);
+            FindObjectOfType<SugarS>().bloodList.Remove(sugarObj);
             sugarObj = null;
         }
     }   

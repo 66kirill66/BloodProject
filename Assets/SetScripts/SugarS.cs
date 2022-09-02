@@ -26,7 +26,8 @@ public class SugarS : MonoBehaviour
     public Text sugarText;
     public GameObject sugarViwText;
     public int sugarAmount;
-    public int sugarNumber;
+    public int sugarNumber; // energy Channel
+    public int sugarNumberInMus; 
 
     int addSugarPerson;
     float sugarPosX;
@@ -59,16 +60,20 @@ public class SugarS : MonoBehaviour
     }
 
     void Start()
-    {        
+    {
         addSugarPerson = 0;
+        sugarNumberInMus = 0;
         //person.SetActive(true);
         //sugarViwText.SetActive(true);
-       // InstantiateSugar();
+        // InstantiateSugar();
+
     }
 
     void Update()
     {
         ClickingOnPerson();
+        SugarInMus();
+       
 
         if (sugarAmount != bloodList.Count)
         {
@@ -76,13 +81,18 @@ public class SugarS : MonoBehaviour
             SetSugarAmount();
             sugarText.text = (sugarAmount * 3).ToString();
         }
-        //After the transition of sugar into the muscle 
-        if (sugarNumber >= 4)
+       
+    }
+
+    public void ChecNumberToEnerge()
+    {
+        if (sugarNumber >= 4)  //After the transition of sugar into the muscle 
         {
             sugarNumber -= 3;
-            Invoke("Energy", 3f);
-        }        
+            Invoke("Energy", 7);
+        }
     }
+
     public void ResetSugarSimulation()
     {
         sugarAmount = 0;
@@ -110,6 +120,7 @@ public class SugarS : MonoBehaviour
         muscleList.Clear();
         liverleList.Clear();
         pancreasList.Clear();
+        sugarNumberInMus = 0;
     }
 
     public void BloodChangeSugarLevel(int value)
@@ -119,20 +130,22 @@ public class SugarS : MonoBehaviour
 
     private void Energy()
     {
-        if (muscleList.Count >= 3)
+        if (muscleList.Count != 0)
         {
             for (int i = 0; i < 3; i++)
             {
-                GameObject first = muscleList[0];
-                muscleList.Remove(first);
+                GameObject first = muscleList[0];               
+                first.gameObject.tag = "Untagged";
                 first.GetComponent<MoleculeMove>().StopCor();
                 first.GetComponent<MoleculeMove>().MoveToBoyStart();
                 first.GetComponent<MeshRenderer>().material.color = Color.red;  // Change Energy Color
                 first.GetComponent<MeshFilter>().mesh = energy;
-                first.transform.localScale = new Vector3(20, 20, 20);
+                first.transform.localScale = new Vector3(20, 20, 20); // Move To boy Vector
                 Destroy(first, 3);
+                muscleList.Remove(first);
             }
         }
+        else { return; }
     }
 
     public void SugarMeetChannalSend(int channelId)  // web
@@ -185,6 +198,31 @@ public class SugarS : MonoBehaviour
         }
     }
 
+    private void SugarInMus()  // Plethora logic
+    {
+        if (FindObjectOfType<MusculeS>().IsActive == true)
+        {
+            InstantiateSugarInMus();
+        }
+    }
+    private void InstantiateSugarInMus()
+    {       
+        while (sugarNumberInMus < 16)
+        {
+            RundomPointMus();
+            GameObject sug = Instantiate(sugar, new Vector3(sugarPosX, sugarPosY, -0.5f), sugar.transform.rotation);
+            sug.transform.parent = createPlase;
+            muscleList.Add(sug);
+            sug.AddComponent<MoleculeMove>().StopCor();
+            sug.GetComponent<MoleculeMove>().MusculeCorutine();
+            sugarNumberInMus++;
+        }
+    }
+    private void RundomPointMus()
+    {
+        sugarPosX = Random.Range(1f, 14f);
+        sugarPosY = Random.Range(-1f, -4.6f);
+    }
     public void InstantiateSugar()
     {
         int sugarInst = 0;
@@ -218,8 +256,6 @@ public class SugarS : MonoBehaviour
         ChangeLocationData data = ChangeLocationData.CreateFromJSON(jsonData);
         oldSugarPlace = data.oldPlace;
         newSugarPlace = data.newPlace;
-
-        Debug.Log("----------SugarTransformPlace----------");
 
         if (oldSugarPlace == "Blood" && newSugarPlace == "Muscle Cells ")
         {           
