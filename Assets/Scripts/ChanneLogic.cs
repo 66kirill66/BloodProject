@@ -55,7 +55,6 @@ public class ChanneLogic : MonoBehaviour
         Transform pos = newChannelTransform.gameObject.transform;
         transform.position = Vector3.Lerp(transform.position, pos.gameObject.transform.position, 1 * Time.deltaTime);
         transform.rotation = Quaternion.Euler(pos.rotation.x, pos.rotation.y, 100 );
-        //gameObject.tag = "Untagged";  
     }
     private void SetPositionRotationBack()
     {
@@ -86,15 +85,12 @@ public class ChanneLogic : MonoBehaviour
     }
     public void SugarMove()  // Aplly in ChannelS
     {
-       // sugarObj.gameObject.tag = "Untagged";
         haveSugar = true;       
         sugarObj.GetComponent<MoleculeMove>().StopCor();
         sugarObj.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);               
         StartCoroutine(MoovingAnimation(sugarObj)); // sugarObj = sugar
-        //FindObjectOfType<SugarS>().muscleList.Add(sugarObj);
-        //FindObjectOfType<SugarS>().bloodList.Remove(sugarObj);
         FindObjectOfType<SugarS>().sugarNumber++;
-        FindObjectOfType<SugarS>().ChecNumberToEnerge();
+        FindObjectOfType<SugarS>().ChecNumberToEnergy();
     }
 
     IEnumerator MoovingAnimation(GameObject sug)  // sugar Move

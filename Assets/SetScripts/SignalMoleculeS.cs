@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 public class SignalMoleculeS : MonoBehaviour
 {
     [DllImport("__Internal")]
+    public static extern void SetSignalAttachedToReceptor(bool val,int signalId);
+
+    [DllImport("__Internal")]
     public static extern void CreateRequestNewSignalM(int receptorId);
 
     [DllImport("__Internal")]
@@ -66,6 +69,13 @@ public class SignalMoleculeS : MonoBehaviour
     {
        
     }
+    public void SetSignalAttached(bool val, int signalId)   
+    {
+        if (!Application.isEditor)
+        {
+            SetSignalAttachedToReceptor(val, signalId);
+        }
+    }
 
     public void CreateNewSignalM(int receptorId)   // send receptor Id 
     {       
@@ -90,19 +100,7 @@ public class SignalMoleculeS : MonoBehaviour
             SetSignalLevel(signalId);
         }
     }
-    //public void OnDeletesignal(int id)
-    //{
-    //    var signals = FindObjectsOfType<SignalMolMove>();
-    //    foreach (SignalMolMove i in signals)
-    //    {
-    //        if (id == i.GetComponent<DataScript>().id)
-    //        {
-    //            Destroy(gameObject, 1f);
-    //        }
-    //    }
-    //}
-
-    private void SignallAdd(int id)
+    private void SignallAdd(int id)  // chek
     {       
         GameObject sig = Instantiate(signalM, place.transform.position, signalM.transform.rotation);
         signalMList.Add(sig);
@@ -133,10 +131,11 @@ public class SignalMoleculeS : MonoBehaviour
                     i.GetComponent<InsulinReceptorLogic>().mol = sig;
                     signalMList.Add(sig);
                     sig.AddComponent<DataScript>().id = data.id;
+                    SetSignalAttached(true, data.id);
                 }
             }
         }
-        if (data.receptorId == -1 && signalMList.Count < 10)  // 10 signals max (Plethora logics)
+        if (data.receptorId == -1 && signalMList.Count < 10 && FindObjectOfType<MusculeS>().IsActive == true)  // 10 signals max (Plethora logics)  // new FindObjectOfType<MusculeS>().IsActive == true
         {
             GameObject sig = Instantiate(signalM, place.position, signalM.transform.rotation);
             signalMList.Add(sig);

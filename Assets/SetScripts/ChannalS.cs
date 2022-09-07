@@ -1,9 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Runtime.InteropServices;
 
 public class ChannalS : MonoBehaviour
 {
+    [DllImport("__Internal")]
+    public static extern void SetChannelLocation(string value, int channelId);
+
+    
     int channalCount;
     [SerializeField] GameObject channelPrifab;
     public List<GameObject> channalsListMus = new List<GameObject>();
@@ -112,6 +117,16 @@ public class ChannalS : MonoBehaviour
             }
         }      
     }
+    public void SetChangeChannelLocation(string value,int chanelId)
+    {
+        Debug.Log("---------------" + value + "---------------");
+        if (!Application.isEditor)
+        {
+            SetChannelLocation(value, chanelId);
+        }
+        
+    }
+
 
     // web
     public void ChannelTransformPlace(string json)
@@ -124,6 +139,7 @@ public class ChannalS : MonoBehaviour
         {
             if (channalsListMus.Count != 0)
             {
+                SetChangeChannelLocation(newChannelPlace, id);
                 ReturnChannal(id, channalsListMus);
                 ToMembrane(channelToMove);
             }           
@@ -132,6 +148,7 @@ public class ChannalS : MonoBehaviour
         {
             if(channalsListMusCells.Count != 0)
             {
+                SetChangeChannelLocation(newChannelPlace, id);
                 ReturnChannal(id, channalsListMusCells);
                 ToMus(channelToMove);
             }           
@@ -169,33 +186,6 @@ public class ChannalS : MonoBehaviour
         channalsListMus.Remove(channel);
         channalsListMusCells.Add(channel);
     }
-
-    //private void ToMembrane()
-    //{
-    //    if(channalsListMus.Count != 0)
-    //    {
-    //        NewTransformToChannel();
-    //        GameObject first = channalsListMus[0];
-    //        first.GetComponent<ChanneLogic>().isOldPlace = false;
-    //        first.GetComponent<ChanneLogic>().changePlace = true;
-    //        first.GetComponent<ChanneLogic>().newChannelTransform = pos;
-    //        channalsListMus.Remove(first);
-    //        channalsListMusCells.Add(first);
-    //    }        
-    //}
-    //private void ToMus()
-    //{
-    //    if (channalsListMusCells.Count != 0)
-    //    {
-    //        GameObject first = channalsListMusCells[0];
-    //        first.GetComponent<ChanneLogic>().isOldPlace = true;
-    //        first.GetComponent<ChanneLogic>().changePlace = false;
-    //        first.GetComponent<ChanneLogic>().newChannelTransform.GetComponent<ChannelNewPlace>().isFree = true; ;
-    //        channalsListMusCells.Remove(first);
-    //        channalsListMus.Add(first);           
-    //    }        
-    //}
-
     public GameObject NewTransformToChannel()
     {
         var newPos = FindObjectsOfType<ChannelNewPlace>();
@@ -214,7 +204,7 @@ public class ChannalS : MonoBehaviour
     {
         ChannalData data = ChannalData.CreateFromJSON(dataJSON);
         
-        if (channalCount <= 9)
+        if (channalCount <= 9 && FindObjectOfType<MusculeS>().IsActive == true) // new FindObjectOfType<MusculeS>().IsActive == true
         {
             GameObject channel = Instantiate(channelPrifab, channelTransform[channalCount].position, channelTransform[channalCount].rotation);
             channel.GetComponent<DataScript>().id = data.id;

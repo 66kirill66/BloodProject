@@ -107,6 +107,20 @@ mergeInto(LibraryManager.library,
     globals.setSignalLevel(signalId)
   },
 
+  //
+   SetChannelLocation: function (value,channelId)
+  {
+    globals.setChannelLocation(value,channelId)
+  },
+
+  //
+   SetSignalAttachedToReceptor: function (value,channelId)
+  {
+    globals.setSignalAttachedToReceptor(value,channelId)
+  },
+  
+  
+
 
 
   

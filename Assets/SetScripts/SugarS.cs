@@ -33,6 +33,7 @@ public class SugarS : MonoBehaviour
     float sugarPosX;
     float sugarPosY;
     [SerializeField] Mesh energy;
+    bool sugarActive;
 
 
     int id;   // Web ID
@@ -56,7 +57,8 @@ public class SugarS : MonoBehaviour
     {
         sugarAmount = 0;
         sugarViwText.SetActive(false);
-        person.SetActive(false);        
+        person.SetActive(false);
+        sugarActive = false;
     }
 
     void Start()
@@ -84,7 +86,7 @@ public class SugarS : MonoBehaviour
        
     }
 
-    public void ChecNumberToEnerge()
+    public void ChecNumberToEnergy()
     {
         if (sugarNumber >= 4)  //After the transition of sugar into the muscle 
         {
@@ -200,7 +202,7 @@ public class SugarS : MonoBehaviour
 
     private void SugarInMus()  // Plethora logic
     {
-        if (FindObjectOfType<MusculeS>().IsActive == true)
+        if (FindObjectOfType<MusculeS>().IsActive == true && sugarActive == true)
         {
             InstantiateSugarInMus();
         }
@@ -309,16 +311,19 @@ public class SugarS : MonoBehaviour
    
     private void ToMus(List<GameObject> from)
     {
-        if(from.Count != 0)
+        if(FindObjectOfType<MusculeS>().IsActive == true)
         {
-            ChooseSugarIndex(from, muscleList);
-            foreach (GameObject i in muscleList)
+            if (from.Count != 0)
             {
-                i.GetComponent<MoleculeMove>().StopCor();
-                i.GetComponent<MoleculeMove>().MusculeCorutine();
+                ChooseSugarIndex(from, muscleList);
+                foreach (GameObject i in muscleList)
+                {
+                    i.GetComponent<MoleculeMove>().StopCor();
+                    i.GetComponent<MoleculeMove>().MusculeCorutine();
+                }
+                Invoke("Energy", 5);
             }
-            Invoke("Energy", 5);
-        }     
+        }        
     }
     
     private void ToBlood(List<GameObject> from)
@@ -375,6 +380,7 @@ public class SugarS : MonoBehaviour
         this.id = id;
         person.SetActive(true);
         sugarViwText.SetActive(true);
+        sugarActive = true;
         InstantiateSugar();
     }  
 }
