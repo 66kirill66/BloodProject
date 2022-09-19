@@ -29,7 +29,9 @@ public class SignalToGoToReceptor : MonoBehaviour
                     i.GetComponent<GlucagonReceptorLogic>().signalM = true;
                     i.GetComponent<GlucagonReceptorLogic>().mol = gameObject;
                     int id = GetComponent<DataScript>().id;
-                    FindObjectOfType<SignalMoleculeS>().SetSignalAttached(true, id);
+
+                    FindObjectOfType<SignalMoleculeS>().SetSignalAttached(true);
+                    FindObjectOfType<SignalMoleculeToS>().SetSignalToAttached(true);
                     break;
                 }               
             }

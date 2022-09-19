@@ -53,6 +53,7 @@ public class GlucagonReceptorS : MonoBehaviour
                     i.GetComponent<GlucagonReceptorLogic>().mol.AddComponent<SignalMolMove>().movingPlace ="Liver";
                     i.GetComponent<GlucagonReceptorLogic>().signalM = false;
                     i.GetComponent<GlucagonReceptorLogic>().reliseSignalM = true;
+                    FindObjectOfType<SignalMoleculeToS>().SetSignalToAttached(false);
                 }
                 else return;
             }

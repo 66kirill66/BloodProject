@@ -8,34 +8,36 @@ public class SignalMoleculeToS : MonoBehaviour
     [DllImport("__Internal")]
     public static extern void CreateRequestNewSignalMTo(int receptorId);
 
-    //[DllImport("__Internal")]
-    //public static extern void ApplyMeetChannel(int signalId, int channelId);
+    [DllImport("__Internal")]
+    public static extern void SetSignalToAttachedToReceptor(bool val);
 
-
+    
 
     public List<GameObject> signalMList = new List<GameObject>();
     public GameObject signalM;
     [SerializeField] Transform place;
 
-    public class SignalMData
-    {
-        public int id;
-        public int receptorId;
-        public SignalMData(int id, int receptorId)
-        {
-            this.id = id;
-            this.receptorId = receptorId;
-        }
-        public static SignalMData CreateFromJSON(string json)
-        {
-            SignalMData sigData = JsonUtility.FromJson<SignalMData>(json);
-            return sigData;
-        }
-        public string ToJsonString()
-        {
-            return JsonUtility.ToJson(this);
-        }
-    }
+    RaycastHit hit;
+
+    //public class SignalMData
+    //{
+    //    public int id;
+    //    public int receptorId;
+    //    public SignalMData(int id, int receptorId)
+    //    {
+    //        this.id = id;
+    //        this.receptorId = receptorId;
+    //    }
+    //    public static SignalMData CreateFromJSON(string json)
+    //    {
+    //        SignalMData sigData = JsonUtility.FromJson<SignalMData>(json);
+    //        return sigData;
+    //    }
+    //    public string ToJsonString()
+    //    {
+    //        return JsonUtility.ToJson(this);
+    //    }
+    //}
 
     void Start()
     {
@@ -54,6 +56,37 @@ public class SignalMoleculeToS : MonoBehaviour
 
 
     }
+    private void Update()
+    {
+        ClickingOnEntity();
+    }
+    public void SetSignalToAttached(bool val)    //, int signalId
+    {
+        if (!Application.isEditor)
+        {
+            SetSignalToAttachedToReceptor(val); //, signalId
+        }
+    }
+
+    // move to internal Functions
+    private void ClickingOnEntity()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.transform.gameObject.tag == "SignalTo")
+                {
+                    int id = hit.transform.GetComponent<DataScript>().id;
+                    if (!Application.isEditor)
+                    {
+                        BloodS.ClickFunc(id);
+                    }
+                }
+            }
+        }
+    }
     public void CreateNewSignalMTo(int receptorId)   // send receptor Id 
     {
         Debug.Log(receptorId);
@@ -62,14 +95,6 @@ public class SignalMoleculeToS : MonoBehaviour
             CreateRequestNewSignalMTo(receptorId);
         }
     }
-
-    //public void SignalMeetChannel(int signal, int chanId)   // Send To WEB
-    //{
-    //    if (!Application.isEditor)
-    //    {
-    //       // ApplyMeetChannel(signal, chanId);
-    //    }
-    //}
 
     private void SignallAdd(int id)
     {
@@ -90,7 +115,8 @@ public class SignalMoleculeToS : MonoBehaviour
 
     public void AddSignalMoleculeTo(string json)
     {
-        SignalMData data = SignalMData.CreateFromJSON(json);
+        SignalMoleculeS.SignalMData data = SignalMoleculeS.SignalMData.CreateFromJSON(json);
+        // SignalMData data = SignalMData.CreateFromJSON(json);
         if (data.receptorId != -1)
         {
             foreach (GameObject i in FindObjectOfType<GlucagonReceptorS>().receptorList)
@@ -102,6 +128,7 @@ public class SignalMoleculeToS : MonoBehaviour
                     i.GetComponent<GlucagonReceptorLogic>().mol = sig;
                     signalMList.Add(sig);
                     sig.AddComponent<DataScript>().id = data.id;
+                    FindObjectOfType<SignalMoleculeS>().SetSignalAttached(true);//, data.id
                 }
             }
         }

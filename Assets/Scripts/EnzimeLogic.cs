@@ -2,29 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SignalMolMove : MonoBehaviour
+public class EnzimeLogic : MonoBehaviour
 {
     float PosX;
     float PosY;
     bool toMus;
     bool toLiver;
     public string movingPlace;
-    SignalMoleculeS signalS;
-    int signalId;
+    int enzimeId;
+    public string enzimePropertyValue;
+   
 
     void Start()
     {
-        signalId = GetComponent<DataScript>().id;
+        enzimeId = GetComponent<DataScript>().id;
         if (movingPlace == "Mus")
         {
             StartCoroutine(CorutinerundoPointInMus());
         }
-        else if(movingPlace == "Liver") // new Chek
+        else if (movingPlace == "Liver") 
         {
             StartCoroutine(CorutinerundoPointInLiver());
         }
-        signalS = FindObjectOfType<SignalMoleculeS>();
-        
+
     }
     private void RundomPointMus()
     {
@@ -72,28 +72,20 @@ public class SignalMolMove : MonoBehaviour
             }
         }
     }
-
     private void OnTriggerEnter(Collider other)
-    {       
-        if (other.gameObject.tag == "Channel" && other.gameObject.GetComponent<ChanneLogic>().changePlace == false)
-        {
-            toMus = false;
-            toLiver = false; // new
-            StopAllCoroutines();
-            gameObject.GetComponent<SphereCollider>().enabled = false;
-            other.GetComponent<CapsuleCollider>().enabled = false;
-            transform.position = other.transform.position;
-            ParticleSystem ps = gameObject.GetComponentInChildren<ParticleSystem>(); ps.Play();
-           
-            int channelId = other.GetComponentInParent<DataScript>().id;
-            //send to Web
-            signalS.SignalMeetChannel(signalId,channelId);
-            Invoke("SignalDelite", 1);
-        }
-    }     
-    private void SignalDelite()  // Invoke To fixed bug with Enzime... Delite Entity.
     {
-        Destroy(gameObject);
-        FindObjectOfType<SignalMoleculeS>().SetSignalLevelDelete(signalId);  // delete
+        if (other.gameObject.tag == "Storage")
+        {
+            other.gameObject.GetComponent<StorageLogic>().collisionEnzime = gameObject;
+            // other.gameObject.GetComponent<StorageLogic>().SetEnzimeAndStorage();
+            // other.gameObject.GetComponent<StorageLogic>().isBroke = true; // Check
+            int storageId = other.GetComponent<DataScript>().id;
+            FindObjectOfType<EnzymeS>().EnzimeMeetStorageSend(enzimeId, storageId);
+        }
+        if(other.gameObject.tag == "SignalTo")
+        {           
+            int signalTo = other.GetComponent<DataScript>().id;
+            FindObjectOfType<EnzymeS>().EnzimeMeetSignalToSend(enzimeId, signalTo);          
+        }
     }
 }

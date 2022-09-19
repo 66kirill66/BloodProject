@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2736127032126616485}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Sugar
+  m_TagString: Person
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -91,8 +91,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.9307053, y: 1.2033952, z: 1}
+  m_Center: {x: -0.034647476, y: -0.18305534, z: 0}
 --- !u!1 &2736127032750782918
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,7 +120,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2736127032750782918}
   m_LocalRotation: {x: -0, y: -0, z: -0.55527997, w: 0.83166355}
-  m_LocalPosition: {x: -0.28, y: 0.24, z: -0.67}
+  m_LocalPosition: {x: 0.23, y: -0.51, z: -0.67}
   m_LocalScale: {x: 0.29013914, y: 0.29013914, z: 0.29013917}
   m_Children: []
   m_Father: {fileID: 2736127033389703852}
@@ -197,6 +197,7 @@ GameObject:
   - component: {fileID: 2736127033389703852}
   - component: {fileID: 2736127033389703853}
   - component: {fileID: 2612747292033998501}
+  - component: {fileID: 2753379602245686865}
   m_Layer: 0
   m_Name: Person
   m_TagString: Untagged
@@ -291,6 +292,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2753379602245686865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2736127033389703854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e59810fe07f17fa4086b24bb57bdaf4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  createPlase: {fileID: 0}
+  instPos: {fileID: 2736127032750782917}
+  sugar: {fileID: 7385280812455400519, guid: cb69ba3618edca04f898efbcf641ba6b, type: 3}
 --- !u!1 &4562419956956408897
 GameObject:
   m_ObjectHideFlags: 0

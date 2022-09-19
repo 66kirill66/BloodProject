@@ -4767,7 +4767,7 @@ GameObject:
   - component: {fileID: 5098005588757986589}
   m_Layer: 0
   m_Name: Signal
-  m_TagString: Untagged
+  m_TagString: Signal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

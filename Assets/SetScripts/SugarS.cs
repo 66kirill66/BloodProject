@@ -19,6 +19,7 @@ public class SugarS : MonoBehaviour
     public  List<GameObject> muscleList = new List<GameObject>();
     public  List<GameObject> liverleList = new List<GameObject>();
     public  List<GameObject> pancreasList = new List<GameObject>();
+    public  List<GameObject> energeList = new List<GameObject>();
     [SerializeField] Transform createPlase;
     public GameObject person;
     public GameObject sugar;
@@ -29,7 +30,7 @@ public class SugarS : MonoBehaviour
     public int sugarNumber; // energy Channel
     public int sugarNumberInMus; 
 
-    int addSugarPerson;
+    public int addSugarPerson;
     float sugarPosX;
     float sugarPosY;
     [SerializeField] Mesh energy;
@@ -67,7 +68,7 @@ public class SugarS : MonoBehaviour
         sugarNumberInMus = 0;
         //person.SetActive(true);
         //sugarViwText.SetActive(true);
-        // InstantiateSugar();
+        //InstantiateSugar();
 
     }
 
@@ -83,7 +84,12 @@ public class SugarS : MonoBehaviour
             SetSugarAmount();
             sugarText.text = (sugarAmount * 3).ToString();
         }
-       
+
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    ToLiver(bloodList);
+        //}
+
     }
 
     public void ChecNumberToEnergy()
@@ -118,6 +124,11 @@ public class SugarS : MonoBehaviour
         {
             Destroy(i);
         }
+        foreach (GameObject i in energeList)
+        {
+            Destroy(i);
+        }
+        energeList.Clear();
         bloodList.Clear();
         muscleList.Clear();
         liverleList.Clear();
@@ -145,6 +156,7 @@ public class SugarS : MonoBehaviour
                 first.transform.localScale = new Vector3(20, 20, 20); // Move To boy Vector
                 Destroy(first, 3);
                 muscleList.Remove(first);
+                energeList.Add(first);
             }
         }
         else { return; }
@@ -182,24 +194,13 @@ public class SugarS : MonoBehaviour
         {
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.transform.gameObject.tag == "Sugar" && addSugarPerson < 28)
-                {
-                    int sug = 0;
-                    person.gameObject.GetComponent<Animator>().SetTrigger("Eat");                 
-                    while (sug < 2)
-                    {                       
-                        GameObject sugarInst = Instantiate(sugar, instPos.position, transform.rotation);
-                        sugarInst.transform.parent = createPlase;
-                        bloodList.Add(sugarInst);
-                        sugarInst.AddComponent<MoleculeMove>();
-                        addSugarPerson++;                                
-                        sug++;                       
-                    }
+                if (hit.transform.gameObject.tag == "Person" && addSugarPerson < 28)
+                {                   
+                    person.gameObject.GetComponent<Animator>().SetTrigger("Eat");     // Animation Have Event To Create Sugar               
                 }               
             }
         }
     }
-
     private void SugarInMus()  // Plethora logic
     {
         if (FindObjectOfType<MusculeS>().IsActive == true && sugarActive == true)
@@ -348,7 +349,31 @@ public class SugarS : MonoBehaviour
                 i.gameObject.GetComponent<MoleculeMove>().StopCor();
                 i.gameObject.GetComponent<MoleculeMove>().LiverCorutine();
             }
+            Invoke("EnergyInLiver",5);
         }
+    }
+    private void EnergyInLiver() // new
+    {
+        // plethora logic 3 sugar go to energy and 1 go to Sugarstorage
+        if (liverleList.Count != 0)
+        {
+            for (int i = 0; i < 1; i++)
+            {               
+                GameObject first = liverleList[0];
+                first.gameObject.tag = "Untagged";
+                first.GetComponent<MoleculeMove>().StopCor();
+                first.GetComponent<MoleculeMove>().MoveToBoyStart();
+                first.GetComponent<MeshRenderer>().material.color = Color.red;  // Change Energy Color
+                first.GetComponent<MeshFilter>().mesh = energy;
+                first.transform.localScale = new Vector3(20, 20, 20); // Move To boy Vector
+                Destroy(first, 6);
+                liverleList.Remove(first);
+                energeList.Add(first);
+            }
+            liverleList[0].gameObject.GetComponent<MoleculeMove>().FindSugarStorage();
+            liverleList.Remove(liverleList[0].gameObject);
+        }
+        else { return; }
     }
     private void ToPancreas(List<GameObject> from)
     {

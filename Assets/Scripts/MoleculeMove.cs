@@ -12,12 +12,13 @@ public class MoleculeMove : MonoBehaviour
     public bool toBoy = false;
     public bool toMus = false;
     public bool liver = false;
+    public bool toStorage = false;
     public bool pancreas = false;
 
     void Start()
     {           
         speed = 0.2f;
-        StartCoroutine(MoveInBloodRange());             
+        StartCoroutine(MoveInBloodRange());
     }
 
     private void Update()
@@ -118,6 +119,51 @@ public class MoleculeMove : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             }
         }
+    }
+
+    private IEnumerator CorutineToStorage(Vector3 endPosition)
+    {
+        toMus = false;
+        blood = false;
+        toBoy = false;
+        liver = false;
+        // add Boolean
+        while (toStorage == true)
+        {
+            Vector3 startPos = transform.position;
+            Vector3 endPos = endPosition;
+            float travel = 0;
+            while (travel < 1f)
+            {
+                travel += Time.deltaTime * 0.2f;
+                transform.position = Vector3.Lerp(startPos, endPos, travel);
+                yield return new WaitForEndOfFrame();
+            }
+        }
+    }
+    public void FindSugarStorage() // new
+    {      
+        var sugarStorages = FindObjectsOfType<StorageLogic>();
+        if (sugarStorages.Length == 0)
+        {
+            int randomNum = Random.Range(0, 5);
+            FindObjectOfType<SugarStorageS>().CreateNewStorage(randomNum); // send to web
+        }
+        Invoke("GoToStorage", 1);
+    }
+    private void GoToStorage()
+    {
+        var sugarStorages = FindObjectsOfType<StorageLogic>();
+        if (sugarStorages.Length != 0)
+        {
+            toStorage = true;
+            int storage = Random.Range(0, sugarStorages.Length);
+            StorageLogic StorageLogicPos = sugarStorages[storage];
+            transform.parent = StorageLogicPos.transform;
+            StopAllCoroutines();
+            StartCoroutine(CorutineToStorage(StorageLogicPos.transform.position));           
+        }
+        else { FindObjectOfType<SugarS>().liverleList.Add(gameObject); }
     }
 
     // Rundom Points

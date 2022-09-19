@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 public class SignalMoleculeS : MonoBehaviour
 {
     [DllImport("__Internal")]
-    public static extern void SetSignalAttachedToReceptor(bool val,int signalId);
+    public static extern void SetSignalAttachedToReceptor(bool val); //,int signalId
 
     [DllImport("__Internal")]
     public static extern void CreateRequestNewSignalM(int receptorId);
@@ -21,6 +21,7 @@ public class SignalMoleculeS : MonoBehaviour
     public GameObject signalM;
     [SerializeField] Transform place;
 
+    RaycastHit hit;
     public class SignalMData
     {
         public int id;
@@ -43,6 +44,11 @@ public class SignalMoleculeS : MonoBehaviour
     
     void Start()
     {
+        //SignalMData d = new SignalMData(23, 2);
+        //string j = d.ToJsonString();
+        //SignalMData.CreateFromJSON(j);
+        //Debug.Log(j);
+
         //SignallAdd(1);
         //SignallAdd(2);
         //SignallAdd(3);
@@ -64,16 +70,34 @@ public class SignalMoleculeS : MonoBehaviour
 
 
     }
-
-    void Update()
+    private void Update()
     {
-       
+        ClickingOnEntity();
     }
-    public void SetSignalAttached(bool val, int signalId)   
+
+    private void ClickingOnEntity()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.transform.gameObject.tag == "Signal")
+                {
+                    int id = hit.transform.GetComponent<DataScript>().id;
+                    if (!Application.isEditor)
+                    {
+                        BloodS.ClickFunc(id);
+                    }
+                }
+            }
+        }
+    }
+    public void SetSignalAttached(bool val)    //, int signalId
     {
         if (!Application.isEditor)
         {
-            SetSignalAttachedToReceptor(val, signalId);
+            SetSignalAttachedToReceptor(val); //, signalId
         }
     }
 
@@ -93,7 +117,7 @@ public class SignalMoleculeS : MonoBehaviour
             ApplyMeetChannel(signal, chanId);
         }
     }
-    public void SetSignalLevelWeb(int signalId)   // Send To WEB (in SignalMolMove)
+    public void SetSignalLevelDelete(int signalId)   // Send To WEB (in SignalMolMove)
     {
         if (!Application.isEditor)
         {
@@ -116,7 +140,6 @@ public class SignalMoleculeS : MonoBehaviour
         }
         signalMList.Clear();
     }
-
     public void AddSignalMolecule(string json)   
     {
         SignalMData data = SignalMData.CreateFromJSON(json);
@@ -131,7 +154,7 @@ public class SignalMoleculeS : MonoBehaviour
                     i.GetComponent<InsulinReceptorLogic>().mol = sig;
                     signalMList.Add(sig);
                     sig.AddComponent<DataScript>().id = data.id;
-                    SetSignalAttached(true, data.id);
+                    SetSignalAttached(true);//, data.id
                 }
             }
         }

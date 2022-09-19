@@ -44,9 +44,9 @@ public class BloodS : MonoBehaviour
 
     void Update()
     {    
-        ClickingBlood();
+        ClickingOnEntity();
     }  
-    private void ClickingBlood()
+    private void ClickingOnEntity()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Input.GetMouseButtonDown(0))

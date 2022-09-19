@@ -12,6 +12,7 @@ public class ChanneLogic : MonoBehaviour
     int channelId;
     public Vector3 StartTransform;
     public Quaternion channelStartTransform;
+    public string chLocation;
 
     float timer = 4;
     void Start()
@@ -27,11 +28,11 @@ public class ChanneLogic : MonoBehaviour
 
         if (isOldPlace == false && changePlace == true && newChannelTransform != null)
         {
-            Invoke("SetPositionRotation", 1);
+            Invoke("SetPositionRotation",1);
         }
         else if (isOldPlace == true && changePlace == false && newChannelTransform != null)
         {
-            Invoke("SetPositionRotationBack", 1);
+            Invoke("SetPositionRotationBack",1);
         }
     }
 
@@ -64,11 +65,30 @@ public class ChanneLogic : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)  // other = sugar
     {
-        if (other.gameObject.tag == "Sugar" && haveSugar == false && changePlace == true)  //isOldPlace == false &&
+        if (other.gameObject.tag == "Sugar" && haveSugar == false && changePlace == true && chLocation == "Muscle")
         {
-            sugarObj = other.gameObject;
-            GetComponent<CapsuleCollider>().enabled = false;
-            FindObjectOfType<SugarS>().SugarMeetChannalSend(channelId);          
+            foreach (GameObject i in FindObjectOfType<SugarS>().bloodList)
+            {
+                if (other.gameObject == i)
+                {
+                    //  Debug.Log("-----------Sugar");
+                    sugarObj = other.gameObject;
+                    GetComponent<CapsuleCollider>().enabled = false;
+                    FindObjectOfType<SugarS>().SugarMeetChannalSend(channelId);
+                }
+            }
+        }
+        if(other.gameObject.tag == "Sugar" && haveSugar == false && changePlace == true && chLocation == "Liver")
+            {
+            foreach (GameObject i in FindObjectOfType<SugarS>().liverleList)
+            {
+                if (other.gameObject == i)
+                {
+                    sugarObj = other.gameObject;
+                    GetComponent<CapsuleCollider>().enabled = false;
+                    FindObjectOfType<SugarS>().SugarMeetChannalSend(channelId);
+                }
+            }
         }
         if (other.gameObject.tag == "Insulin")
         {
@@ -78,22 +98,25 @@ public class ChanneLogic : MonoBehaviour
         {
             FindObjectOfType<GlucagonS>().GlucMeetChannal(channelId);
         }
-        //if (other.gameObject.tag == "Sugar" && changePlace == false) 
-        //{           
-        //    FindObjectOfType<SugarS>().SugarMeetChannalSend(channelId);
-        //}
     }
-    public void SugarMove()  // Aplly in ChannelS
+    public void SugarMoveDown()  // Aplly in ChannelS
     {
         haveSugar = true;       
         sugarObj.GetComponent<MoleculeMove>().StopCor();
         sugarObj.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);               
-        StartCoroutine(MoovingAnimation(sugarObj)); // sugarObj = sugar
+        StartCoroutine(MoovingAnimationDown(sugarObj)); // sugarObj = sugar
         FindObjectOfType<SugarS>().sugarNumber++;
         FindObjectOfType<SugarS>().ChecNumberToEnergy();
     }
+    public void SugarMoveUp()  // Aplly in ChannelS
+    {
+        haveSugar = true;
+        sugarObj.GetComponent<MoleculeMove>().StopCor();
+        sugarObj.transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
+        StartCoroutine(MoovingAnimationUp(sugarObj)); // sugarObj = sugar
+    }
 
-    IEnumerator MoovingAnimation(GameObject sug)  // sugar Move
+    IEnumerator MoovingAnimationDown(GameObject sug)  // sugar Move
     {
         while (haveSugar == true)
         {
@@ -112,5 +135,25 @@ public class ChanneLogic : MonoBehaviour
             FindObjectOfType<SugarS>().bloodList.Remove(sugarObj);
             sugarObj = null;
         }
-    }   
+    }
+    IEnumerator MoovingAnimationUp(GameObject sug)  // sugar Move
+    {
+        while (haveSugar == true)
+        {
+            Vector3 startPos = sug.transform.position;
+            Vector3 newPos = new Vector3(sug.transform.position.x, sug.transform.position.y + 5, sug.transform.position.z);
+            float travel = 0;
+            while (travel < 0.3f)
+            {
+                travel += Time.deltaTime * 0.1f;
+                sug.transform.position = Vector3.Lerp(startPos, newPos, travel);
+                yield return new WaitForEndOfFrame();
+            }
+            sugarObj.GetComponent<MoleculeMove>().BloodCorutine();
+            haveSugar = false;
+            FindObjectOfType<SugarS>().bloodList.Add(sugarObj);
+            FindObjectOfType<SugarS>().liverleList.Remove(sugarObj);
+            sugarObj = null;
+        }
+    }
 }

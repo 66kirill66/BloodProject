@@ -5,6 +5,5 @@ using UnityEngine;
 public class DataScript : MonoBehaviour
 {
     public int id;
-
 }
 

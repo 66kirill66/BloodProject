@@ -84,6 +84,12 @@ mergeInto(LibraryManager.library,
   },
 
   //
+   CreateRequestNewStorage: function(storagePlace)
+  {  
+    globals.createRequestNewSugarStorage(storagePlace)
+  },
+
+  //
    SugarMeetChannal: function (sugarId,channalId)
   {
     globals.sugarMeetChannal(sugarId,channalId)
@@ -108,22 +114,49 @@ mergeInto(LibraryManager.library,
   },
 
   //
-   SetChannelLocation: function (value,channelId)
+   SetEnzimeLevel: function (enzimelId)
   {
-    globals.setChannelLocation(value,channelId)
+    globals.setEnzimeLevel(enzimelId)
+  },
+
+   //
+   SetStorageLevel: function (storagelId)
+  {
+    globals.setSugarStorageLevel(storagelId)
   },
 
   //
-   SetSignalAttachedToReceptor: function (value,channelId)
+   SetChannelLocation: function (value,channelId)
   {
-    globals.setSignalAttachedToReceptor(value,channelId)
+    var text = Pointer_stringify(value)
+    globals.setChannelLocation(text,channelId)
+  },
+
+  //
+   SetSignalAttachedToReceptor: function (value) // ,channelId
+  {
+    globals.setSignalAttachedToReceptor(value) // ,channelId
+  },
+
+  //
+   SetSignalToAttachedToReceptor: function (value) // ,channelId
+  {
+    globals.setSignalToAttachedToReceptor(value) // ,channelId
   },
   
+
+  //
+  EnzimeMeetStorage: function(enzimeId,storageId)
+  {
+    globals.enzimeMeetStorage(enzimeId,storageId)
+  },
+
+  //
+  EnzimeMeetSignalTo: function(enzimeId,signalToId)
+  {
+    globals.enzimeMeetSignalTo(enzimeId,signalToId)
+  },
+
   
-
-
-
-  
-
 
 });
