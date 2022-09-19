@@ -1,0 +1,116 @@
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+body {
+  margin: 0;
+  background: #444;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+#game-container {
+  width: 98vw;
+  /* height: 100vh; */
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.entity {
+  display: flex;
+  border: 1px solid black;
+  border-right: none;
+  margin: 4px 0px;
+  flex-direction: row;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  height: 45px;
+  width: fit-content;
+}
+
+.entity .title {
+  display: flex;
+  height: 100%;
+  padding: 0px 10px;
+  border-right: 1px solid black;
+  flex-direction: row;
+  align-items: center;
+  background-color: rgb(170, 13, 44);
+}
+
+.entity .properties,
+.entity .actions,
+.entity .interactions {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.entity .properties .property,
+.entity .actions .action,
+.entity .interactions .interaction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 5px;
+  height: 100%;
+  border-right: 1px solid black;
+}
+
+.entity .properties .property {
+  background-color: rgb(99, 146, 235);
+}
+
+.entity .properties .property.computed {
+  background-color: rgb(0, 190, 127);
+}
+
+.entity .properties .property.clickable:hover {
+  background: rgb(129, 168, 240);
+}
+
+.entity .properties .property.clickable:active {
+  background: rgb(74, 126, 221);
+}
+
+.entity .actions .action {
+  background-color: rgb(100, 205, 237);
+}
+
+.entity .actions .action.clickable:hover {
+  background: rgb(129, 218, 240);
+}
+
+.entity .actions .action.clickable:active {
+  background: rgb(74, 179, 221);
+}
+
+.entity .interactions .interaction {
+  background-color: rgb(210, 100, 237);
+}
+
+.entity .interactions .interaction.clickable:hover {
+  background: rgb(221, 129, 240);
+}
+
+.entity .interactions .interaction.clickable:active {
+  background: rgb(216, 74, 221);
+}
+
+.entity .properties .property .property-name {
+  display: block;
+  margin-bottom: 2px;
+}
+
+.entity .properties .property .property-value {
+  display: block;
+}

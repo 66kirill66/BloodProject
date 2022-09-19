@@ -1,0 +1,18 @@
+{
+  "name": "plethora-lib",
+  "version": "1.1.0",
+  "description": "Plethora Library",
+  "main": "PlethoraLib/index.js",
+  "types": "PlethoraLib/index.d.ts",
+  "files": [
+    "*"
+  ],
+  "keywords": [
+    "plethora",
+    "plethora-lib",
+    "plethoraLib",
+    "plethora_lib"
+  ],
+  "author": "Guy Morag",
+  "license": "ISC"
+}
