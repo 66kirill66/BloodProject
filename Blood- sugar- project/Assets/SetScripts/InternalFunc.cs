@@ -49,7 +49,7 @@ public class InternalFunc : MonoBehaviour
         {
             liverText.GetComponent<RTLTMPro.RTLTextMeshPro>().text = "liver";
             pancreasText.GetComponent<RTLTMPro.RTLTextMeshPro>().text = "Pancreas";
-            MusculeText.GetComponent<RTLTMPro.RTLTextMeshPro>().text = "Muscule";
+            MusculeText.GetComponent<RTLTMPro.RTLTextMeshPro>().text = "Muscle";
         }
         else { return; }
     }

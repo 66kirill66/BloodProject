@@ -3118,7 +3118,7 @@ GameObject:
   - component: {fileID: 964438634}
   - component: {fileID: 964438635}
   m_Layer: 0
-  m_Name: MusculeSprite
+  m_Name: MuscleSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4387,7 +4387,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1299638801}
   m_Layer: 0
-  m_Name: MusculeSprits
+  m_Name: MuscleSprits
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6340,6 +6340,7 @@ MonoBehaviour:
   muscleList: []
   liverleList: []
   pancreasList: []
+  energeList: []
   createPlase: {fileID: 317349666}
   person: {fileID: 510977049}
   sugar: {fileID: 7385280812455400519, guid: cb69ba3618edca04f898efbcf641ba6b, type: 3}
@@ -6921,7 +6922,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Muscule
+  m_text: Muscle
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 743ff6528cc67d24bbc54d2969f0af93, type: 2}
   m_sharedMaterial: {fileID: -6212919841344071475, guid: 743ff6528cc67d24bbc54d2969f0af93,
@@ -6993,7 +6994,7 @@ MonoBehaviour:
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
   preserveNumbers: 0
   farsi: 1
-  originalText: Muscule
+  originalText: Muscle
   fixTags: 1
   forceFix: 0
 --- !u!222 &1903758939
